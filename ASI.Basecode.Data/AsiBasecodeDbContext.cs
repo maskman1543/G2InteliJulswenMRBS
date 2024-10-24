@@ -17,20 +17,71 @@ namespace ASI.Basecode.Data
         {
         }
 
+        public virtual DbSet<Room> Rooms { get; set; }
         public virtual DbSet<User> Users { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            if (!optionsBuilder.IsConfigured)
+            {
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Addr=LAPTOP-OG1C2PH2\\SQLEXPRESS; database=AsiBasecodeDB; Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True");
+            }
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Room>(entity =>
+            {
+                entity.ToTable("Room");
+
+                entity.Property(e => e.Id)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.CreatedTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Createdby)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Equipment)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Location)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Price)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.RoomName)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.UpdatedTime).HasColumnType("datetime");
+
+                entity.Property(e => e.Updatedby)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+            });
+
             modelBuilder.Entity<User>(entity =>
             {
-                entity.HasIndex(e => e.UserId, "UQ__Users__1788CC4D5F4A160F")
-                    .IsUnique();
+                entity.ToTable("User");
 
                 entity.Property(e => e.CreatedBy)
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
-
-                entity.Property(e => e.CreatedTime).HasColumnType("datetime");
 
                 entity.Property(e => e.Name)
                     .IsRequired()
@@ -46,8 +97,6 @@ namespace ASI.Basecode.Data
                     .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
-
-                entity.Property(e => e.UpdatedTime).HasColumnType("datetime");
 
                 entity.Property(e => e.UserId)
                     .IsRequired()
