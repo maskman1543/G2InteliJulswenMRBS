@@ -6,12 +6,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ZXing.Client.Result;
 
 namespace ASI.Basecode.Data.Repositories
 {
     public class UserRepository : BaseRepository, IUserRepository
     {
-        public UserRepository(IUnitOfWork unitOfWork) : base(unitOfWork) 
+        public UserRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
         {
 
         }
@@ -29,6 +30,23 @@ namespace ASI.Basecode.Data.Repositories
         public void AddUser(User user)
         {
             this.GetDbSet<User>().Add(user);
+            UnitOfWork.SaveChanges();
+        }
+
+        public IEnumerable<User> RetrieveAll()
+        {
+            return this.GetDbSet<User>();
+        }
+
+        public void UpdateUser(User user)
+        {
+            this.GetDbSet<User>().Update(user);
+            UnitOfWork.SaveChanges();
+        }
+
+        public void DeleteUser(User user)
+        {
+            this.GetDbSet<User>().Remove(user);
             UnitOfWork.SaveChanges();
         }
 

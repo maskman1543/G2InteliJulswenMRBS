@@ -5,6 +5,19 @@
         <img src="~/img/asi-logo-invert.svg"
              style="width: 185px;" alt="logo"
              onclick="window.location.href = '@Url.Action("Index", "Home")';">
+
+        @if (HttpContextAccessor.HttpContext.Session.GetString("IsUserManagementActive") != "true")
+        {
+            <a class="btn btn-link" asp-controller="User" asp-action="UserManagement" id="userManagementButton">
+                UserManagement
+            </a>
+        }
+        else
+        {
+            <a class="btn btn-link" asp-controller="User" asp-action="Create" id="createButton">
+                Create
+            </a>
+        }
     </div>
     <div class="logosec">
         @HttpContextAccessor.HttpContext.Session.GetString("UserName")

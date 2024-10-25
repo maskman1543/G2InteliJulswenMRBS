@@ -4,9 +4,12 @@ using ASI.Basecode.Services.Interfaces;
 using ASI.Basecode.Services.Manager;
 using ASI.Basecode.Services.ServiceModels;
 using AutoMapper;
+using Microsoft.Extensions.Configuration;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using ZXing.Client.Result;
 using static ASI.Basecode.Resources.Constants.Enums;
 
 namespace ASI.Basecode.Services.Services
@@ -15,11 +18,14 @@ namespace ASI.Basecode.Services.Services
     {
         private readonly IUserRepository _repository;
         private readonly IMapper _mapper;
+        private readonly IConfiguration _config;
 
-        public UserService(IUserRepository repository, IMapper mapper)
+        public UserService(IUserRepository repository, IMapper mapper, IConfiguration configuration)
         {
             _mapper = mapper;
             _repository = repository;
+            _config = configuration;
+
         }
 
         public LoginResult AuthenticateUser(string userId, string password, ref User user)
@@ -41,14 +47,61 @@ namespace ASI.Basecode.Services.Services
                 user.Password = PasswordManager.EncryptPassword(model.Password);
                 user.CreatedTime = DateTime.Now;
                 user.UpdatedTime = DateTime.Now;
-                user.CreatedBy = System.Environment.UserName;
-                user.UpdatedBy = System.Environment.UserName;
+                user.CreatedBy = user.Name;
+                user.UpdatedBy = user.Name;
 
                 _repository.AddUser(user);
             }
             else
             {
                 throw new InvalidDataException(Resources.Messages.Errors.UserExists);
+            }
+        }
+
+        public List<UserViewModel> RetrieveAll()
+        {
+            var serverUrl = _config.GetValue<string>("ServerUrl");
+            var data = _repository.RetrieveAll().Select(s => new UserViewModel
+            {
+                Id = s.Id,
+                UserId = s.UserId,
+                Name = s.Name,
+                Password = s.Password,
+            }).ToList();
+            return data;
+        }
+
+        public UserViewModel RetrieveUser(int Id)
+        {
+            var user = _repository.RetrieveAll().Where(x => x.Id.Equals(Id)).Select(s => new UserViewModel
+            {
+                Id = s.Id,
+                UserId = s.UserId,
+                Name = s.Name,
+                Password = s.Password,
+            }).FirstOrDefault();
+
+            return user;
+        }
+
+        public void UpdateUser(UserViewModel model)
+        {
+            var user = _repository.RetrieveAll().Where(x => x.Id.Equals(model.Id)).FirstOrDefault();
+            if (user != null)
+            {
+                _mapper.Map(model, user);
+                user.UpdatedTime = DateTime.Now;
+                user.UpdatedBy = System.Environment.UserName;
+
+                _repository.UpdateUser(user);
+            }
+        }
+        public void DeleteUser(int Id)
+        {
+            var user = _repository.RetrieveAll().Where(x => x.Id.Equals(Id)).FirstOrDefault();
+            if (user != null)
+            {
+                _repository.DeleteUser(user);
             }
         }
     }

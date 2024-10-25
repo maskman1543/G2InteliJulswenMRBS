@@ -9,7 +9,9 @@ namespace ASI.Basecode.Services.ServiceModels
 {
     public class UserViewModel
     {
+        public int Id { get; set; }
         [Required(ErrorMessage = "Username is required.")]
+        [Display(Name = "Username")]
         public string UserId { get; set; }
 
         [Required(ErrorMessage = "Name is required.")]
