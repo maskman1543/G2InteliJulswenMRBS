@@ -73,7 +73,7 @@ namespace ASI.Basecode.WebApp.Controllers
         public IActionResult Create(RoomViewModel model)
         {
                 _roomService.AddRoom(model, UserId);
-                return RedirectToAction("Creat");
+                return RedirectToAction("Create");
         }
 
         [HttpPost]
