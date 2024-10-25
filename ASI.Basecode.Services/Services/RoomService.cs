@@ -27,13 +27,13 @@ namespace ASI.Basecode.Services.Services
             _mapper = mapper;
             _config = configuration;
         }
-        public void AddRoom(RoomViewModel model, string userId)
+        public void AddRoom(RoomViewModel model, string UserId)
         {
             //var coverImagePath = PathManager.DirectoryPath.CoverImagesDirectory;
             var newRoom = new Room();
             _mapper.Map(model, newRoom);
-            newRoom.Createdby = userId;
-            newRoom.Updatedby = userId;
+            newRoom.Createdby = UserId;
+            newRoom.Updatedby = UserId;
             newRoom.CreatedTime = DateTime.Now;
             newRoom.UpdatedTime = DateTime.Now;
             newRoom.Id = Guid.NewGuid().ToString();
