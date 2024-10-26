@@ -53,7 +53,7 @@ namespace ASI.Basecode.WebApp.Controllers
         {
                 var data = _roomService.RetrieveRoom(Id);
                 return View(data);
-            }
+        }
 
 
         [HttpGet]
@@ -61,7 +61,7 @@ namespace ASI.Basecode.WebApp.Controllers
         {
                 var data = _roomService.RetrieveRoom(Id);
                 return View(data);
-            }
+        }
 
 
         #endregion
@@ -88,7 +88,7 @@ namespace ASI.Basecode.WebApp.Controllers
         {
                 _roomService.DeleteRoom(Id);
                 return RedirectToAction("Index");
-            }
+        }
 
         #endregion
     }

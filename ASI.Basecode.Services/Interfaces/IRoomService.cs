@@ -11,8 +11,8 @@ namespace ASI.Basecode.Services.Interfaces
     {
         void AddRoom(RoomViewModel model, string userId);
         List<RoomViewModel> RetrieveAll();
-        RoomViewModel RetrieveRoom(int Id);
+        RoomViewModel RetrieveRoom(int RoomId);
         void UpdateRoom(RoomViewModel model, string userId);
-        void DeleteRoom(int Id);
+        void DeleteRoom(int RoomId);
     }
 }
