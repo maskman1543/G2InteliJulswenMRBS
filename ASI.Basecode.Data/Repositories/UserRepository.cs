@@ -1,6 +1,7 @@
 ﻿using ASI.Basecode.Data.Interfaces;
 using ASI.Basecode.Data.Models;
 using Basecode.Data.Repositories;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -49,6 +50,12 @@ namespace ASI.Basecode.Data.Repositories
             this.GetDbSet<User>().Remove(user);
             UnitOfWork.SaveChanges();
         }
+
+        public bool AdminExists()
+        {
+            return this.GetDbSet<User>().Any(u => u.Roles.Contains("Admin"));
+        }
+        
 
     }
 }

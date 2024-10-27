@@ -92,6 +92,11 @@ namespace ASI.Basecode.Data
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
+                entity.Property(e => e.Roles)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.UpdatedBy)
                     .HasMaxLength(50)
                     .IsUnicode(false);

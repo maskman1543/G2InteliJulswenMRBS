@@ -38,11 +38,11 @@ namespace ASI.Basecode.WebApp.Controllers
             this._userService = userService;
         }
 
-        public IActionResult Index()
+        /*public IActionResult Index()
         {
             var data = _userService.RetrieveAll();
             return View(data);
-        }
+        }*/
 
         #region Get Methods
         [HttpGet]
@@ -62,6 +62,7 @@ namespace ASI.Basecode.WebApp.Controllers
         public IActionResult Edit(int Id)
         {
             var data = _userService.RetrieveUser(Id);
+            data.Password = string.Empty;
             return View(data);
         }
 

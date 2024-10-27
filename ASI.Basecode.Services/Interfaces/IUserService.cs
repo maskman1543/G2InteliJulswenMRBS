@@ -13,6 +13,7 @@ namespace ASI.Basecode.Services.Interfaces
         UserViewModel RetrieveUser(int Id);
         void UpdateUser(UserViewModel model);
         void DeleteUser(int Id);
+        bool AdminExists();
 
     }
 }

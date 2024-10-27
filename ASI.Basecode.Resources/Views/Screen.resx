@@ -136,6 +136,6 @@
     <value>Password</value>
   </data>
   <data name="UserId" xml:space="preserve">
-    <value>UserId</value>
+    <value>Username</value>
   </data>
 </root>

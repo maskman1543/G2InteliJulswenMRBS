@@ -15,6 +15,10 @@ namespace ASI.Basecode.Data.Interfaces
         IEnumerable<User> RetrieveAll();
         void UpdateUser(User user);
         void DeleteUser(User user);
+        bool AdminExists();
+
+
+
 
     }
 }

@@ -50,6 +50,16 @@ namespace ASI.Basecode.Services.Services
                 user.CreatedBy = user.Name;
                 user.UpdatedBy = user.Name;
 
+                // Assign roles based on the existence of an admin
+                if (!_repository.AdminExists())
+                {
+                    user.Roles = "Admin"; // First user is admin
+                }
+                else
+                {
+                    user.Roles = "User"; // Subsequent users are regular users
+                }
+
                 _repository.AddUser(user);
             }
             else
@@ -90,8 +100,9 @@ namespace ASI.Basecode.Services.Services
             if (user != null)
             {
                 _mapper.Map(model, user);
+                user.Password = PasswordManager.EncryptPassword(model.Password);
                 user.UpdatedTime = DateTime.Now;
-                user.UpdatedBy = System.Environment.UserName;
+                user.UpdatedBy = user.Name;
 
                 _repository.UpdateUser(user);
             }
@@ -104,5 +115,11 @@ namespace ASI.Basecode.Services.Services
                 _repository.DeleteUser(user);
             }
         }
+
+        public bool AdminExists()
+        {
+            return _repository.AdminExists();
+        }
+
     }
 }
