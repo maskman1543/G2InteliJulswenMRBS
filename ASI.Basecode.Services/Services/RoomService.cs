@@ -36,7 +36,7 @@ namespace ASI.Basecode.Services.Services
             newRoom.Updatedby = userId;
             newRoom.CreatedTime = DateTime.Now;
             newRoom.UpdatedTime = DateTime.Now;
-            newRoom.Id = Guid.NewGuid().ToString();
+            
             //var coverImageFileName = Path.Combine(coverImagePath, newBook.BookId  ".png");
             //using (var fileStream = new FileStream(coverImageFileName, FileMode.Create))
             //{
@@ -49,6 +49,7 @@ namespace ASI.Basecode.Services.Services
             var serverUrl = _config.GetValue<string>("ServerUrl");
             var data = _roomRepository.RetrieveAll().Select(s => new RoomViewModel
             {
+                 Id = s.Id,
                  RoomName = s.RoomName,
                  Capacity = s.Capacity,
                  Location = s.Location,
@@ -64,6 +65,7 @@ namespace ASI.Basecode.Services.Services
         {
             var room = _roomRepository.RetrieveAll().Where(x => x.Id.Equals(Id)).Select(s => new RoomViewModel
             {
+                Id = s.Id,
                 RoomName = s.RoomName,
                 Capacity = s.Capacity,
                 Location = s.Location,

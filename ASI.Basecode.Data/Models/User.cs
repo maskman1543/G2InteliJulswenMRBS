@@ -9,7 +9,7 @@ namespace ASI.Basecode.Data.Models
         public string UserId { get; set; }
         public string Name { get; set; }
         public string Password { get; set; }
-        public bool? IsAdmin { get; set; }
+        public string Role { get; set; }
         public string CreatedBy { get; set; }
         public DateTime? CreatedTime { get; set; }
         public string UpdatedBy { get; set; }

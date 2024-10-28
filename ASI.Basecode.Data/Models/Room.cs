@@ -5,7 +5,7 @@ namespace ASI.Basecode.Data.Models
 {
     public partial class Room
     {
-        public string Id { get; set; }
+        public int Id { get; set; }
         public string RoomName { get; set; }
         public int Capacity { get; set; }
         public string Location { get; set; }
