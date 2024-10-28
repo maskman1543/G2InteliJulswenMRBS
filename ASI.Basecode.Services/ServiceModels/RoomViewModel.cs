@@ -15,6 +15,5 @@ namespace ASI.Basecode.Services.ServiceModels
         public string Equipment { get; set; }
         public string price { get; set; }
         
-
     }
 }
