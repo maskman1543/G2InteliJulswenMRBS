@@ -7,61 +7,52 @@
 @section styles {
     <link rel="stylesheet" href="~/css/login.css" />
 }
-<div class="container py-5 h-100 register-box">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-xl-10">
-            <div class="card rounded-3 text-black">
-                <div class="row g-0">
-                    <div class="card-body p-md-5 mx-md-4">
+<div class="register-container" style="display: flex; align-items: center; justify-content: center; height: 100vh; background-color: #E2CD79;">
+    <div class="register-card" style="display: flex; background-color: #A2996E; border-radius: 15px; padding: 20px;">
+        <div style="padding: 40px; color: black;">
+            <h2 style="font-size: 36px; font-weight: bold;">CREATE ACCOUNT</h2>
+            <p>Already have an account? <a href="/Account/Login" style="color: #3267d6; font-weight: bold;">Log In</a></p>
 
-                        <div class="text-center">
-                            <img src="https://www.alliance.com.ph/images/asi-logo-invert.svg"
-                                 style="width: 185px;" alt="logo">
-                        </div>
-
-                        <form method="post" action="/Account/Register">
-                            <div class="form-outline mb-4">
-                                <label class="form-label" for="userId">UserId</label>
-                                <input type="text" id="userId" class="form-control"
-                                       asp-for="UserId" placeholder="Enter userid" />
-                                <span asp-validation-for="UserId" class="text-danger"></span>
-                            </div>
-                            <div class="form-outline mb-4">
-                                <label class="form-label" for="name">Name</label>
-                                <input type="text" id="name" class="form-control"
-                                       asp-for="Name" placeholder="Enter name" />
-                                <span asp-validation-for="Name" class="text-danger"></span>
-                            </div>
-                            <div class="form-outline mb-4">
-                                <label class="form-label" for="password">Password</label>
-                                <input type="password" id="password" class="form-control"
-                                       asp-for="Password" placeholder="Enter password" />
-                                <span asp-validation-for="Password" class="text-danger"></span>
-                            </div>
-                            <div class="form-outline mb-4">
-                                <label class="form-label" for="confirmpassword">Confirm Password</label>
-                                <input type="password" id="confirmpassword" class="form-control" 
-                                       asp-for="ConfirmPassword" placeholder="Confirm Password" />
-                                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                            </div>
-                            <div class="text-center pt-1 mb-5 pb-1 d-flex flex-column align-items-center">
-                                <button class="btn btn-primary btn-block login-btn gradient-custom-2 mb-3" type="submit">
-                                    Register
-                                </button>
-                                <a asp-controller="Account" asp-action="Login">
-                                    &#8592 Back
-                                </a>
-                            </div>
-                        </form>
-                    </div>
+            <form method="post" action="/Account/Register">
+                <div class="form-group" style="margin-top: 20px;">
+                    <label for="userId">UserId</label>
+                    <input type="text" class="form-control" asp-for="UserId" placeholder="Enter userid" style="background-color: #E2CD79; border: none;" />
+                    <span asp-validation-for="UserId" class="text-danger"></span>
                 </div>
-            </div>
+
+                <div class="form-group" style="margin-top: 20px;">
+                    <label for="name">Name</label>
+                    <input type="text" class="form-control" asp-for="Name" placeholder="Enter name" style="background-color: #E2CD79; border: none;" />
+                    <span asp-validation-for="Name" class="text-danger"></span>
+                </div>
+
+                <div class="form-group" style="margin-top: 20px;">
+                    <label for="password">Password</label>
+                    <input type="password" class="form-control" asp-for="Password" placeholder="Enter password" style="background-color: #E2CD79; border: none;" />
+                    <span asp-validation-for="Password" class="text-danger"></span>
+                </div>
+
+                <div class="form-group" style="margin-top: 20px;">
+                    <label for="confirmpassword">Confirm Password</label>
+                    <input type="password" class="form-control" asp-for="ConfirmPassword" placeholder="Confirm Password" style="background-color: #E2CD79; border: none;" />
+                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                </div>
+
+                <div style="display: flex; flex-direction: column; align-items: center; margin-top: 20px;">
+                    <button type="submit" class="btn btn-primary" style="background-color: #000; border: none; color: white; padding: 10px 40px; border-radius: 5px;">
+                        Register
+                    </button>
+                    <a href="/Account/Login" style="margin-top: 10px; color: black;">&#8592 Back</a>
+                </div>
+            </form>
         </div>
+
+        
     </div>
 </div>
+
 @section scripts {
     <script>
-        // Check for error message and display Toastr notification
         var errorMessage = '@TempData["ErrorMessage"]';
         if (errorMessage) {
             toastr.error(errorMessage);
