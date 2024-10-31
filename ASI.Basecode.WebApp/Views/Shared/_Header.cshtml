@@ -1,31 +1,57 @@
 ﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
-<header class="@((ViewBag.LoginView == true) ? "hide-navbar" : "")">
-    <div class="logosec hover-pointer">
+<header class="@((ViewBag.LoginView == true) ? "hide-navbar" : "")" style="background-color: #B1A05D; padding: 10px; display: flex; justify-content: space-between; align-items: center;">
+    <!-- Logo Section -->
+    <div class="logosec hover-pointer" style="display: flex; align-items: center;">
         <img src="~/img/asi-logo-invert.svg"
-             style="width: 185px;" alt="logo"
+             style="width: 185px; cursor: pointer;"
+             alt="logo"
              onclick="window.location.href = '@Url.Action("Index", "Home")';">
     </div>
-    <div class="logosec">
+
+    <!-- User Section -->
+    <div class="logosec" style="display: flex; align-items: center; color: #000;">
         @HttpContextAccessor.HttpContext.Session.GetString("UserName")
-        <div class="mr-20 hover-pointer" style="position: relative">
-            <div class="dp">
+
+        <div class="mr-20 hover-pointer" style="position: relative; margin-left: 20px;">
+            <!-- Profile Picture -->
+            <div class="dp" style="cursor: pointer;">
                 <img src="~/img/profile-logo.png"
                      class="dpicn hover-pointer"
-                     alt="dp">
+                     alt="profile picture"
+                     style="width: 40px; height: 40px; border-radius: 50%; border: 2px solid #8E774D;">
             </div>
-            <div class="dropdown">
-                <ul>
-                    <li>
-                        <i class="fa-solid fa-gear"></i>
-                        <a href="#">Settings</a>
+
+            <!-- Dropdown Menu -->
+            <div class="dropdown" style="position: absolute; right: 0; top: 50px; background-color: #D8C582; border-radius: 8px; box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1); display: none;">
+                <ul style="list-style: none; padding: 10px; margin: 0;">
+                    <li style="padding: 8px 10px;">
+                        <i class="fa-solid fa-gear" style="margin-right: 8px; color: #8E774D;"></i>
+                        <a href="#" style="text-decoration: none; color: #000;">Settings</a>
                     </li>
-                    <li>
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        <a asp-action="SignOutUser" asp-controller="Account">Logout</a>
+                    <li style="padding: 8px 10px;">
+                        <i class="fa-solid fa-right-from-bracket" style="margin-right: 8px; color: #8E774D;"></i>
+                        <a asp-action="SignOutUser" asp-controller="Account" style="text-decoration: none; color: #000;">Logout</a>
                     </li>
                 </ul>
             </div>
         </div>
     </div>
 </header>
+
+<!-- Add custom styles to control dropdown behavior and hover effects -->
+<style>
+    /* Hover effects for dropdown */
+    .hover-pointer:hover .dropdown {
+        display: block;
+    }
+
+    /* Header and dropdown color settings */
+    header {
+        background-color: #B1A05D; /* Match theme color */
+    }
+
+    .dropdown ul li a:hover {
+        color: #8E774D;
+    }
+</style>

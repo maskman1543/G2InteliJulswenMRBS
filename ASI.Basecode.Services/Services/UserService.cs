@@ -21,6 +21,10 @@ namespace ASI.Basecode.Services.Services
             _mapper = mapper;
             _repository = repository;
         }
+        public User GetUserById(string userId)
+        {
+            return _repository.GetUsers().FirstOrDefault(u => u.UserId == userId);
+        }
 
         public LoginResult AuthenticateUser(string userId, string password, ref User user)
         {

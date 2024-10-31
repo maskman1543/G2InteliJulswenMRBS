@@ -84,25 +84,30 @@ namespace ASI.Basecode.WebApp.Controllers
             this._session.SetString("HasSession", "Exist");
 
             User user = null;
-
-            //User user = new() { Id = 0, UserId = "0", Name = "Name", Password = "Password" };
-            
-            //await this._signInManager.SignInAsync(user);
-            //this._session.SetString("UserName", model.UserId);
-
-            //return RedirectToAction("Index", "Home");
-
             var loginResult = _userService.AuthenticateUser(model.UserId, model.Password, ref user);
+
             if (loginResult == LoginResult.Success)
             {
-                // 認証OK
+                // Sign in user
                 await this._signInManager.SignInAsync(user);
                 this._session.SetString("UserName", user.Name);
-                return RedirectToAction("Index", "Home");
+
+                // Redirect based on role
+                if (user.Role?.Equals("admin", StringComparison.OrdinalIgnoreCase) == true)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else if (user.Role?.Equals("user", StringComparison.OrdinalIgnoreCase) == true)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    return RedirectToAction("Index", "Home"); // Default or fallback
+                }
             }
             else
             {
-                // 認証NG
                 TempData["ErrorMessage"] = "Incorrect UserId or Password";
                 return View();
             }
@@ -123,13 +128,26 @@ namespace ASI.Basecode.WebApp.Controllers
             try
             {
                 _userService.AddUser(model);
-                return RedirectToAction("Login", "Account");
+
+                // Retrieve the user and check role
+                var user = _userService.GetUserById(model.UserId);
+
+                if (user?.Role?.Equals("admin", StringComparison.OrdinalIgnoreCase) == true)
+                {
+                    return RedirectToAction("Index", "AdminDashboard");
+                }
+                else if (user?.Role?.Equals("user", StringComparison.OrdinalIgnoreCase) == true)
+                {
+                    return RedirectToAction("Index", "UserDashboard");
+                }
+
+                return RedirectToAction("Login", "Account"); // Fallback or default
             }
-            catch(InvalidDataException ex)
+            catch (InvalidDataException ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 TempData["ErrorMessage"] = Resources.Messages.Errors.ServerError;
             }

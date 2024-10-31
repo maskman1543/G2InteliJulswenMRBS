@@ -15,11 +15,37 @@
 </head>
 <body>
     @Html.Partial("_Header")
-    <div class="container">
-        <main role="main">
-            @RenderBody()
-        </main>
+
+    <div style="display: flex; min-height: 100vh;">
+        @if (!(ViewContext.RouteData.Values["Controller"].ToString() == "Account" &&
+        (ViewContext.RouteData.Values["Action"].ToString() == "Login" ||
+        ViewContext.RouteData.Values["Action"].ToString() == "Register")))
+        {
+            <!-- Sidebar -->
+            <aside style="width: 250px; background-color: #B1A05D; padding: 20px; border-radius: 15px;">
+                
+
+                <nav style="display: flex; flex-direction: column; gap: 10px;">
+                    <a href="/AdminDashboard" style="color: #000; font-weight: bold; text-decoration: none; padding: 10px; background-color: #8E774D; border-radius: 8px;">Dashboard</a>
+                    <a href="/Users" style="color: #000; font-weight: bold; text-decoration: none; padding: 10px; background-color: #D8C582; border-radius: 8px;">Users</a>
+                    <a href="/Rooms/Index" style="color: #000; font-weight: bold; text-decoration: none; padding: 10px; background-color: #D8C582; border-radius: 8px;">Manage Rooms</a>
+                    <a href="/Bookings" style="color: #000; font-weight: bold; text-decoration: none; padding: 10px; background-color: #D8C582; border-radius: 8px;">Bookings</a>
+                    <a href="/Analytics" style="color: #000; font-weight: bold; text-decoration: none; padding: 10px; background-color: #D8C582; border-radius: 8px;">Analytics</a>
+                    <a href="/Settings" style="color: #000; font-weight: bold; text-decoration: none; padding: 10px; background-color: #D8C582; border-radius: 8px;">Settings</a>
+                </nav>
+
+                <a href="/Account/Logout" style="margin-top: 20px; color: #000; font-weight: bold; text-decoration: none; padding: 10px; display: block; background-color: #8E774D; border-radius: 8px;">Log out</a>
+            </aside>
+        }
+
+        <!-- Main Content -->
+        <div class="container" style="flex-grow: 1; padding: 20px;">
+            <main role="main">
+                @RenderBody()
+            </main>
+        </div>
     </div>
+
     <footer class="border-top footer text-muted">
         <div class="container">
             @Copyright
