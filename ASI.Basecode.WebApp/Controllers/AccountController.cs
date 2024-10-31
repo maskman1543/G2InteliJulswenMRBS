@@ -70,7 +70,13 @@ namespace ASI.Basecode.WebApp.Controllers
             this._session.SetString("SessionId", System.Guid.NewGuid().ToString());
             return this.View();
         }
-
+        [HttpGet]
+        [AllowAnonymous]
+        public ActionResult LoginBooking()
+        {
+            
+            return this.View();
+        }
         /// <summary>
         /// Authenticate user and signs the user in when successful.
         /// </summary>
@@ -81,18 +87,18 @@ namespace ASI.Basecode.WebApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> Login(LoginViewModel model, string returnUrl)
         {
-            //this._session.SetString("HasSession", "Exist");
+            this._session.SetString("HasSession", "Exist");
 
-            User user = null;
+            //User user = null;
 
-            //User user = new() { Id = 0, UserId = "0", Name = "Name", Password = "Password" };
-            
-            //await this._signInManager.SignInAsync(user);
-            //this._session.SetString("UserName", model.UserId);
+            User user = new() { Id = 0, UserId = "0", Name = "Name", Password = "Password" };
 
-            //return RedirectToAction("Index", "Home");
+            await this._signInManager.SignInAsync(user);
+            this._session.SetString("UserName", model.UserId);
 
-            var loginResult = _userService.AuthenticateUser(model.UserId, model.Password, ref user);
+            return RedirectToAction("Dashboard", "Shared");
+
+            /*var loginResult = _userService.AuthenticateUser(model.UserId, model.Password, ref user);
             if (loginResult == LoginResult.Success)
             {
                 // 認証OK
@@ -106,7 +112,7 @@ namespace ASI.Basecode.WebApp.Controllers
                 TempData["ErrorMessage"] = "Incorrect UserId or Password";
                 return View();
             }
-            return View();
+            return View();*/
         }
 
         [HttpGet]

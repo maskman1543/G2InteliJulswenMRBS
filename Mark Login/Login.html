@@ -1,13 +1,13 @@
-@model LoginViewModel
-@using static ASI.Basecode.Resources.Views.Screen
-@{
-    ViewBag.LoginView = true;
-    ViewData["Title"] = "Login Page";
-}
-@section styles {
-    <link rel="stylesheet" href="~/css/login.css" />
+<!DOCTYPE html>
+<html lang="en">
+<head>
     <link href="https://fonts.googleapis.com/css2?family=Palanquin:wght@400;600;700&display=swap" rel="stylesheet">
-}
+    <link rel="stylesheet" href="Login.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
 
     <div class="container">
         <div class="login-box">
@@ -16,31 +16,24 @@
             <form>
                 <label for="username">Username</label>
                 <input type="text" id="username" placeholder="user123@gmail.com">
-
+                
                 <label for="password">Password</label>
-                <input type="password" id="password" placeholder="••••••••">
-
+                <input type="password" id="password" placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢">
+                
                 <div class="forgot-password">
                     <a href="#">forget password?</a>
                 </div>
-
+                
                 <div class="Login">
-                    <button type="submit">Log in</button>
+                <button type="submit">Log in</button>
                 </div>
             </form>
         </div>
-
+        
         <div class="image-collage">
-            <img src="~/img/room1.jpg" alt="Placeholder Collage">
+            <img src="img\room1.jpg" alt="Placeholder Collage">
         </div>
     </div>
 
-    @section scripts {
-    <script>
-        // Check for error message and display Toastr notification
-        var errorMessage = '@TempData["ErrorMessage"]';
-        if (errorMessage) {
-            toastr.error(errorMessage);
-        }
-    </script>
-}
+</body>
+</html>

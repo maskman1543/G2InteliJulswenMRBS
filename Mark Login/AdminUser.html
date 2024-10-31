@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User List Dashboard</title>
+  <link rel="stylesheet" href="AdminUser.css">
+</head>
+<body>
+  <div class="container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="profile">
+        <img src="profile.jpg" alt="Admin Profile" class="profile-img">
+        <p class="profile-name">Example Admin</p>
+      </div>
+      <nav class="nav">
+        <a href="#" class="nav-link">Dashboard</a>
+        <a href="#" class="nav-link active">Users</a>
+        <a href="#" class="nav-link">Manage Rooms</a>
+        <a href="#" class="nav-link">Bookings</a>
+        <a href="#" class="nav-link">Analytics</a>
+        <a href="#" class="nav-link">Settings</a>
+        <a href="#" class="nav-link logout">Log out</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <div class="header">
+        <h1>User List</h1>
+        <div class="actions">
+          <input type="text" placeholder="Search..." class="search">
+          <button class="add-user">+ Add User</button>
+        </div>
+      </div>
+      <div class="user-list">
+        <table>
+          <thead>
+            <tr>
+              <th>Last Name</th>
+              <th>First Name</th>
+              <th>Email</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Besin</td>
+              <td>Christian</td>
+              <td>1234@gmail.com</td>
+              <td>User</td>
+              <td>
+                <span class="action-btn">...</span>
+                <span class="action-btn">✏️</span>
+                <span class="action-btn">🗑️</span>
+              </td>
+            </tr>
+            <!-- Repeat for more rows -->
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+</body>
+</html>

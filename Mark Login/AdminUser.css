@@ -1,0 +1,136 @@
+    /* Global Styles */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+    
+    body {
+        background-color: #e0d8af;
+        color: #3f3f3f;
+    }
+    
+    .container {
+        display: flex;
+        width: 100%;
+        height: 100vh;
+    }
+    
+    /* Sidebar */
+    .sidebar {
+        width: 250px;
+        background-color: #d1b57f;
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .profile {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+    
+    .profile-img {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        object-fit: cover;
+        margin-bottom: 10px;
+    }
+    
+    .profile-name {
+        font-weight: bold;
+    }
+    
+    .nav {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    .nav-link {
+        padding: 10px;
+        text-decoration: none;
+        color: #3f3f3f;
+        border-radius: 5px;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    
+    .nav-link.active {
+        background-color: #a69463;
+        color: white;
+    }
+    
+    .nav-link.logout {
+        margin-top: auto;
+        color: #3f3f3f;
+    }
+    
+    /* Main Content */
+    .main-content {
+        flex-grow: 1;
+        padding: 20px;
+        background-color: #c5c08b;
+    }
+    
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+    }
+    
+    .header h1 {
+        font-size: 24px;
+    }
+    
+    .actions {
+        display: flex;
+        align-items: center;
+    }
+    
+    .search {
+        padding: 8px;
+        border: 1px solid #3f3f3f;
+        border-radius: 5px;
+        margin-right: 10px;
+    }
+    
+    .add-user {
+        padding: 8px 15px;
+        background-color: #a69463;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+    
+    .user-list {
+        background-color: #e2d9a5;
+        padding: 10px;
+        border-radius: 5px;
+    }
+    
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    th, td {
+        padding: 10px;
+        text-align: left;
+        border-bottom: 1px solid #b1a16b;
+    }
+    
+    th {
+        font-weight: bold;
+    }
+    
+    td .action-btn {
+        margin-right: 10px;
+        cursor: pointer;
+    }
+    

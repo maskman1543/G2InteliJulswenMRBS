@@ -1,0 +1,211 @@
+﻿/* style.css */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    display: flex;
+    font-size: 30px;
+    font-family: 'Palanquin', sans-serif;
+    color: black;
+    margin-bottom: 10px;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #d3c275;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.dashboard-container {
+    width: 100%;
+    height: 50%;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    background-color: #a89c73;
+    border-radius: 25px;
+    padding: 40px;
+    gap: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Adds shadow effect */
+}
+
+.sidebar {
+    border-radius: 25px;
+    width: 220px;
+    background-color: #E2CD79;
+    opacity: 70%;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.profile {
+    text-align: center;
+}
+
+.profile-img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+    border: 2px solid #0e0e0e;
+}
+
+.username {
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.nav-links {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-top: 20px;
+}
+
+    .nav-links a {
+        text-decoration: none;
+        color: #333;
+        padding: 10px;
+        text-align: left;
+        border-radius: 5px;
+        margin: 5px 0;
+    }
+
+        .nav-links a.active, .nav-links a:hover {
+            background-color: #a38652;
+            color: #fff;
+        }
+
+.main-content {
+    flex: 1;
+    padding: 20px;
+}
+
+h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.row {
+    display: flex;
+    justify-content: space-around; /* Distributes items with space between them */
+    align-items: center; /* Aligns items vertically in the center */
+}
+
+    .row p {
+        font-size: 10px;
+    }
+
+h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    color: black;
+    align-items: center;
+    justify-content: center;
+}
+
+.stats-cards {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.card {
+    background-color: #f2e3ac;
+    padding: 15px;
+    border-radius: 10px;
+    width: 160px;
+    text-align: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border: 2px solid #0e0e0e;
+    background-color: #d3c275;
+}
+
+    .card p {
+        font-size: 14px;
+        color: #666;
+    }
+
+    .card h2 {
+        font-size: 24px;
+        color: #333;
+        margin: 10px 0;
+    }
+
+    .card a {
+        color: #666;
+        text-decoration: none;
+        font-size: 12px;
+    }
+
+.usage-section {
+    display: flex;
+    gap: 20px;
+}
+
+.chart, .status {
+    flex: 1;
+    background-color: #f2e3ac;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border: 2px solid #0e0e0e;
+    background-color: #d3c275;
+}
+
+.chart-placeholder {
+    width: 100%;
+    height: 150px;
+    background-color: #b2a073;
+    border-radius: 5px;
+    margin-top: 10px;
+    border: 2px solid #0e0e0e;
+}
+
+.status-item {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-top: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.status-label {
+    background-color: #E2CD79;
+    color: #3CB765;
+    padding: 3px 8px;
+    border-radius: 25px;
+    font-size: 7px;
+    margin-top: 5px;
+    border: 2px solid #3CB765;
+    stroke: #3CB765;
+    align-items: center;
+    justify-content: center;
+}
+
+.status-date {
+    font-size: 12px;
+    color: #0e0e0e;
+    margin-top: 5px;
+    align-items: center;
+    justify-content: center;
+}
+.status-room {
+    font-size: 12px;
+    color: #0e0e0e;
+    margin-top: 5px;
+    align-items: center;
+    justify-content: center;
+}

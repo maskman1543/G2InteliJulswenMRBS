@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Management</title>
+    <link rel="stylesheet" href="AdminAddUser.css">
+</head>
+<body>
+    <div class="main-content">
+        <h2>User List</h2>
+
+        <!-- User Form Modal -->
+        <div class="user-form">
+            <h3>Add New User</h3>
+            <form>
+                <div class="form-group">
+                    <label>First Name</label>
+                    <input type="text" placeholder="Type here">
+                </div>
+                <div class="form-group">
+                    <label>Last Name</label>
+                    <input type="text" placeholder="Type here">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" placeholder="Type here">
+                </div>
+                <div class="form-group">
+                    <label>Password</label>
+                    <input type="password" placeholder="Type here">
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <select>
+                        <option>Select Role</option>
+                        <option>Admin</option>
+                        <option>Manager</option>
+                        <option>User</option>
+                    </select>
+                </div>
+                <button type="button" class="add-btn">Add New User</button>
+                <button type="button" class="back-btn">Back</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,88 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: #ded19f;
+}
+
+.main-content {
+    width: 50%;
+    padding: 30px;
+    color: #5e503f;
+    text-align: center;
+    background-color: #faf2d0;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.main-content h2 {
+    margin-bottom: 20px;
+}
+
+/* User Form Modal */
+.user-form {
+    background-color: #f3d867;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-form h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #5e503f;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    color: #5e503f;
+}
+
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: #f9e8b2;
+    color: #5e503f;
+}
+
+.add-btn, .back-btn {
+    width: 48%;
+    padding: 10px;
+    margin: 5px 1%;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    color: #5e503f;
+}
+
+.add-btn {
+    background-color: #b3a048;
+}
+
+.back-btn {
+    background-color: #d1be7b;
+}
+
+.add-btn:hover {
+    background-color: #9e8c40;
+}
+
+.back-btn:hover {
+    background-color: #b59d6a;
+}
