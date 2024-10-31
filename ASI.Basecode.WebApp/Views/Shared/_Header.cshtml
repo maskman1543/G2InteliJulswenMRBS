@@ -7,6 +7,19 @@
              style="width: 185px; cursor: pointer;"
              alt="logo"
              onclick="window.location.href = '@Url.Action("Index", "Home")';">
+
+        @if (HttpContextAccessor.HttpContext.Session.GetString("IsUserManagementActive") != "true")
+        {
+            <a class="btn btn-link" asp-controller="User" asp-action="UserManagement" id="userManagementButton">
+                UserManagement
+            </a>
+        }
+        else
+        {
+            <a class="btn btn-link" asp-controller="User" asp-action="Create" id="createButton">
+                Create
+            </a>
+        }
     </div>
 
     <!-- User Section -->

@@ -57,6 +57,14 @@ namespace ASI.Basecode.WebApp.Controllers
             this._userService = userService;
         }
 
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
         /// <summary>
         /// Login Method
         /// </summary>
@@ -68,6 +76,10 @@ namespace ASI.Basecode.WebApp.Controllers
             TempData["returnUrl"] = System.Net.WebUtility.UrlDecode(HttpContext.Request.Query["ReturnUrl"]);
             this._sessionManager.Clear();
             this._session.SetString("SessionId", System.Guid.NewGuid().ToString());
+            // Check if an admin exists
+            bool adminExists = _userService.AdminExists();
+            ViewBag.AdminExists = adminExists; // Pass the result to the view
+
             return this.View();
         }
 
@@ -84,41 +96,29 @@ namespace ASI.Basecode.WebApp.Controllers
             this._session.SetString("HasSession", "Exist");
 
             User user = null;
-            var loginResult = _userService.AuthenticateUser(model.UserId, model.Password, ref user);
 
+           //User user = new() { Id = 0, UserId = "0", Name = "Name", Password = "Password" };
+            
+            //await this._signInManager.SignInAsync(user);
+            //this._session.SetString("UserName", model.UserId);
+
+            //return RedirectToAction("Index", "Home");
+
+            var loginResult = _userService.AuthenticateUser(model.UserId, model.Password, ref user);
             if (loginResult == LoginResult.Success)
             {
-                // Sign in user
+                // 認証OK
                 await this._signInManager.SignInAsync(user);
                 this._session.SetString("UserName", user.Name);
-
-                // Redirect based on role
-                if (user.Role?.Equals("admin", StringComparison.OrdinalIgnoreCase) == true)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-                else if (user.Role?.Equals("user", StringComparison.OrdinalIgnoreCase) == true)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    return RedirectToAction("Index", "Home"); // Default or fallback
-                }
+                return RedirectToAction("Index", "Home");
             }
             else
             {
+                // 認証NG
                 TempData["ErrorMessage"] = "Incorrect UserId or Password";
                 return View();
             }
             //return View();
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Register()
-        {
-            return View();
         }
 
         [HttpPost]
@@ -128,26 +128,13 @@ namespace ASI.Basecode.WebApp.Controllers
             try
             {
                 _userService.AddUser(model);
-
-                // Retrieve the user and check role
-                var user = _userService.GetUserById(model.UserId);
-
-                if (user?.Role?.Equals("admin", StringComparison.OrdinalIgnoreCase) == true)
-                {
-                    return RedirectToAction("Index", "AdminDashboard");
-                }
-                else if (user?.Role?.Equals("user", StringComparison.OrdinalIgnoreCase) == true)
-                {
-                    return RedirectToAction("Index", "UserDashboard");
-                }
-
-                return RedirectToAction("Login", "Account"); // Fallback or default
+                return RedirectToAction("Login", "Account");
             }
-            catch (InvalidDataException ex)
+            catch(InvalidDataException ex)
             {
                 TempData["ErrorMessage"] = ex.Message;
             }
-            catch (Exception ex)
+            catch(Exception ex)
             {
                 TempData["ErrorMessage"] = Resources.Messages.Errors.ServerError;
             }

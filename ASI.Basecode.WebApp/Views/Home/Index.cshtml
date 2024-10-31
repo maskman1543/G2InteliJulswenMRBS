@@ -1,5 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+    // Clear session variable related to UserManagement active state
+    Context.Session.Remove("IsUserManagementActive");
 }
 
 <div class="text-center">

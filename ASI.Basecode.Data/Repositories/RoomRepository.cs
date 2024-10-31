@@ -10,11 +10,10 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace ASI.Basecode.Data.Repositories
 {
-    public class RoomRepository : BaseRepository, IRoomRepository
+   public class RoomRepository : BaseRepository, IRoomRepository
     {
-        public RoomRepository(IUnitOfWork unitOfWork) : base(unitOfWork)
-        {
-        }
+        public RoomRepository(IUnitOfWork unitOfWork) : base(unitOfWork) { }
+
         public void AddRoom(Room model)
         {
             this.GetDbSet<Room>().Add(model);
