@@ -1,4 +1,4 @@
-﻿@using Microsoft.AspNetCore.Http
+﻿﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
 <header class="@((ViewBag.LoginView == true) ? "hide-navbar" : "")">
     <div class="logosec hover-pointer">
@@ -6,6 +6,15 @@
              style="width: 185px;" alt="logo"
              onclick="window.location.href = '@Url.Action("Index", "Home")';">
     </div>
+    <a class="btn btn-link @(Context.Session.GetString("IsUserManagementActive") == "true" ? "active" : "")"
+       asp-controller="User" asp-action="UserManagement" id="userManagementButton">
+        UserManagement
+    </a>
+
+    <a class="btn btn-link @(Context.Session.GetString("IsRoomManagementActive") == "true" ? "active" : "")"
+       asp-controller="Room" asp-action="RoomManagement" id="roomManagementButton">
+        RoomManagement
+    </a>
     <div class="logosec">
         @HttpContextAccessor.HttpContext.Session.GetString("UserName")
         <div class="mr-20 hover-pointer" style="position: relative">

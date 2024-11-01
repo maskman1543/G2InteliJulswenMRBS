@@ -1,0 +1,67 @@
+﻿@model IEnumerable<ASI.Basecode.Services.ServiceModels.RoomViewModel>
+
+@{
+    ViewData["Title"] = "RoomManagement";
+    Context.Session.SetString("IsRoomManagementActive", "true");
+}
+
+<!-- Heading and Create button section -->
+<div class="d-flex align-items-center mb-3">
+    <h1 class="me-3">Room List</h1> <!-- Adds margin to the right of the heading -->
+    <a asp-controller="Room" asp-action="Create" class="btn btn-primary ml-3">
+        + Create New User
+    </a>
+</div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RoomName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Capacity)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Equipment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.RoomName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Capacity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Equipment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Price)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })|
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center">No users found.</td> <!-- Message when no users are available -->
+            </tr>
+        }
+        
+    </tbody>
+</table>

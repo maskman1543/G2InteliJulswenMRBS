@@ -1,0 +1,60 @@
+﻿@model IEnumerable<ASI.Basecode.Services.ServiceModels.UserViewModel>
+@{
+    ViewData["Title"] = "UserManagement";
+    // Set the session variable to indicate UserManagement is active
+    Context.Session.SetString("IsUserManagementActive", "true");
+}
+
+<!-- Heading and Create button section -->
+<div class="d-flex align-items-center mb-3">
+    <h1 class="me-3">User List</h1> <!-- Adds margin to the right of the heading -->
+    <a asp-controller="User" asp-action="Create" class="btn btn-primary ml-3">
+        + Create New User
+    </a>
+</div>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstOrDefault().Password)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UserId)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Password)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="4" class="text-center">No users found.</td> <!-- Message when no users are available -->
+            </tr>
+        }
+    </tbody>
+</table>

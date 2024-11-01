@@ -57,6 +57,14 @@ namespace ASI.Basecode.WebApp.Controllers
             this._userService = userService;
         }
 
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult Register()
+        {
+            return View();
+        }
+
         /// <summary>
         /// Login Method
         /// </summary>
@@ -68,6 +76,10 @@ namespace ASI.Basecode.WebApp.Controllers
             TempData["returnUrl"] = System.Net.WebUtility.UrlDecode(HttpContext.Request.Query["ReturnUrl"]);
             this._sessionManager.Clear();
             this._session.SetString("SessionId", System.Guid.NewGuid().ToString());
+            // Check if an admin exists
+            bool adminExists = _userService.AdminExists();
+            ViewBag.AdminExists = adminExists; // Pass the result to the view
+
             return this.View();
         }
 
@@ -83,16 +95,16 @@ namespace ASI.Basecode.WebApp.Controllers
         {
             this._session.SetString("HasSession", "Exist");
 
-            //User user = null;
+            User user = null;
 
-            User user = new() { Id = 0, UserId = "0", Name = "Name", Password = "Password" };
+           //User user = new() { Id = 0, UserId = "0", Name = "Name", Password = "Password" };
             
-            await this._signInManager.SignInAsync(user);
-            this._session.SetString("UserName", model.UserId);
+            //await this._signInManager.SignInAsync(user);
+            //this._session.SetString("UserName", model.UserId);
 
-            return RedirectToAction("Index", "Home");
+            //return RedirectToAction("Index", "Home");
 
-            /*var loginResult = _userService.AuthenticateUser(model.UserId, model.Password, ref user);
+            var loginResult = _userService.AuthenticateUser(model.UserId, model.Password, ref user);
             if (loginResult == LoginResult.Success)
             {
                 // 認証OK
@@ -106,14 +118,7 @@ namespace ASI.Basecode.WebApp.Controllers
                 TempData["ErrorMessage"] = "Incorrect UserId or Password";
                 return View();
             }
-            return View();*/
-        }
-
-        [HttpGet]
-        [AllowAnonymous]
-        public IActionResult Register()
-        {
-            return View();
+            //return View();
         }
 
         [HttpPost]

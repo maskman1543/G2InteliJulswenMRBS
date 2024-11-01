@@ -1,10 +1,14 @@
+div {
+    background: #E2CD79;
+}
+
 .gradient-custom-2 {
     /* fallback for old browsers */
-    background: #ff0000; /* Red */
+    background: #E2CD79; /* Red */
     /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right, #ff0000, #000000); /* Red, Black */
+    background: -webkit-linear-gradient(to right, #E2CD79, #E2CD79); /* Red, Black */
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right, #ff0000, #000000); /* Red, Black */
+    background: linear-gradient(to right, #E2CD79, #E2CD79); /* Red, Black */
 }
 
 .login-btn {
