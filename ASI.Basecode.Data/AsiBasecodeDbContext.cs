@@ -79,6 +79,10 @@ namespace ASI.Basecode.Data
             {
                 entity.ToTable("Room");
 
+                entity.Property(e => e.Id)
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
                 entity.Property(e => e.CreatedTime).HasColumnType("datetime");
 
                 entity.Property(e => e.Createdby)
