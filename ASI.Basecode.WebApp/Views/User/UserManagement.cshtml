@@ -5,14 +5,14 @@
     Context.Session.SetString("IsUserManagementActive", "true");
 }
 
-<!-- Main Content Section -->
-<div class="text-center">
-    <h1 class="display-4">User Management</h1>
-    <p>Manage users and create new entries here.</p>
+<!-- Heading and Create button section -->
+<div class="d-flex align-items-center mb-3">
+    <h1 class="me-3">User List</h1> <!-- Adds margin to the right of the heading -->
+    <a asp-controller="User" asp-action="Create" class="btn btn-primary ml-3">
+        + Create New User
+    </a>
 </div>
 
-
-<h1>User List</h1>
 
 <table class="table">
     <thead>

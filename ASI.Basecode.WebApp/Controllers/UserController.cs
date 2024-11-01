@@ -48,7 +48,8 @@ namespace ASI.Basecode.WebApp.Controllers
         [HttpGet]
         public IActionResult UserManagement()
         {
-            HttpContext.Session.Remove("IsUserManagementActive");
+            HttpContext.Session.SetString("IsUserManagementActive", "true");
+            HttpContext.Session.Remove("IsRoomManagementActive");
             var data = _userService.RetrieveAll();
             return View(data);
         }

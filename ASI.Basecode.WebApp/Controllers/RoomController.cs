@@ -1,12 +1,15 @@
 ﻿using ASI.Basecode.Services.Interfaces;
 using ASI.Basecode.Services.ServiceModels;
+using ASI.Basecode.Services.Services;
 using ASI.Basecode.WebApp.Mvc;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace ASI.Basecode.WebApp.Controllers
 {
@@ -35,16 +38,18 @@ namespace ASI.Basecode.WebApp.Controllers
         /// reutrns Book View
         /// </summary>
         /// <returns>Book view</returns>        
-        public IActionResult Index()
+        #region Get Methods
+        [HttpGet]
+        public IActionResult RoomManagement()
         {
+            HttpContext.Session.SetString("IsRoomManagementActive", "true");
+            HttpContext.Session.Remove("IsRoomManagementActive");
             var data = _roomService.RetrieveAll();
             return View(data);
         }
-
-        #region Get Methods
-        [HttpGet]
         public IActionResult Create()
         {
+            HttpContext.Session.Remove("IsRoomManagementActive");
             return View();
         }
 
@@ -55,7 +60,6 @@ namespace ASI.Basecode.WebApp.Controllers
             return View(data);
         }
 
-
         [HttpGet]
         public IActionResult Delete(int Id)
         {
@@ -63,33 +67,47 @@ namespace ASI.Basecode.WebApp.Controllers
             return View(data);
         }
 
-
         #endregion
 
-
         #region Post Methods
-
         [HttpPost]
         public IActionResult Create(RoomViewModel model)
         {
-            _roomService.AddRoom(model, UserId);
-            return RedirectToAction("Create");
+            try
+            {
+                _roomService.AddRoom(model, UserId);
+                TempData["SuccessMessage1"] = "Room created successfully!";
+                return View();
+            }
+            catch (InvalidDataException ex)
+            {
+                TempData["ErrorMessage"] = ex.Message;
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = Resources.Messages.Errors.ServerError;
+            }
+            return View();
         }
 
         [HttpPost]
         public IActionResult Edit(RoomViewModel model)
         {
             _roomService.UpdateRoom(model, UserId);
-            return RedirectToAction("Index");
+            return RedirectToAction("RoomManagement");
         }
 
         [HttpPost]
         public IActionResult PostDelete(int Id)
         {
             _roomService.DeleteRoom(Id);
-            return RedirectToAction("Index");
+            return RedirectToAction("RoomManagement");
         }
-
         #endregion
+
+
+
+
+
     }
 }
