@@ -36,12 +36,7 @@ namespace ASI.Basecode.Services.Services
             newRoom.Updatedby = userId;
             newRoom.CreatedTime = DateTime.Now;
             newRoom.UpdatedTime = DateTime.Now;
-            
-            //var coverImageFileName = Path.Combine(coverImagePath, newBook.BookId  ".png");
-            //using (var fileStream = new FileStream(coverImageFileName, FileMode.Create))
-            //{
-            //    model.ImageFile.CopyTo(fileStream);
-            //}
+
             _roomRepository.AddRoom(newRoom);
         }
         public List<RoomViewModel> RetrieveAll()
@@ -54,7 +49,7 @@ namespace ASI.Basecode.Services.Services
                  Capacity = s.Capacity,
                  Location = s.Location,
                  Equipment = s.Equipment,
-                 price = s.Price,
+                 Price = s.Price,
 
 
             }).ToList();
@@ -70,7 +65,7 @@ namespace ASI.Basecode.Services.Services
                 Capacity = s.Capacity,
                 Location = s.Location,
                 Equipment = s.Equipment,
-                price = s.Price,
+                Price = s.Price,
             }).FirstOrDefault();
 
             return room;

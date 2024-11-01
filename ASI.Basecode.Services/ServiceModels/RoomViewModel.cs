@@ -13,7 +13,7 @@ namespace ASI.Basecode.Services.ServiceModels
         public int Capacity { get; set; }
         public string Location { get; set; }
         public string Equipment { get; set; }
-        public string price { get; set; }
+        public string Price { get; set; }
         
     }
 }

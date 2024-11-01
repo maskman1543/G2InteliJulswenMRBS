@@ -137,7 +137,7 @@ namespace ASI.Basecode.Data
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
-                entity.Property(e => e.Role)
+                entity.Property(e => e.Roles)
                     .HasMaxLength(50)
                     .IsUnicode(false);
 

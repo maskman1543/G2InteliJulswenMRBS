@@ -1,4 +1,4 @@
-﻿using ASI.Basecode.Services.Interfaces;
+﻿ using ASI.Basecode.Services.Interfaces;
 using ASI.Basecode.Services.ServiceModels;
 using ASI.Basecode.Services.Services;
 using ASI.Basecode.WebApp.Mvc;
@@ -28,22 +28,18 @@ namespace ASI.Basecode.WebApp.Controllers
                             IHttpContextAccessor httpContextAccessor,
                             ILoggerFactory loggerFactory,
                             IConfiguration configuration,
-                            IMapper mapper,
+                            IMapper mapper, 
                             IRoomService roomService) : base(httpContextAccessor, loggerFactory, configuration, mapper)
         {
             _roomService = roomService;
         }
 
-        /// <summary>
-        /// reutrns Book View
-        /// </summary>
-        /// <returns>Book view</returns>        
-        #region Get Methods
+         #region Get Methods
         [HttpGet]
         public IActionResult RoomManagement()
         {
             HttpContext.Session.SetString("IsRoomManagementActive", "true");
-            HttpContext.Session.Remove("IsRoomManagementActive");
+            HttpContext.Session.Remove("IsUserManagementActive");
             var data = _roomService.RetrieveAll();
             return View(data);
         }
@@ -66,7 +62,6 @@ namespace ASI.Basecode.WebApp.Controllers
             var data = _roomService.RetrieveRoom(Id);
             return View(data);
         }
-
         #endregion
 
         #region Post Methods
@@ -104,10 +99,6 @@ namespace ASI.Basecode.WebApp.Controllers
             return RedirectToAction("RoomManagement");
         }
         #endregion
-
-
-
-
 
     }
 }

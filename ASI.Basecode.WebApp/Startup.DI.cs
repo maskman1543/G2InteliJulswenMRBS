@@ -36,7 +36,7 @@ namespace ASI.Basecode.WebApp
             this._services.TryAddSingleton<TokenValidationParametersFactory>();
             this._services.AddScoped<IUserService, UserService>();
             this._services.AddScoped<IRoomService, RoomService>();
-
+          
 
             // Repositories
             this._services.AddScoped<IUserRepository, UserRepository>();
