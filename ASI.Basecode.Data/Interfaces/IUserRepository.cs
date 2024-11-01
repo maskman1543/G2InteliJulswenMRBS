@@ -16,5 +16,9 @@ namespace ASI.Basecode.Data.Interfaces
         void UpdateUser(User user);
         void DeleteUser(User user);
         bool AdminExists();
+
+
+
+
     }
 }

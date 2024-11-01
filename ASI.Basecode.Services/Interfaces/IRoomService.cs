@@ -1,9 +1,9 @@
-﻿using ASI.Basecode.Services.ServiceModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ASI.Basecode.Services.ServiceModels;
 
 namespace ASI.Basecode.Services.Interfaces
 {
@@ -11,8 +11,8 @@ namespace ASI.Basecode.Services.Interfaces
     {
         void AddRoom(RoomViewModel model, string userId);
         List<RoomViewModel> RetrieveAll();
-        RoomViewModel RetrieveRoom(int RoomId);
+        RoomViewModel RetrieveRoom(int Id);
         void UpdateRoom(RoomViewModel model, string userId);
-        void DeleteRoom(int RoomId);
+        void DeleteRoom(int Id);
     }
 }

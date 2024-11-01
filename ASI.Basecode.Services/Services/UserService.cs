@@ -27,6 +27,10 @@ namespace ASI.Basecode.Services.Services
             _config = configuration;
 
         }
+        public User GetUserById(string userId)
+        {
+            return _repository.GetUsers().FirstOrDefault(u => u.UserId == userId);
+        }
 
         public LoginResult AuthenticateUser(string userId, string password, ref User user)
         {
