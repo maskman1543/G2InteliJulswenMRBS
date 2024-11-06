@@ -1,33 +1,50 @@
-div {
-    background: #E2CD79;
+/* Layout adjustments */
+.login-container {
+    height: 100vh;
+}
+
+.login-bg {
+    background: linear-gradient(to right, #4c4e91, #212256);
+    color: #fff;
+}
+
+.login-form-card {
+    border-radius: 10px;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
 }
 
 .gradient-custom-2 {
-    /* fallback for old browsers */
-    background: #E2CD79; /* Red */
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right, #E2CD79, #E2CD79); /* Red, Black */
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-    background: linear-gradient(to right, #E2CD79, #E2CD79); /* Red, Black */
+    background: #E2CD79;
+    background: linear-gradient(to right, #E2CD79, #E2CD79);
 }
 
 .login-btn {
     width: 180px;
+    color: #fff;
 }
 
-.register-box {
-    width: 600px;
+/* Text and link styling */
+.text-muted {
+    color: #6c757d !important;
 }
 
+    .text-muted:hover {
+        text-decoration: underline;
+    }
+
+/* Form width and responsive adjustments */
 @media (min-width: 768px) {
-    .gradient-form {
-        height: 100vh !important;
+    .login-bg {
+        height: 100vh;
+    }
+
+    .login-form-card {
+        width: 400px;
     }
 }
 
-@media (min-width: 769px) {
-    .gradient-custom-2 {
-        border-top-right-radius: .3rem;
-        border-bottom-right-radius: .3rem;
+@media (max-width: 767px) {
+    .login-bg, .login-form-card {
+        height: auto;
     }
 }
