@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="AdminBooking.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="profile-section">
+                <img src="download.png" alt="Profile Picture" class="profile-pic">
+                <p class="admin-name">Example Admin</p>
+            </div>
+            <nav class="menu">
+                <a href="#" class="menu-item">Dashboard</a>
+                <a href="#" class="menu-item">Users</a>
+                <a href="#" class="menu-item">Manage Rooms</a>
+                <a href="#" class="menu-item active">Bookings</a>
+                <a href="#" class="menu-item">Analytics</a>
+                <a href="#" class="menu-item">Settings</a>
+                <a href="#" class="menu-item logout">Log out</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="header">
+                <h1>Bookings</h1>
+                <div class="search-bar">
+                    <button class="filter-btn">&#9881;</button>
+                    <input type="text" placeholder="Search..." class="search-input">
+                </div>
+            </header>
+
+            <section class="table-section">
+                <table class="booking-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Room</th>
+                            <th>Date</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Christian Besin</td>
+                            <td>Training Room A</td>
+                            <td>August 1, 2024 - August 14, 2024</td>
+                            <td>9:00 am - 11:00 am</td>
+                            <td class="status ongoing">
+                                <span>Ongoing</span> 
+                                <span class="action-btn">...</span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Jane Doe</td>
+                            <td>Conference Room B</td>
+                            <td>August 15, 2024 - August 20, 2024</td>
+                            <td>2:00 pm - 4:00 pm</td>
+                            <td class="status ongoing">
+                                <span>Ongoing</span> 
+                                <span class="action-btn">...</span>
+                            </td>
+                        </tr>
+                        <!-- Add more rows as needed -->
+                    </tbody>    
+                </table>
+            </section>
+        </main>
+    </div>
+</body>
+</html>

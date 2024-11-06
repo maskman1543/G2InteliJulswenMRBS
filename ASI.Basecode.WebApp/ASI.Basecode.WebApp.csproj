@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <None Remove="appsettings.json.rej" />
+    <None Remove="Views\Booking\AdminBooking.css" />
   </ItemGroup>
 
   <ItemGroup>
@@ -49,6 +50,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Views\Booking\AdminBooking.css" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Include="Views\Room\Edit.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Views\User\" />
   </ItemGroup>
 </Project>

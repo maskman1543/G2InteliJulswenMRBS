@@ -22,7 +22,7 @@ body {
     height: 100vh;
 }
 .dashboard-container {
-    width: %;
+    width: 90%;
     justify-content: center;
     display: flex;
     align-items: center;
@@ -196,3 +196,4 @@ h3 {
     align-items: center;
     justify-content: center;
 }
+

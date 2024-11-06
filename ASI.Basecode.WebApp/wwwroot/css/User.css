@@ -1,4 +1,4 @@
-/* Reset */
+﻿/* Reset */
 * {
     margin: 0;
     padding: 0;
@@ -13,7 +13,7 @@ body {
     height: 100vh; /* Full viewport height */
     background-color: #F5E4A0;
     margin: 0; /* Remove default body margin */
-}   
+}
 
 .container {
     display: flex;
@@ -65,10 +65,10 @@ body {
     transition: background-color 0.3s;
 }
 
-.menu-item:hover, .menu-item.active {
-    background-color: #a38652;
-    color: #fff;
-}
+    .menu-item:hover, .menu-item.active {
+        background-color: #a38652;
+        color: #fff;
+    }
 
 .logout {
     margin-top: auto;
@@ -119,9 +119,9 @@ body {
     cursor: pointer;
 }
 
-.add-user:hover {
-    background-color: #5A4118;
-}
+    .add-user:hover {
+        background-color: #5A4118;
+    }
 
 .user-table {
     width: 100%;
@@ -130,19 +130,19 @@ body {
     background-color: #F5E4A0;
 }
 
-.user-table th, .user-table td {
-    padding: 12px;
-    text-align: left;
-    border-bottom: 1px solid #B0A665;
-}
+    .user-table th, .user-table td {
+        padding: 12px;
+        text-align: left;
+        border-bottom: 1px solid #B0A665;
+    }
 
-.user-table th {
-    background-color: #D8BC7F;
-}
+    .user-table th {
+        background-color: #D8BC7F;
+    }
 
-.user-table td {
-    background-color: #F7EAD3;
-}
+    .user-table td {
+        background-color: #F7EAD3;
+    }
 
 .edit, .delete {
     border: none;
@@ -151,10 +151,10 @@ body {
     font-size: 1.2em;
 }
 
-.edit:hover {
-    color: #5A4118;
-}
+    .edit:hover {
+        color: #5A4118;
+    }
 
-.delete:hover {
-    color: #D9534F;
-}
+    .delete:hover {
+        color: #D9534F;
+    }

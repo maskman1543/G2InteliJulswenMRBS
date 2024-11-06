@@ -1,0 +1,172 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #D9C07C;
+    color: #333;
+}
+
+.container {
+    display: flex;
+    width: 90%; /* Optional: Adjust width */
+    max-width: 1200px; /* Optional: Set max width */
+    justify-content: center;
+    background-color: #a89c73;
+    border-radius: 25px;
+    padding: 40px;
+    gap: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.3); /* Adds shadow effect */
+    margin: 20px auto; /* Center the container and add top and bottom margin */
+}
+
+/* Sidebar */
+.sidebar {
+    width: 250px;
+    background-color: #E2CD79;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 80vh; /* Set a fixed height */
+    border-radius: 25px; /* Add rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile-section {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-bottom: 10px;
+}
+
+.admin-name {
+    font-size: 18px;
+    color: #333;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.menu-item {
+    padding: 10px 20px;
+    color: #000000;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    display: flex;
+    align-items: center;
+}
+
+.menu-item.active,
+.menu-item:hover {
+    background-color: #000000; /* Background color on hover */
+    color: #ffffff; /* Change text color to white on hover */
+}
+
+.logout {
+    margin-top: auto;
+    color: #000000;
+}
+
+/* Main Content */
+.main-content {
+    width: 80%;
+    max-width: 900px;
+    background-color: #E2CD79;
+    padding: 20px;
+    border-radius: 25px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    height: 80vh; /* Set a fixed height to match the sidebar */
+    overflow-y: auto; /* Allows scrolling if content overflows */
+    margin-left: 20px; /* Add margin to create space between sidebar and main content */
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.header h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+}
+
+.filter-btn {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.search-input {
+    padding: 5px 10px;
+    border-radius: 5px;
+    border: 1px solid #A79D70;
+}
+
+/* Table Section */
+.table-section {
+    background-color: #E2CD79;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.booking-table {
+    width: 100%;
+    border-collapse: collapse;
+    color: #000000;
+}
+
+.booking-table th,
+.booking-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #A79D70;
+}
+
+.booking-table th {
+    font-weight: bold;
+}
+
+.status {
+    display: inline-flex; /* Use inline-flex to align items without affecting the table layout */
+    align-items: center; /* Center align the items vertically */
+    font-weight: bold;
+    vertical-align: middle; /* Align with the middle of the table cell */
+}
+
+.status.ongoing {
+    color: green;
+}
+
+.action-btn {
+    display: inline-block;
+    padding: 10px; /* Adjust padding as needed */
+    color: #000000; /* Text color */
+    border-radius: 20px; /* Rounded corners */
+    cursor: pointer; /* Change cursor to pointer */
+    margin-left: 10px; /* Space between status and button */
+    margin-top: 5px; /* Move the button slightly down */
+}
