@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\BookingUser\Edit.cshtml" />
     <Content Remove="Views\Room\Edit.cshtml" />
   </ItemGroup>
 
@@ -49,10 +50,16 @@
   </ItemGroup>
 
   <ItemGroup>
+    <_ContentIncludedByDefault Remove="Views\BookingUser\Edit.cshtml" />
     <_ContentIncludedByDefault Remove="Views\Room\Edit.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\BookingUser\Edit.cshtml" />
     <None Include="Views\Room\Edit.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Views\BookingUser\Edit.cshtml" />
   </ItemGroup>
 </Project>

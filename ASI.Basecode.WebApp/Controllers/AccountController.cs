@@ -110,12 +110,25 @@ namespace ASI.Basecode.WebApp.Controllers
                 // 認証OK
                 await this._signInManager.SignInAsync(user);
                 this._session.SetString("UserName", user.Name);
-                return RedirectToAction("Index", "Home");
+
+                // Check if the user is an admin
+                bool isAdmin = _userService.AdminExists() && user.Roles != null && user.Roles.Contains("Admin", StringComparison.OrdinalIgnoreCase);
+                this._session.SetString("Role", isAdmin ? "Admin" : "User");
+
+                // Redirect based on role
+                if (isAdmin)
+                {
+                    return RedirectToAction("AdminDashboard", "Home");
+                }
+                else
+                {
+                    return RedirectToAction("UserDashboard", "Home");
+                }
             }
             else
             {
                 // 認証NG
-                TempData["ErrorMessage"] = "Incorrect UserId or Password";
+                TempData["ErrorMessage"] = "Incorrect Username or Password";
                 return View();
             }
             //return View();

@@ -21,15 +21,14 @@ namespace ASI.Basecode.Services.Services
         private readonly IRoomRepository _roomRepository;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
-        public RoomService(IRoomRepository bookRepository, IMapper mapper, IConfiguration configuration)
+        public RoomService(IRoomRepository roomRepository, IMapper mapper, IConfiguration configuration)
         {
-            _roomRepository = bookRepository;
+            _roomRepository = roomRepository;
             _mapper = mapper;
             _config = configuration;
         }
         public void AddRoom(RoomViewModel model, string userId)
         {
-            //var coverImagePath = PathManager.DirectoryPath.CoverImagesDirectory;
             var newRoom = new Room();
             _mapper.Map(model, newRoom);
             newRoom.Createdby = userId;

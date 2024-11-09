@@ -40,6 +40,7 @@ namespace ASI.Basecode.WebApp.Controllers
         {
             HttpContext.Session.SetString("IsRoomManagementActive", "true");
             HttpContext.Session.Remove("IsUserManagementActive");
+            HttpContext.Session.Remove("IsViewBookingActive");
             var data = _roomService.RetrieveAll();
             return View(data);
         }
