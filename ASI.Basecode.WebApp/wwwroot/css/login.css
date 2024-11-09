@@ -1,5 +1,8 @@
-div {
-    background: #E2CD79;
+.card {
+    background: #78795F; /* Light color for the card background */
+    /* Optional: Add border radius or shadow */
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
 .gradient-custom-2 {

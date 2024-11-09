@@ -16,7 +16,8 @@ namespace ASI.Basecode.Data
         public DbContext Database { get; private set; }
 
         /// <summary>
-        /// Initializes a new instance of the UnitOfWork class.
+        /// Initializes a new instance of the UnitOfWork class.the entity changes. See the inner exception for details.'
+
         /// </summary>
         /// <param name="serviceContext">The service context.</param>
         public UnitOfWork(AsiBasecodeDBContext serviceContext)

@@ -1,16 +1,12 @@
 ﻿@model IEnumerable<ASI.Basecode.Services.ServiceModels.RoomViewModel>
 
 @{
-    ViewData["Title"] = "RoomManagement";
-    Context.Session.SetString("IsRoomManagementActive", "true");
+    ViewData["Title"] = "Rooms";
 }
 
-<!-- Heading and Create button section -->
+
 <div class="d-flex align-items-center mb-3">
     <h1 class="me-3">Room List</h1> <!-- Adds margin to the right of the heading -->
-    <a asp-controller="Room" asp-action="Create" class="btn btn-primary ml-3">
-        + Create New Room
-    </a>
 </div>
 
 
@@ -50,8 +46,7 @@
                         @Html.DisplayFor(modelItem => item.Price)
                     </td>
                     <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })|
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
+                        @Html.ActionLink("Book", "Create", "BookingUser", new { id = item.Id })
                     </td>
                 </tr>
             }
@@ -62,6 +57,6 @@
                 <td colspan="4" class="text-center">No users found.</td> <!-- Message when no users are available -->
             </tr>
         }
-        
+
     </tbody>
 </table>

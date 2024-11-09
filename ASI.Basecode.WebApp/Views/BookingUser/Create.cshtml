@@ -1,0 +1,74 @@
+﻿@model ASI.Basecode.Services.ServiceModels.BookingViewModel
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create Booking</h1>
+
+<h4>Booking Details</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Purpose field -->
+            <div class="form-group">
+                <label asp-for="Purpose" class="control-label"></label>
+                <input asp-for="Purpose" class="form-control" />
+                <span asp-validation-for="Purpose" class="text-danger"></span>
+            </div>
+
+            <!-- Start Date field -->
+            <div class="form-group">
+                <label asp-for="StartDate" class="control-label">Start Date</label>
+                <input type="date" asp-for="StartDate" class="form-control" id="startDate" />
+                <span asp-validation-for="StartDate" class="text-danger"></span>
+            </div>
+
+            <!-- End Date field -->
+            <div class="form-group">
+                <label asp-for="EndDate" class="control-label">End Date</label>
+                <input type="date" asp-for="EndDate" class="form-control" id="endDate" />
+                <span asp-validation-for="EndDate" class="text-danger"></span>
+            </div>
+
+            <!-- Hidden field for RoomId -->
+            <input type="hidden" asp-for="RoomId" />
+
+            <!-- Submit button -->
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="ViewBooking">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Display success message if available
+        var successMessage = '@TempData["SuccessMessage3"]';
+        if (successMessage) {
+            toastr.success(successMessage); // Show success message using toastr
+        }
+
+        // Display error message if available
+        var errorMessage = '@TempData["ErrorMessage"]';
+        if (errorMessage) {
+            toastr.error(errorMessage); // Show error message using toastr
+        }
+
+        // Set today's date as the default value for Start Date and End Date fields
+        document.getElementById('startDate').value = new Date().toISOString().split('T')[0]; // Set today's date for Start Date
+        document.getElementById('endDate').value = new Date().toISOString().split('T')[0];   // Set today's date for End Date
+    </script>
+}

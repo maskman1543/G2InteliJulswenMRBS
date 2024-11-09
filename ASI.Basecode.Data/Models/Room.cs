@@ -5,6 +5,11 @@ namespace ASI.Basecode.Data.Models
 {
     public partial class Room
     {
+        public Room()
+        {
+            Bookings = new HashSet<Booking>();
+        }
+
         public int Id { get; set; }
         public string RoomName { get; set; }
         public int Capacity { get; set; }
@@ -12,8 +17,10 @@ namespace ASI.Basecode.Data.Models
         public string Equipment { get; set; }
         public string Price { get; set; }
         public string Createdby { get; set; }
-        public DateTime CreatedTime { get; set; }
+        public DateTime? CreatedTime { get; set; }
         public string Updatedby { get; set; }
-        public DateTime UpdatedTime { get; set; }
+        public DateTime? UpdatedTime { get; set; }
+
+        public virtual ICollection<Booking> Bookings { get; set; }
     }
 }

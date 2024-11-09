@@ -4,17 +4,31 @@
     <div class="logosec hover-pointer">
         <img src="~/img/asi-logo-invert.svg"
              style="width: 185px;" alt="logo"
-             onclick="window.location.href = '@Url.Action("Index", "Home")';">
+             onclick="window.location.href = '@(HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin" ? Url.Action("AdminDashboard", "Home") : Url.Action("UserDashboard", "Home"))';">
     </div>
-    <a class="btn btn-link @(Context.Session.GetString("IsUserManagementActive") == "true" ? "active" : "")"
-       asp-controller="User" asp-action="UserManagement" id="userManagementButton">
-        UserManagement
-    </a>
+    @if (ViewContext.RouteData.Values["controller"].ToString() == "Home" &&
+    ViewContext.RouteData.Values["action"].ToString() == "AdminDashboard")
+    {
+        <a class="btn btn-link @(Context.Session.GetString("IsUserManagementActive") == "true" ? "active" : "")"
+           asp-controller="User" asp-action="UserManagement" id="userManagementButton">
+            Users
+        </a>
 
-    <a class="btn btn-link @(Context.Session.GetString("IsRoomManagementActive") == "true" ? "active" : "")"
-       asp-controller="Room" asp-action="RoomManagement" id="roomManagementButton">
-        RoomManagement
-    </a>
+        <a class="btn btn-link @(Context.Session.GetString("IsRoomManagementActive") == "true" ? "active" : "")"
+           asp-controller="Room" asp-action="RoomManagement" id="roomManagementButton">
+            Rooms
+        </a>
+    }
+
+    @if (ViewContext.RouteData.Values["controller"].ToString() == "Home" &&
+    ViewContext.RouteData.Values["action"].ToString() == "UserDashboard")
+    {
+        <a class="btn btn-link @(Context.Session.GetString("IsViewBookingActive") == "true" ? "active" : "")"
+           asp-controller="BookingUser" asp-action="ViewBooking" id="viewBookingButton">
+            Booking
+        </a>
+    }
+
     <div class="logosec">
         @HttpContextAccessor.HttpContext.Session.GetString("UserName")
         <div class="mr-20 hover-pointer" style="position: relative">
