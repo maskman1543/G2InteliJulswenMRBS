@@ -18,8 +18,7 @@
                     <div class="col-lg-6">
                         <div class="card-body p-md-5 mx-md-4">
                             <div class="text-center">
-                                <img src="~/img/asi-logo-invert.svg"
-                                     style="width: 185px;" alt="logo">
+                                <img src="~/img/asi-logo-invert.svg" style="width: 185px;" alt="logo">
                             </div>
                             <form method="post" action="/Account/Login" id="loginForm">
                                 <div class="form-outline mb-4">
@@ -42,7 +41,8 @@
                                         <a class="text-muted" href="#!">@ForgotPass</a>
                                     </div>
                                 </div>
-                                @if (!ViewBag.AdminExists) // Conditional check for admin existence
+
+                                @if (!ViewBag.AdminExists) // Check if no admin exists
                                 {
                                     <div class="d-flex align-items-center justify-content-center pb-4">
                                         <p class="mb-0 me-2 mr-1">@DontHaveAcc</p>
@@ -53,7 +53,7 @@
                         </div>
                     </div>
                     <div class="col-lg-6 d-flex">
-                        <img style="width:400px"src="~/img/LiveIT.png" />
+                        <img style="width:400px" src="~/img/LiveIT.png" />
                     </div>
                 </div>
             </div>
@@ -66,8 +66,7 @@
         // Check for error message and display Toastr notification
         var errorMessage = '@TempData["ErrorMessage"]';
         if (errorMessage) {
-            toastr.error(errorMessage);
+            toastr.error(errorMessage); // Display error message using Toastr
         }
     </script>
 }
-
