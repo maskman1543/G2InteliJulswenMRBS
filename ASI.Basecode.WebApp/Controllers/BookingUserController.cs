@@ -10,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Security.Claims;
 
 namespace ASI.Basecode.WebApp.Controllers
 {
@@ -34,12 +35,13 @@ namespace ASI.Basecode.WebApp.Controllers
             _bookingService = bookingService;
         }
 
-         #region Get Methods
+
+        #region Get Methods
         [HttpGet]
         public IActionResult ViewBooking()
         {
             HttpContext.Session.SetString("IsViewBookingActive", "true");
-            var data = _bookingService.RetrieveActiveBookings();
+            var data = _bookingService.RetrieveActiveBookings(UserId);
             return View(data);
         }
 

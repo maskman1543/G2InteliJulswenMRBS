@@ -38,18 +38,18 @@ namespace ASI.Basecode.Services.Services
             newBooking.IsDeleted = false;
             newBooking.CreatedBy = userId;
             newBooking.UpdatedBy = userId;
-            newBooking.UserId = userId;
+            newBooking.Username = userId;
             newBooking.CreatedTime = DateTime.Now;
             newBooking.UpdatedTime = DateTime.Now;
 
             _bookingRepository.AddBooking(newBooking);
         }
 
-        public IEnumerable<BookingViewModel> RetrieveActiveBookings()
+        public IEnumerable<BookingViewModel> RetrieveActiveBookings(string userId)
         {
             // Retrieve all users and apply the necessary filtering
             var bookings = _bookingRepository.RetrieveAll()
-                                       .Where(booking => booking.IsDeleted != true)
+                                       .Where(booking => booking.IsDeleted != true && booking.Username == userId)
                                        .Select(booking => new BookingViewModel
                                        {
                                            BookingId = booking.BookingId,
@@ -65,16 +65,19 @@ namespace ASI.Basecode.Services.Services
         }
         public BookingViewModel RetrieveBooking(int Id)
         {
-            var booking = _bookingRepository.RetrieveAll().Where(x => x.BookingId.Equals(Id)).Select(s => new BookingViewModel
-            {
-                BookingId = s.BookingId,
-                Purpose = s.Purpose,
-                Status = s.Status,
-                StartDate = s.StartDate,
-                EndDate = s.EndDate,
-                RoomId = s.RoomId,
-                RoomName = s.Room.RoomName
-            }).FirstOrDefault();
+            var booking = _bookingRepository.RetrieveAll()
+                                    .Where(x => x.BookingId == Id)
+                                    .Select(s => new BookingViewModel
+                                    {
+                                        BookingId = s.BookingId,
+                                        Purpose = s.Purpose,
+                                        Status = s.Status,
+                                        StartDate = s.StartDate,
+                                        EndDate = s.EndDate,
+                                        RoomId = s.RoomId,
+                                        RoomName = s.Room.RoomName
+                                    })
+                                    .FirstOrDefault();
 
             return booking;
         }
