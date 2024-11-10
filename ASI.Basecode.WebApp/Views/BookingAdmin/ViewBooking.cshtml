@@ -1,0 +1,88 @@
+﻿@model IEnumerable<ASI.Basecode.Services.ServiceModels.BookingViewModel>
+
+@{
+    ViewData["Title"] = "ViewBooking";
+    Context.Session.SetString("IsViewBookingActive", "true");
+}
+
+<div class="d-flex align-items-center mb-3">
+    <h1 class="me-3">Booking List</h1>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Username)</th>
+            <th>@Html.DisplayNameFor(model => model.RoomName)</th>
+            <th>@Html.DisplayNameFor(model => model.StartDate)</th>
+            <th>@Html.DisplayNameFor(model => model.EndDate)</th>
+            <th>@Html.DisplayNameFor(model => model.Purpose)</th>
+            <th>@Html.DisplayNameFor(model => model.Status)</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (Model != null && Model.Any())
+        {
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.Username)</td>
+                    <td>@Html.DisplayFor(modelItem => item.RoomName)</td>
+                    <td>@item.StartDate.ToString("yyyy-MM-dd")</td>
+                    <td>@item.EndDate.ToString("yyyy-MM-dd")</td>
+                    <td>@Html.DisplayFor(modelItem => item.Purpose)</td>
+                    <td id="status-@item.BookingId">@Html.DisplayFor(modelItem => item.Status)</td>
+                    <td>
+                        <!-- Dropdown for changing status -->
+                        <select class="form-select status-dropdown" data-booking-id="@item.BookingId" aria-label="Select status">
+                            <option value="" selected disabled>-- Select Status --</option>
+                            <option value="Approved" selected="@((item.Status == "Approved") ? "selected" : "")">Approved</option>
+                            <option value="Disapproved" selected="@((item.Status == "Disapproved") ? "selected" : "")">Disapproved</option>
+                            <option value="Pending" selected="@((item.Status == "Pending") ? "selected" : "")">Pending</option>
+                        </select>
+                    </td>
+                </tr>
+            }
+        }
+        else
+        {
+            <tr>
+                <td colspan="7" class="text-center">No Bookings found.</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script>
+        $(document).ready(function() {
+            // Listen for changes in the dropdown
+            $('.status-dropdown').on('change', function() {
+                var status = $(this).val(); // Get the selected status
+                var bookingId = $(this).data('booking-id'); // Get the booking ID
+
+                // Send an AJAX request to update the status
+                $.ajax({
+                    type: 'POST',
+                    url: '@Url.Action("ChangeStatus", "BookingAdmin")', // Your controller action
+                    data: {
+                        bookingId: bookingId,
+                        status: status
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            // Update the status text in the table cell without reloading the page
+                            $('#status-' + bookingId).text(status);
+                        } else {
+                            alert(response.message); // Show an error message if something went wrong
+                        }
+                    },
+                    error: function() {
+                        alert('Error updating status. Please try again.');
+                    }
+                });
+            });
+        });
+    </script>
+}

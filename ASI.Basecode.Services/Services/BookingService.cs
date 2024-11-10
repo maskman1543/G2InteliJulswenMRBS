@@ -44,6 +44,25 @@ namespace ASI.Basecode.Services.Services
 
             _bookingRepository.AddBooking(newBooking);
         }
+        public IEnumerable<BookingViewModel> RetrieveAllBookings()
+        {
+            var bookings = _bookingRepository.RetrieveAll()
+                                             .Where(booking => booking.IsDeleted != true)  // Exclude deleted bookings
+                                             .Select(booking => new BookingViewModel
+                                             {
+                                                 BookingId = booking.BookingId,
+                                                 Purpose = booking.Purpose,
+                                                 Status = booking.Status,
+                                                 StartDate = booking.StartDate,
+                                                 EndDate = booking.EndDate,
+                                                 RoomId = booking.RoomId,
+                                                 RoomName = booking.Room.RoomName,
+                                                 Username = booking.Username
+                                             })
+                                             .ToList();
+
+            return bookings;
+        }
 
         public IEnumerable<BookingViewModel> RetrieveActiveBookings(string userId)
         {
@@ -109,6 +128,30 @@ namespace ASI.Basecode.Services.Services
                 _bookingRepository.UpdateBooking(booking);
             }
         }
+
+        public void UpdateBookingStatus(int bookingId, string newStatus)
+        {
+            // Ensure the status is either "Approved", "Disapproved", or "Pending"
+            if (newStatus != "Approved" && newStatus != "Disapproved" && newStatus != "Pending")
+            {
+                throw new InvalidOperationException("Invalid status value.");
+            }
+
+            var booking = _bookingRepository.RetrieveAll().FirstOrDefault(x => x.BookingId == bookingId);
+
+            if (booking == null)
+            {
+                throw new InvalidOperationException("Booking not found.");
+            }
+
+            // Update the status and the time of update
+            booking.Status = newStatus;
+            booking.UpdatedTime = DateTime.Now;
+
+            _bookingRepository.UpdateBooking(booking);
+        }
+
+
         public void DeleteBooking(int Id)
         {
             var booking = _bookingRepository.RetrieveAll().FirstOrDefault(x => x.BookingId == Id);

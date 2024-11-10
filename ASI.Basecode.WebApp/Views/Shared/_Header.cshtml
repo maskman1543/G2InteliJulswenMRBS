@@ -18,6 +18,11 @@
            asp-controller="Room" asp-action="RoomManagement" id="roomManagementButton">
             Rooms
         </a>
+
+        <a class="btn btn-link @(Context.Session.GetString("IsViewBookingActive") == "true" ? "active" : "")"
+           asp-controller="BookingAdmin" asp-action="ViewBooking" id="ViewBookingButton">
+            Booking
+        </a>
     }
 
     @if (ViewContext.RouteData.Values["controller"].ToString() == "Home" &&
