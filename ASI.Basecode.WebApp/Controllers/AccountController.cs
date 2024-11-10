@@ -73,14 +73,16 @@ namespace ASI.Basecode.WebApp.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
-            TempData["returnUrl"] = System.Net.WebUtility.UrlDecode(HttpContext.Request.Query["ReturnUrl"]);
-            this._sessionManager.Clear();
-            this._session.SetString("SessionId", System.Guid.NewGuid().ToString());
             // Check if an admin exists
             bool adminExists = _userService.AdminExists();
             ViewBag.AdminExists = adminExists; // Pass the result to the view
 
-            return this.View();
+            // Set session variables or any other necessary session state
+            TempData["returnUrl"] = System.Net.WebUtility.UrlDecode(HttpContext.Request.Query["ReturnUrl"]);
+            this._sessionManager.Clear();
+            this._session.SetString("SessionId", System.Guid.NewGuid().ToString());
+
+            return View();
         }
 
         /// <summary>
@@ -129,6 +131,8 @@ namespace ASI.Basecode.WebApp.Controllers
             {
                 // 認証NG
                 TempData["ErrorMessage"] = "Incorrect Username or Password";
+                // Make sure AdminExists is still passed to the view
+                ViewBag.AdminExists = _userService.AdminExists(); // Re-check admin existence on failed login
                 return View();
             }
             //return View();
