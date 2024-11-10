@@ -6,8 +6,8 @@ namespace ASI.Basecode.Data.Models
     public partial class Booking
     {
         public int BookingId { get; set; }
-        public string UserId { get; set; }
         public int RoomId { get; set; }
+        public string Username { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public string Purpose { get; set; }

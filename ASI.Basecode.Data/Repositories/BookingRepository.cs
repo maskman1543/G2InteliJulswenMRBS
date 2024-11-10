@@ -13,6 +13,8 @@ namespace ASI.Basecode.Data.Repositories
     public class BookingRepository : BaseRepository, IBookingRepository
     {
         public BookingRepository(IUnitOfWork unitOfWork) : base(unitOfWork) { }
+
+        // Method to get UserId by User's Id (Primary Key)
         public void AddBooking(Booking model)
         {
             this.GetDbSet<Booking>().Add(model);
