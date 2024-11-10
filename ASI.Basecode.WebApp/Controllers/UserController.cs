@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using static ASI.Basecode.Resources.Constants.Enums;
 
@@ -51,7 +52,7 @@ namespace ASI.Basecode.WebApp.Controllers
             HttpContext.Session.SetString("IsUserManagementActive", "true");
             HttpContext.Session.Remove("IsRoomManagementActive");
             HttpContext.Session.Remove("IsViewBookingActive");
-            var data = _userService.RetrieveAll();
+            var data = _userService.RetrieveActiveNonAdminUsers();
             return View(data);
         }
         public IActionResult Create()
@@ -106,7 +107,7 @@ namespace ASI.Basecode.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostDelete(int Id)
+        public IActionResult SoftDelete(int Id)
         {
             _userService.DeleteUser(Id);
             return RedirectToAction("UserManagement");

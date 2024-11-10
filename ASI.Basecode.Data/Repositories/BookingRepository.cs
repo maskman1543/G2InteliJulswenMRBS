@@ -31,7 +31,8 @@ namespace ASI.Basecode.Data.Repositories
         }
         public void DeleteBooking(Booking model)
         {
-            this.GetDbSet<Booking>().Remove(model);
+            model.IsDeleted = true;
+            this.GetDbSet<Booking>().Update(model);
             UnitOfWork.SaveChanges();
         }
     }

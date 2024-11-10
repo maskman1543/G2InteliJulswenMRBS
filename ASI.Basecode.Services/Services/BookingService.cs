@@ -1,6 +1,7 @@
 ﻿ using ASI.Basecode.Data;
 using ASI.Basecode.Data.Interfaces;
 using ASI.Basecode.Data.Models;
+using ASI.Basecode.Data.Repositories;
 using ASI.Basecode.Services.Interfaces;
 using ASI.Basecode.Services.ServiceModels;
 using AutoMapper;
@@ -34,28 +35,33 @@ namespace ASI.Basecode.Services.Services
             newBooking.StartDate = model.StartDate.Date; // Only store the date part in StartDate
             newBooking.EndDate = model.EndDate.Date;     // Only store the date part in EndDate
             newBooking.Status = "Pending";
+            newBooking.IsDeleted = false;
             newBooking.CreatedBy = userId;
             newBooking.UpdatedBy = userId;
+            newBooking.UserId = userId;
             newBooking.CreatedTime = DateTime.Now;
             newBooking.UpdatedTime = DateTime.Now;
 
             _bookingRepository.AddBooking(newBooking);
         }
-        public List<BookingViewModel> RetrieveAll()
-        {
-            var serverUrl = _config.GetValue<string>("ServerUrl");
-            var data = _bookingRepository.RetrieveAll().Select(s => new BookingViewModel
-            {
-                 BookingId = s.BookingId,
-                 Purpose = s.Purpose,
-                 Status = s.Status,
-                 StartDate = s.StartDate,
-                 EndDate = s.EndDate,
-                 RoomId = s.RoomId,
-                 RoomName = s.Room.RoomName
-            }).ToList();
 
-            return data;
+        public IEnumerable<BookingViewModel> RetrieveActiveBookings()
+        {
+            // Retrieve all users and apply the necessary filtering
+            var bookings = _bookingRepository.RetrieveAll()
+                                       .Where(booking => booking.IsDeleted != true)
+                                       .Select(booking => new BookingViewModel
+                                       {
+                                           BookingId = booking.BookingId,
+                                           Purpose = booking.Purpose,
+                                           Status = booking.Status,
+                                           StartDate = booking.StartDate,
+                                           EndDate = booking.EndDate,
+                                           RoomId = booking.RoomId,
+                                           RoomName = booking.Room.RoomName
+                                       });
+
+            return bookings;
         }
         public BookingViewModel RetrieveBooking(int Id)
         {
@@ -102,7 +108,7 @@ namespace ASI.Basecode.Services.Services
         }
         public void DeleteBooking(int Id)
         {
-            var booking = _bookingRepository.RetrieveAll().Where(x => x.BookingId.Equals(Id)).FirstOrDefault();
+            var booking = _bookingRepository.RetrieveAll().FirstOrDefault(x => x.BookingId == Id);
             if (booking != null)
             {
                 _bookingRepository.DeleteBooking(booking);

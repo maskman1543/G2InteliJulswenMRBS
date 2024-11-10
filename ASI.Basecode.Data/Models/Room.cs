@@ -16,9 +16,10 @@ namespace ASI.Basecode.Data.Models
         public string Location { get; set; }
         public string Equipment { get; set; }
         public string Price { get; set; }
+        public bool IsDeleted { get; set; }
         public string Createdby { get; set; }
-        public DateTime? CreatedTime { get; set; }
         public string Updatedby { get; set; }
+        public DateTime? CreatedTime { get; set; }
         public DateTime? UpdatedTime { get; set; }
 
         public virtual ICollection<Booking> Bookings { get; set; }

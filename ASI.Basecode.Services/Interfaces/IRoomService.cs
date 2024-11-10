@@ -10,7 +10,7 @@ namespace ASI.Basecode.Services.Interfaces
     public interface IRoomService
     {
         void AddRoom(RoomViewModel model, string userId);
-        List<RoomViewModel> RetrieveAll();
+        IEnumerable<RoomViewModel> RetrieveActiveRooms();
         RoomViewModel RetrieveRoom(int Id);
         void UpdateRoom(RoomViewModel model, string userId);
         void DeleteRoom(int Id);

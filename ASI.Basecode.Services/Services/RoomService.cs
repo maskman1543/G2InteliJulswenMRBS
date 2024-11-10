@@ -35,25 +35,27 @@ namespace ASI.Basecode.Services.Services
             newRoom.Updatedby = userId;
             newRoom.CreatedTime = DateTime.Now;
             newRoom.UpdatedTime = DateTime.Now;
+            newRoom.IsDeleted = false;
 
             _roomRepository.AddRoom(newRoom);
         }
-        public List<RoomViewModel> RetrieveAll()
+   
+        public IEnumerable<RoomViewModel> RetrieveActiveRooms()
         {
-            var serverUrl = _config.GetValue<string>("ServerUrl");
-            var data = _roomRepository.RetrieveAll().Select(s => new RoomViewModel
-            {
-                 Id = s.Id,
-                 RoomName = s.RoomName,
-                 Capacity = s.Capacity,
-                 Location = s.Location,
-                 Equipment = s.Equipment,
-                 Price = s.Price,
+            // Retrieve all users and apply the necessary filtering
+            var rooms = _roomRepository.RetrieveAll()
+                                       .Where(room => room.IsDeleted != true)
+                                       .Select(room => new RoomViewModel
+                                       {
+                                           Id = room.Id,
+                                           RoomName = room.RoomName,
+                                           Capacity = room.Capacity,
+                                           Location = room.Location,
+                                           Equipment = room.Equipment,
+                                           Price = room.Price,
+                                       });
 
-
-            }).ToList();
-
-            return data;
+            return rooms;
         }
         public RoomViewModel RetrieveRoom(int Id)
         {
@@ -83,7 +85,7 @@ namespace ASI.Basecode.Services.Services
         }
         public void DeleteRoom(int Id)
         {
-            var room = _roomRepository.RetrieveAll().Where(x => x.Id.Equals(Id)).FirstOrDefault();
+            var room = _roomRepository.RetrieveAll().FirstOrDefault(x => x.Id == Id);
             if (room != null)
             {
                 _roomRepository.DeleteRoom(room);

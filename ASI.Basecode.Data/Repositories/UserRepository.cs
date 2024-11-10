@@ -47,7 +47,8 @@ namespace ASI.Basecode.Data.Repositories
 
         public void DeleteUser(User user)
         {
-            this.GetDbSet<User>().Remove(user);
+            user.IsDeleted = true;
+            this.GetDbSet<User>().Update(user);
             UnitOfWork.SaveChanges();
         }
 

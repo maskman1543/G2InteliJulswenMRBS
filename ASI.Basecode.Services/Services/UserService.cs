@@ -1,5 +1,6 @@
 ﻿using ASI.Basecode.Data.Interfaces;
 using ASI.Basecode.Data.Models;
+using ASI.Basecode.Data.Repositories;
 using ASI.Basecode.Services.Interfaces;
 using ASI.Basecode.Services.Manager;
 using ASI.Basecode.Services.ServiceModels;
@@ -48,6 +49,7 @@ namespace ASI.Basecode.Services.Services
                 user.UpdatedTime = DateTime.Now;
                 user.CreatedBy = user.Name;
                 user.UpdatedBy = user.Name;
+                user.IsDeleted = false;
 
                 // Assign roles based on the existence of an admin
                 if (!_repository.AdminExists())
@@ -67,19 +69,6 @@ namespace ASI.Basecode.Services.Services
             }
         }
 
-        public List<UserViewModel> RetrieveAll()
-        {
-            var serverUrl = _config.GetValue<string>("ServerUrl");
-            var data = _repository.RetrieveAll().Select(s => new UserViewModel
-            {
-                Id = s.Id,
-                UserId = s.UserId,
-                Name = s.Name,
-                Password = s.Password,
-            }).ToList();
-            return data;
-        }
-
         public UserViewModel RetrieveUser(int Id)
         {
             var user = _repository.RetrieveAll().Where(x => x.Id.Equals(Id)).Select(s => new UserViewModel
@@ -91,6 +80,22 @@ namespace ASI.Basecode.Services.Services
             }).FirstOrDefault();
 
             return user;
+        }
+
+        public IEnumerable<UserViewModel> RetrieveActiveNonAdminUsers()
+        {
+            // Retrieve all users and apply the necessary filtering
+            var users = _repository.RetrieveAll()
+                                       .Where(user => user.IsDeleted != true && !user.Roles.Contains("Admin"))
+                                       .Select(user => new UserViewModel
+                                       {
+                                           Id = user.Id,
+                                           UserId = user.UserId,
+                                           Name = user.Name,
+                                           Password = user.Password,
+                                       });
+
+            return users;
         }
 
         public void UpdateUser(UserViewModel model)
@@ -108,7 +113,7 @@ namespace ASI.Basecode.Services.Services
         }
         public void DeleteUser(int Id)
         {
-            var user = _repository.RetrieveAll().Where(x => x.Id.Equals(Id)).FirstOrDefault();
+            var user = _repository.RetrieveAll().FirstOrDefault(x => x.Id == Id);
             if (user != null)
             {
                 _repository.DeleteUser(user);

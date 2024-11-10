@@ -47,7 +47,7 @@ namespace ASI.Basecode.WebApp.Controllers
         [HttpGet]
         public IActionResult UserDashboard()
         {
-            var data = _roomService.RetrieveAll();
+            var data = _roomService.RetrieveActiveRooms();
             return View(data);
         }
         #endregion

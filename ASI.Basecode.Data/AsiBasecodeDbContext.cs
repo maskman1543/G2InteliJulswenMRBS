@@ -37,7 +37,6 @@ namespace ASI.Basecode.Data
                 entity.ToTable("Booking");
 
                 entity.Property(e => e.CreatedBy)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
@@ -58,7 +57,6 @@ namespace ASI.Basecode.Data
                     .IsUnicode(false);
 
                 entity.Property(e => e.UpdatedBy)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
@@ -82,7 +80,6 @@ namespace ASI.Basecode.Data
                 entity.Property(e => e.CreatedTime).HasColumnType("datetime");
 
                 entity.Property(e => e.Createdby)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
 
@@ -109,7 +106,6 @@ namespace ASI.Basecode.Data
                 entity.Property(e => e.UpdatedTime).HasColumnType("datetime");
 
                 entity.Property(e => e.Updatedby)
-                    .IsRequired()
                     .HasMaxLength(50)
                     .IsUnicode(false);
             });

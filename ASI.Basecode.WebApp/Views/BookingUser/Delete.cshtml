@@ -40,7 +40,7 @@
         </dd>
     </dl>
 
-    <form asp-action="PostDelete" method="post">
+    <form asp-action="SoftDelete" method="post">
         <input type="hidden" asp-for="BookingId" />
         <input type="submit" value="Delete" class="btn btn-danger" />
         <a href="@Url.Action("ViewBooking")" class="btn btn-secondary">Cancel</a>

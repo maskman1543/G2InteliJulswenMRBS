@@ -41,7 +41,7 @@ namespace ASI.Basecode.WebApp.Controllers
             HttpContext.Session.SetString("IsRoomManagementActive", "true");
             HttpContext.Session.Remove("IsUserManagementActive");
             HttpContext.Session.Remove("IsViewBookingActive");
-            var data = _roomService.RetrieveAll();
+            var data = _roomService.RetrieveActiveRooms();
             return View(data);
         }
         public IActionResult Create()
@@ -94,7 +94,7 @@ namespace ASI.Basecode.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostDelete(int Id)
+        public IActionResult SoftDelete(int Id)
         {
             _roomService.DeleteRoom(Id);
             return RedirectToAction("RoomManagement");

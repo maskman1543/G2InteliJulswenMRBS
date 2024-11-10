@@ -12,9 +12,10 @@ namespace ASI.Basecode.Data.Models
         public DateTime EndDate { get; set; }
         public string Purpose { get; set; }
         public string Status { get; set; }
+        public bool IsDeleted { get; set; }
         public string CreatedBy { get; set; }
-        public DateTime? CreatedTime { get; set; }
         public string UpdatedBy { get; set; }
+        public DateTime? CreatedTime { get; set; }
         public DateTime? UpdatedTime { get; set; }
 
         public virtual Room Room { get; set; }

@@ -9,8 +9,8 @@ namespace ASI.Basecode.Services.Interfaces
     {
         LoginResult AuthenticateUser(string userid, string password, ref User user);
         void AddUser(UserViewModel model);
-        List<UserViewModel> RetrieveAll();
         UserViewModel RetrieveUser(int Id);
+        IEnumerable<UserViewModel> RetrieveActiveNonAdminUsers();
         void UpdateUser(UserViewModel model);
         void DeleteUser(int Id);
         bool AdminExists();

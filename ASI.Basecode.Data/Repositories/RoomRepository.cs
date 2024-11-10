@@ -28,7 +28,8 @@ namespace ASI.Basecode.Data.Repositories
         }
         public void DeleteRoom(Room model)
         {
-            this.GetDbSet<Room>().Remove(model);
+            model.IsDeleted = true;
+            this.GetDbSet<Room>().Update(model);
             UnitOfWork.SaveChanges();
         }
     }

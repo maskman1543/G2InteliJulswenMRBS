@@ -39,7 +39,7 @@ namespace ASI.Basecode.WebApp.Controllers
         public IActionResult ViewBooking()
         {
             HttpContext.Session.SetString("IsViewBookingActive", "true");
-            var data = _bookingService.RetrieveAll();
+            var data = _bookingService.RetrieveActiveBookings();
             return View(data);
         }
 
@@ -83,7 +83,7 @@ namespace ASI.Basecode.WebApp.Controllers
                 _bookingService.AddBooking(model, UserId);
 
                 TempData["SuccessMessage3"] = "Booking created successfully!";
-                return RedirectToAction("ViewBooking");
+                return RedirectToAction("UserDashboard", "Home");
             }
             else
             {
@@ -100,7 +100,6 @@ namespace ASI.Basecode.WebApp.Controllers
             if (ModelState.IsValid)
             { 
                 model.Status = "Pending";
-                // Call the service method to update the booking
                 _bookingService.UpdateBooking(model, UserId);
 
                 // TempData message to show success
@@ -116,7 +115,7 @@ namespace ASI.Basecode.WebApp.Controllers
         }
 
         [HttpPost]
-        public IActionResult PostDelete(int BookingId)
+        public IActionResult SoftDelete(int BookingId)
         {
             try
             {
