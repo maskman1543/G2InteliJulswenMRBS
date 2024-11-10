@@ -12,6 +12,7 @@ namespace ASI.Basecode.Services.ServiceModels
         public int BookingId { get; set; }
         public int RoomId { get; set; }
         public string RoomName { get; set; }
+        public string Username { get; set; }
 
         [Required(ErrorMessage = "Purpose is required.")]
         public string Purpose { get; set; }
