@@ -1,59 +1,153 @@
-﻿﻿@using Microsoft.AspNetCore.Http
+﻿@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HttpContextAccessor
-<header class="@((ViewBag.LoginView == true) ? "hide-navbar" : "")">
-    <div class="logosec hover-pointer">
-        <img src="~/img/asi-logo-invert.svg"
-             style="width: 185px;" alt="logo"
-             onclick="window.location.href = '@(HttpContextAccessor.HttpContext.Session.GetString("Role") == "Admin" ? Url.Action("AdminDashboard", "Home") : Url.Action("UserDashboard", "Home"))';">
+
+<sidebar class="@((ViewBag.LoginView == true) ? "hide-navbar" : "")">
+
+    <div class="profile-section">
+        <div class="username">
+            @HttpContextAccessor.HttpContext.Session.GetString("UserName")
+        </div>
+        <div class="profile-picture">
+            <img src="~/img/profile-logo.png" class="profile-pic" alt="Profile Picture">
+        </div>
+        <div class="dropdown">
+            <ul>
+                <li>
+                    <i class="fa-solid fa-gear"></i>
+                    <a href="#">Settings</a>
+                </li>
+                <li>
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                </li>
+            </ul>
+        </div>
+        <a asp-action="SignOutUser" asp-controller="Account" class="nav-item">Logout</a>
     </div>
+
     @if (ViewContext.RouteData.Values["controller"].ToString() == "Home" &&
     ViewContext.RouteData.Values["action"].ToString() == "AdminDashboard")
     {
-        <a class="btn btn-link @(Context.Session.GetString("IsUserManagementActive") == "true" ? "active" : "")"
-           asp-controller="User" asp-action="UserManagement" id="userManagementButton">
-            Users
-        </a>
-
-        <a class="btn btn-link @(Context.Session.GetString("IsRoomManagementActive") == "true" ? "active" : "")"
-           asp-controller="Room" asp-action="RoomManagement" id="roomManagementButton">
-            Rooms
-        </a>
-
-        <a class="btn btn-link @(Context.Session.GetString("IsViewBookingActive") == "true" ? "active" : "")"
-           asp-controller="BookingAdmin" asp-action="ViewBooking" id="ViewBookingButton">
-            Booking
-        </a>
+        <nav class="sidebar-nav">
+            <a asp-controller="Home" asp-action="AdminDashboard" class="nav-item @(Context.Session.GetString("IsDashboardActive") == "true" ? "active" : "")">
+                <i class="fa-solid fa-house"></i> Dashboard
+            </a>
+            <a asp-controller="User" asp-action="UserManagement" class="nav-item @(Context.Session.GetString("IsUserManagementActive") == "true" ? "active" : "")">
+                <i class="fa-solid fa-user"></i> Users
+            </a>
+            <a asp-controller="Room" asp-action="RoomManagement" class="nav-item @(Context.Session.GetString("IsRoomManagementActive") == "true" ? "active" : "")">
+                <i class="fa-solid fa-door-closed"></i> Manage Rooms
+            </a>
+            <a asp-controller="BookingUser" asp-action="ViewBooking" class="nav-item @(Context.Session.GetString("IsBookingActive") == "true" ? "active" : "")">
+                <i class="fa-solid fa-calendar"></i> Bookings
+            </a>
+            <a asp-controller="Analytics" asp-action="Index" class="nav-item @(Context.Session.GetString("IsAnalyticsActive") == "true" ? "active" : "")">
+                <i class="fa-solid fa-chart-line"></i> Analytics
+            </a>
+            <a asp-controller="Settings" asp-action="Index" class="nav-item">
+                <i class="fa-solid fa-gear"></i> Settings
+            </a>
+        </nav>
     }
 
-    @if (ViewContext.RouteData.Values["controller"].ToString() == "Home" &&
-    ViewContext.RouteData.Values["action"].ToString() == "UserDashboard")
-    {
-        <a class="btn btn-link @(Context.Session.GetString("IsViewBookingActive") == "true" ? "active" : "")"
-           asp-controller="BookingUser" asp-action="ViewBooking" id="viewBookingButton">
-            Booking
-        </a>
+</sidebar>
+
+<style>
+    body {
+        margin: 0;
+        display: flex;
     }
 
-    <div class="logosec">
-        @HttpContextAccessor.HttpContext.Session.GetString("UserName")
-        <div class="mr-20 hover-pointer" style="position: relative">
-            <div class="dp">
-                <img src="~/img/profile-logo.png"
-                     class="dpicn hover-pointer"
-                     alt="dp">
-            </div>
-            <div class="dropdown">
-                <ul>
-                    <li>
-                        <i class="fa-solid fa-gear"></i>
-                        <a href="#">Settings</a>
-                    </li>
-                    <li>
-                        <i class="fa-solid fa-right-from-bracket"></i>
-                        <a asp-action="SignOutUser" asp-controller="Account">Logout</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </div>
-</header>
+    sidebar {
+        width: 220px;
+        height: 100vh;
+        background-color: #E2CD79;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding-top: 20px;
+        box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .sidebar-nav {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 0;
+        margin: 0;
+    }
+
+    .nav-item {
+        display: flex;
+        align-items: center;
+        padding: 15px 20px;
+        color: #333;
+        text-decoration: none;
+        font-size: 16px;
+        font-weight: 500;
+        transition: background-color 0.3s;
+    }
+
+        .nav-item i {
+            margin-right: 10px;
+            font-size: 18px;
+        }
+
+        .nav-item:hover,
+        .nav-item.active {
+            background-color: #BFAF5E;
+            color: #fff;
+        }
+
+    .profile-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-top: auto;
+        padding: 20px 0;
+        background-color: #E2CD79;
+        width: 100%;
+        text-align: center;
+    }
+
+    .username {
+        font-size: 16px;
+        color: #333;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .profile-picture {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        overflow: hidden;
+        margin-bottom: 10px;
+    }
+
+    .profile-pic {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+
+    .dropdown ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .dropdown ul li {
+            margin: 5px 0;
+        }
+
+            .dropdown ul li a {
+                color: #333;
+                text-decoration: none;
+                font-size: 16px;
+            }
+
+                .dropdown ul li a:hover {
+                    color: #BFAF5E;
+                }
+</style>
