@@ -42,7 +42,7 @@ namespace ASI.Basecode.Data
 
                 entity.Property(e => e.CreatedTime).HasColumnType("datetime");
 
-                entity.Property(e => e.EndDate).HasColumnType("date");
+                entity.Property(e => e.EndTime).HasColumnType("time(0)");
 
                 entity.Property(e => e.Purpose)
                     .IsRequired()
@@ -50,6 +50,8 @@ namespace ASI.Basecode.Data
                     .IsUnicode(false);
 
                 entity.Property(e => e.StartDate).HasColumnType("date");
+
+                entity.Property(e => e.StartTime).HasColumnType("time(0)");
 
                 entity.Property(e => e.Status)
                     .IsRequired()

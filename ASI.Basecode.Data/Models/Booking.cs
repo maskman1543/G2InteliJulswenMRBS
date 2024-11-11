@@ -9,7 +9,8 @@ namespace ASI.Basecode.Data.Models
         public int RoomId { get; set; }
         public string Username { get; set; }
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+        public TimeSpan StartTime { get; set; }
+        public TimeSpan EndTime { get; set; }
         public string Purpose { get; set; }
         public string Status { get; set; }
         public bool IsDeleted { get; set; }

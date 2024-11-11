@@ -18,7 +18,8 @@
                 <th>@Html.DisplayNameFor(model => model.Username)</th>
                 <th>@Html.DisplayNameFor(model => model.RoomName)</th>
                 <th>@Html.DisplayNameFor(model => model.StartDate)</th>
-                <th>@Html.DisplayNameFor(model => model.EndDate)</th>
+                <th>@Html.DisplayNameFor(model => model.StartTime)</th>
+                <th>@Html.DisplayNameFor(model => model.EndTime)</th>
                 <th>@Html.DisplayNameFor(model => model.Purpose)</th>
                 <th>@Html.DisplayNameFor(model => model.Status)</th>
                 <th>Action</th>
@@ -33,7 +34,8 @@
                         <td>@Html.DisplayFor(modelItem => item.Username)</td>
                         <td>@Html.DisplayFor(modelItem => item.RoomName)</td>
                         <td>@item.StartDate.ToString("yyyy-MM-dd")</td>
-                        <td>@item.EndDate.ToString("yyyy-MM-dd")</td>
+                        <td>@item.StartTime.Hours.ToString("D2"):@item.StartTime.Minutes.ToString("D2")</td>
+                        <td>@item.EndTime.Hours.ToString("D2"):@item.EndTime.Minutes.ToString("D2")</td>
                         <td>@Html.DisplayFor(modelItem => item.Purpose)</td>
                         <td id="status-@item.BookingId">@Html.DisplayFor(modelItem => item.Status)</td>
                         <td>

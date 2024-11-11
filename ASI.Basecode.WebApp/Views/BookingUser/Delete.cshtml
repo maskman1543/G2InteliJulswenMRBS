@@ -25,12 +25,18 @@
            
         </dd>
         <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EndDate)
+            @Html.DisplayNameFor(model => model.StartTime)
         </dt>
         <dd class="col-sm-10">
             
-                @Model.EndDate.ToString("yyyy-MM-dd")
+                @Model.StartTime.ToString("HH:MM")
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.EndTime)
+        </dt>
+        <dd class="col-sm-10">
 
+            @Model.EndTime.ToString("HH:MM")
         </dd>
         <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Purpose)

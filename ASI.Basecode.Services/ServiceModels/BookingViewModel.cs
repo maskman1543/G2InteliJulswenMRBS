@@ -17,8 +17,15 @@ namespace ASI.Basecode.Services.ServiceModels
         [Required(ErrorMessage = "Purpose is required.")]
         public string Purpose { get; set; }
         public string Status { get; set; }
+
+        [Required(ErrorMessage = "Date is required.")]
         public DateTime StartDate { get; set; }
-        public DateTime EndDate { get; set; }
+
+        [Required(ErrorMessage = "Start Time is required.")]
+        public TimeSpan StartTime { get; set; }
+
+        [Required(ErrorMessage = "End Time is required.")]
+        public TimeSpan EndTime { get; set; }
 
     }
 }

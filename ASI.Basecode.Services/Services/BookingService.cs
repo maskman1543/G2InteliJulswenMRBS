@@ -32,8 +32,9 @@ namespace ASI.Basecode.Services.Services
         {
             var newBooking = new Booking();
             _mapper.Map(model, newBooking);
-            newBooking.StartDate = model.StartDate.Date; // Only store the date part in StartDate
-            newBooking.EndDate = model.EndDate.Date;     // Only store the date part in EndDate
+            newBooking.StartDate = model.StartDate.Date;
+            newBooking.StartTime = new TimeSpan(model.StartTime.Hours, model.StartTime.Minutes, 0);  
+            newBooking.EndTime = new TimeSpan(model.EndTime.Hours, model.EndTime.Minutes, 0);  
             newBooking.Status = "Pending";
             newBooking.IsDeleted = false;
             newBooking.CreatedBy = userId;
@@ -54,7 +55,8 @@ namespace ASI.Basecode.Services.Services
                                                  Purpose = booking.Purpose,
                                                  Status = booking.Status,
                                                  StartDate = booking.StartDate,
-                                                 EndDate = booking.EndDate,
+                                                 StartTime = new TimeSpan(booking.StartTime.Hours, booking.StartTime.Minutes, 0),
+                                                 EndTime = new TimeSpan(booking.EndTime.Hours, booking.EndTime.Minutes, 0),
                                                  RoomId = booking.RoomId,
                                                  RoomName = booking.Room.RoomName,
                                                  Username = booking.Username
@@ -75,7 +77,8 @@ namespace ASI.Basecode.Services.Services
                                            Purpose = booking.Purpose,
                                            Status = booking.Status,
                                            StartDate = booking.StartDate,
-                                           EndDate = booking.EndDate,
+                                           StartTime = new TimeSpan(booking.StartTime.Hours, booking.StartTime.Minutes, 0),
+                                           EndTime = new TimeSpan(booking.EndTime.Hours, booking.EndTime.Minutes, 0),
                                            RoomId = booking.RoomId,
                                            RoomName = booking.Room.RoomName
                                        });
@@ -86,15 +89,16 @@ namespace ASI.Basecode.Services.Services
         {
             var booking = _bookingRepository.RetrieveAll()
                                     .Where(x => x.BookingId == Id)
-                                    .Select(s => new BookingViewModel
+                                    .Select(booking => new BookingViewModel
                                     {
-                                        BookingId = s.BookingId,
-                                        Purpose = s.Purpose,
-                                        Status = s.Status,
-                                        StartDate = s.StartDate,
-                                        EndDate = s.EndDate,
-                                        RoomId = s.RoomId,
-                                        RoomName = s.Room.RoomName
+                                        BookingId = booking.BookingId,
+                                        Purpose = booking.Purpose,
+                                        Status = booking.Status,
+                                        StartDate = booking.StartDate,
+                                        StartTime = new TimeSpan(booking.StartTime.Hours, booking.StartTime.Minutes, 0),
+                                        EndTime = new TimeSpan(booking.EndTime.Hours, booking.EndTime.Minutes, 0),
+                                        RoomId = booking.RoomId,
+                                        RoomName = booking.Room.RoomName
                                     })
                                     .FirstOrDefault();
 
@@ -123,6 +127,7 @@ namespace ASI.Basecode.Services.Services
                 booking.Status = "Pending";
                 booking.UpdatedTime = DateTime.Now;
                 booking.UpdatedBy = userId;
+                booking.Username = userId;
 
                
                 _bookingRepository.UpdateBooking(booking);
