@@ -24,9 +24,8 @@
         <a asp-action="SignOutUser" asp-controller="Account" class="nav-item">Logout</a>
     </div>
 
-    @if (!(ViewContext.RouteData.Values["controller"].ToString() == "Account" &&
-    (ViewContext.RouteData.Values["action"].ToString() == "Login" ||
-    ViewContext.RouteData.Values["action"].ToString() == "Register")))
+    @if (ViewContext.RouteData.Values["controller"].ToString() == "Home" &&
+    ViewContext.RouteData.Values["action"].ToString() == "AdminDashboard")
     {
         <nav class="sidebar-nav">
             <a asp-controller="Home" asp-action="AdminDashboard" class="nav-item @(Context.Session.GetString("IsDashboardActive") == "true" ? "active" : "")">
