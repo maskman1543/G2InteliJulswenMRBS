@@ -61,7 +61,7 @@ namespace ASI.Basecode.WebApp.Controllers
             return View();
         }
 
-        [HttpGet]
+        [HttpGet("/User/Edit/{Id}")]
         public IActionResult Edit(int Id)
         {
             var data = _userService.RetrieveUser(Id);
@@ -69,7 +69,7 @@ namespace ASI.Basecode.WebApp.Controllers
             return View(data);
         }
 
-        [HttpGet]
+        [HttpGet("/User/Delete/{Id}")]
         public IActionResult Delete(int Id)
         {
             var data = _userService.RetrieveUser(Id);
@@ -99,14 +99,14 @@ namespace ASI.Basecode.WebApp.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("/User/Edit/{Id}")]
         public IActionResult Edit(UserViewModel model)
         {
             _userService.UpdateUser(model);
             return RedirectToAction("UserManagement");
         }
 
-        [HttpPost]
+        [HttpPost("/User/Delete/{Id}")]
         public IActionResult SoftDelete(int Id)
         {
             _userService.DeleteUser(Id);

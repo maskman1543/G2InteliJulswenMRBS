@@ -46,7 +46,11 @@
                         @Html.DisplayFor(modelItem => item.Price)
                     </td>
                     <td>
-                        @Html.ActionLink("Book", "Create", "BookingUser", new { id = item.Id })
+                        <form asp-controller="BookingUser" asp-action="Create" asp-route-id="@item.Id" method="get" style="display:inline;">
+                            <button type="submit" class="btn btn-primary">
+                                Book
+                            </button>
+                        </form>
                     </td>
                 </tr>
             }

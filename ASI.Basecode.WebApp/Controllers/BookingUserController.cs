@@ -45,25 +45,25 @@ namespace ASI.Basecode.WebApp.Controllers
             return View(data);
         }
 
-        [HttpGet]
-        public IActionResult Create(int id)
+        [HttpGet("/BookingUser/Create/{Id}")]
+        public IActionResult Create(int Id)
         {
             var model = new BookingViewModel
             {
-                RoomId = id // Set the RoomId to the selected room
+                RoomId = Id // Set the RoomId to the selected room
             };
 
             return View(model);
         }
 
-        [HttpGet]
+        [HttpGet("/BookingUser/Edit/{Id}")]
         public IActionResult Edit(int Id)
         {
             var data = _bookingService.RetrieveBooking(Id);
             return View(data);
         }
 
-        [HttpGet]
+        [HttpGet("/BookingUser/Delete/{Id}")]
         public IActionResult Delete(int Id)
         {
             var data = _bookingService.RetrieveBooking(Id);  // Retrieves the booking details
@@ -77,7 +77,7 @@ namespace ASI.Basecode.WebApp.Controllers
         #endregion
 
         #region Post Methods
-        [HttpPost]
+        [HttpPost("/BookingUser/Create/{Id}")]
         public IActionResult Create(BookingViewModel model)
         {
             if (ModelState.IsValid)
@@ -96,7 +96,7 @@ namespace ASI.Basecode.WebApp.Controllers
            
         }
 
-        [HttpPost]
+        [HttpPost("/BookingUser/Edit/{Id}")]
         public IActionResult Edit(BookingViewModel model)
         {
             if (ModelState.IsValid)
@@ -116,7 +116,7 @@ namespace ASI.Basecode.WebApp.Controllers
             }
         }
 
-        [HttpPost]
+        [HttpPost("/BookingUser/Delete/{BookingId}")]
         public IActionResult SoftDelete(int BookingId)
         {
             try

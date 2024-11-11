@@ -50,14 +50,14 @@ namespace ASI.Basecode.WebApp.Controllers
             return View();
         }
 
-        [HttpGet]
+        [HttpGet("/Room/Edit/{Id}")]
         public IActionResult Edit(int Id)
         {
             var data = _roomService.RetrieveRoom(Id);
             return View(data);
         }
 
-        [HttpGet]
+        [HttpGet("/Room/Delete/{Id}")]
         public IActionResult Delete(int Id)
         {
             var data = _roomService.RetrieveRoom(Id);
@@ -86,14 +86,14 @@ namespace ASI.Basecode.WebApp.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("/Room/Edit/{Id}")]
         public IActionResult Edit(RoomViewModel model)
         {
             _roomService.UpdateRoom(model, UserId);
             return RedirectToAction("RoomManagement");
         }
 
-        [HttpPost]
+        [HttpPost("/Room/Delete/{Id}")]
         public IActionResult SoftDelete(int Id)
         {
             _roomService.DeleteRoom(Id);

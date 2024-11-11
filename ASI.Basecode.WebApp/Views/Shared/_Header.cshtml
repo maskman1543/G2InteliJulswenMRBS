@@ -28,7 +28,7 @@
     ViewContext.RouteData.Values["action"].ToString() == "AdminDashboard")
     {
         <nav class="sidebar-nav">
-            <a asp-controller="Home" asp-action="AdminDashboard" class="nav-item @(Context.Session.GetString("IsDashboardActive") == "true" ? "active" : "")">
+            <a asp-controller="Home" asp-action="AdminDashboard" class="nav-item @(Context.Session.GetString("IsAdminDashboardActive") == "true" ? "active" : "")">
                 <i class="fa-solid fa-house"></i> Dashboard
             </a>
             <a asp-controller="User" asp-action="UserManagement" class="nav-item @(Context.Session.GetString("IsUserManagementActive") == "true" ? "active" : "")">
@@ -37,11 +37,27 @@
             <a asp-controller="Room" asp-action="RoomManagement" class="nav-item @(Context.Session.GetString("IsRoomManagementActive") == "true" ? "active" : "")">
                 <i class="fa-solid fa-door-closed"></i> Manage Rooms
             </a>
-            <a asp-controller="BookingUser" asp-action="ViewBooking" class="nav-item @(Context.Session.GetString("IsBookingActive") == "true" ? "active" : "")">
+            <a asp-controller="BookingAdmin" asp-action="ViewBooking" class="nav-item @(Context.Session.GetString("IsBookingActive") == "true" ? "active" : "")">
                 <i class="fa-solid fa-calendar"></i> Bookings
             </a>
             <a asp-controller="Analytics" asp-action="Index" class="nav-item @(Context.Session.GetString("IsAnalyticsActive") == "true" ? "active" : "")">
                 <i class="fa-solid fa-chart-line"></i> Analytics
+            </a>
+            <a asp-controller="Settings" asp-action="Index" class="nav-item">
+                <i class="fa-solid fa-gear"></i> Settings
+            </a>
+        </nav>
+    }
+
+    @if (ViewContext.RouteData.Values["controller"].ToString() == "Home" &&
+    ViewContext.RouteData.Values["action"].ToString() == "UserDashboard")
+    {
+        <nav class="sidebar-nav">
+            <a asp-controller="Home" asp-action="AdminDashboard" class="nav-item @(Context.Session.GetString("IsDashboardActive") == "true" ? "active" : "")">
+                <i class="fa-solid fa-house"></i> Dashboard
+            </a>
+            <a asp-controller="BookingUser" asp-action="ViewBooking" class="nav-item @(Context.Session.GetString("IsBookingActive") == "true" ? "active" : "")">
+                <i class="fa-solid fa-calendar"></i> Bookings
             </a>
             <a asp-controller="Settings" asp-action="Index" class="nav-item">
                 <i class="fa-solid fa-gear"></i> Settings
@@ -102,7 +118,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        margin-top: auto;
+        margin-top: 10px;
         padding: 20px 0;
         background-color: #E2CD79;
         width: 100%;
