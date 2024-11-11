@@ -19,67 +19,179 @@
     </div>
 }
 
-<div class="d-flex align-items-center mb-3">
-    <h1 class="me-3">Booking List</h1> 
-</div>
+<div class="booking-list-container p-4 rounded" style="background-color: #E2CD79;">
+    <div class="d-flex align-items-center mb-3">
+        <h1 class="me-3">Booking List</h1>
+        
+    </div>
 
-
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.RoomName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StartDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.EndDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Purpose)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Status)
-            </th>
-           
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null && Model.Any())
-        {
-            @foreach (var item in Model)
+    <table class="table" style="background-color: #F3E5AB; border-radius: 10px; overflow: hidden;">
+        <thead style="background-color: #E2CD79;">
+            <tr>
+                <th>Room Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Purpose</th>
+                <th>Status</th>
+                <th class="text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
             {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RoomName)
-                    </td>
-                    <td>
-                        @item.StartDate.ToString("yyyy-MM-dd") <!-- Display only the date -->
-                    </td>
-                    <td>
-                        @item.EndDate.ToString("yyyy-MM-dd") <!-- Display only the date -->
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Purpose)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Status)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.BookingId }) |
-                        @Html.ActionLink("Delete", "Delete", new { id = item.BookingId })
-                    </td>
+                @foreach (var item in Model)
+                {
+                    <tr style="background-color: #F3E5AB;">
+                        <td>@Html.DisplayFor(modelItem => item.RoomName)</td>
+                        <td>@item.StartDate.ToString("yyyy-MM-dd")</td>
+                        <td>@item.EndDate.ToString("yyyy-MM-dd")</td>
+                        <td>@Html.DisplayFor(modelItem => item.Purpose)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
+                        <td class="text-center">
+                            <a href="@Url.Action("Edit", "Controller", new { id = item.BookingId })" class="text-decoration-none me-2" style="color: #333;">
+                                <i class="fas fa-edit"></i>
+                            </a>
+                            <a href="@Url.Action("Delete", "Controller", new { id = item.BookingId })" class="text-decoration-none" style="color: #333;">
+                                <i class="fas fa-trash"></i>
+                            </a>
+                        </td>
+                    </tr>
+                    
+                }
+            }
+            else
+            {
+                <tr style="background-color: #F3E5AB;">
+                    <td colspan="6" class="text-center">No Booking found.</td>
                 </tr>
             }
-        }
-        else
-        {
-            <tr>
-                <td colspan="4" class="text-center">No Booking found.</td> <!-- Message when no Booking are available -->
-            </tr>
+        </tbody>
+        
+    </table>
+    <a asp-controller="Home" asp-action="AdminDashBoard" class="btn btn-add-user">
+        Back to Dashboard
+    </a>
+</div>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        color: #333;
+        background-color: #F4F2E9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .booking-list-container {
+        width: 80%;
+        max-width: 900px;
+        padding: 20px;
+        background-color: #E2CD79;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #BFAF5E;
+        margin-bottom: 20px;
+    }
+
+    .title {
+        font-size: 1.5em;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .search-bar {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+        .search-bar input {
+            padding: 5px 10px;
+            border-radius: 10px;
+            border: 1px solid #BFAF5E;
+            background-color: #F4F2E9;
         }
 
-    </tbody>
-</table>
+    .search-button {
+        background-color: #BFAF5E;
+        border: none;
+        border-radius: 50%;
+        padding: 5px;
+        color: white;
+        cursor: pointer;
+    }
+
+    .btn-add-user {
+        background-color: #BFAF5E;
+        color: white;
+        border-radius: 10px;
+        padding: 8px 15px;
+        text-decoration: none;
+    }
+
+        .btn-add-user:hover {
+            background-color: #A2945E;
+        }
+
+    .user-list-table {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .table-header, .table-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 1fr 0.5fr; /* 1fr for each main column and 0.5fr for the Actions */
+        gap: 10px;
+        padding: 15px;
+        align-items: center;
+    }
+
+    .table-header {
+        font-weight: bold;
+        color: #333;
+        border-bottom: 1px solid #BFAF5E;
+    }
+
+    .table-row {
+        background-color: #E2CD79;
+        border-radius: 10px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-icon img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+    }
+
+    .actions {
+        display: flex;
+        gap: 10px;
+        justify-content: center; /* Center aligns the icons within the Actions column */
+    }
+
+        .actions a {
+            color: #333;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+
+            .actions a:hover {
+                color: #A2945E;
+            }
+
+    .no-users {
+        text-align: center;
+        padding: 20px;
+        color: #333;
+    }
+</style>

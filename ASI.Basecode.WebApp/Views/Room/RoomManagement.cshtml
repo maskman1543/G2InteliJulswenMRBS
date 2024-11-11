@@ -1,67 +1,210 @@
 ﻿@model IEnumerable<ASI.Basecode.Services.ServiceModels.RoomViewModel>
-
 @{
-    ViewData["Title"] = "RoomManagement";
-    Context.Session.SetString("IsRoomManagementActive", "true");
+    ViewData["Title"] = "roomsManagement";
+    Context.Session.SetString("IsroomsManagementActive", "true");
 }
 
-<!-- Heading and Create button section -->
-<div class="d-flex align-items-center mb-3">
-    <h1 class="me-3">Room List</h1> <!-- Adds margin to the right of the heading -->
-    <a asp-controller="Room" asp-action="Create" class="btn btn-primary ml-3">
-        + Create New Room
+<div class="room-list-container">
+    <!-- Heading and Controls -->
+    <div class="header d-flex align-items-center">
+        <h1 class="title">Room List</h1>
+        <div class="controls">
+            <div class="search-bar">
+                <input type="text" placeholder="Search..." />
+                <button class="search-button">
+                    <i class="fa-solid fa-search"></i>
+                </button>
+            </div>
+            <a asp-controller="Room" asp-action="Create" class="btn btn-add-room">
+                + Add Room
+            </a>
+        </div>
+    </div>
+
+    <!-- Room List Table -->
+    <div class="room-list-table">
+        <div class="table-header">
+            <span>Room Name</span>
+            <span>Capacity</span>
+            <span>Equipments</span>
+            <span>Actions</span>
+        </div>
+
+        <div class="table-body">
+            @if (Model != null && Model.Any())
+            {
+                foreach (var item in Model)
+                {
+                    <div class="table-row">
+                        <span>@item.RoomName</span>
+                        <span>@item.Capacity</span>
+                        <span>@item.Equipment</span>
+
+                        <div class="actions">
+                            <a asp-action="Edit" asp-route-id="@item.Id" title="Edit Room">
+                                <i class="fa-solid fa-pencil-alt"></i>
+                            </a>
+                            <a asp-action="Delete" asp-route-id="@item.Id" title="Delete Room">
+                                <i class="fa-solid fa-trash"></i>
+                            </a>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="no-rooms">No rooms found.</div>
+            }
+        </div>
+    </div>
+
+    <!-- Back Button -->
+    <a asp-controller="Home" asp-action="AdminDashboard" class="btn btn-back">
+        Back to Dashboard
     </a>
 </div>
 
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        color: #333;
+        background-color: #F4F2E9;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.RoomName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Capacity)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Equipment)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Price)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
-        @if (Model != null && Model.Any())
-        {
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.RoomName)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Capacity)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Equipment)
-                    </td>
-                    <td>
-                        @Html.DisplayFor(modelItem => item.Price)
-                    </td>
-                    <td>
-                        @Html.ActionLink("Edit", "Edit", new { id = item.Id })|
-                        @Html.ActionLink("Delete", "Delete", new { id = item.Id })
-                    </td>
-                </tr>
+    .room-list-container {
+        width: 80%;
+        max-width: 900px;
+        padding: 20px;
+        background-color: #E2CD79;
+        border-radius: 15px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding-bottom: 15px;
+        border-bottom: 1px solid #BFAF5E;
+        margin-bottom: 20px;
+    }
+
+    .title {
+        font-size: 1.8em;
+        font-weight: bold;
+        color: #333;
+    }
+
+    .controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .search-bar {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+        .search-bar input {
+            padding: 8px 12px;
+            border-radius: 10px;
+            border: 1px solid #BFAF5E;
+            background-color: #F4F2E9;
+        }
+
+    .search-button {
+        background-color: #BFAF5E;
+        border: none;
+        border-radius: 50%;
+        padding: 8px;
+        color: white;
+        cursor: pointer;
+        font-size: 0.9em;
+    }
+
+    .btn-add-room {
+        background-color: #BFAF5E;
+        color: white;
+        border-radius: 8px;
+        padding: 8px 15px;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+        .btn-add-room:hover {
+            background-color: #A2945E;
+        }
+
+    .room-list-table {
+        display: flex;
+        flex-direction: column;
+        margin-top: 20px;
+    }
+
+    .table-header, .table-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr 0.5fr;
+        gap: 10px;
+        padding: 12px;
+        align-items: center;
+    }
+
+    .table-header {
+        font-weight: bold;
+        color: #333;
+        background-color: #E2CD79;
+        border-bottom: 2px solid #BFAF5E;
+    }
+
+    .table-row {
+        background-color: #F4F2E9;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .actions {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+
+        .actions a {
+            color: #333;
+            text-decoration: none;
+            font-size: 1.2em;
+        }
+
+            .actions a:hover {
+                color: #A2945E;
             }
+
+    .no-rooms {
+        text-align: center;
+        padding: 20px;
+        color: #333;
+    }
+
+    .btn-back {
+        display: block;
+        margin: 20px auto 0;
+        background-color: #BFAF5E;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-align: center;
+        text-decoration: none;
+        font-weight: bold;
+        width: fit-content;
+    }
+
+        .btn-back:hover {
+            background-color: #A2945E;
         }
-        else
-        {
-            <tr>
-                <td colspan="4" class="text-center">No users found.</td> <!-- Message when no users are available -->
-            </tr>
-        }
-        
-    </tbody>
-</table>
+</style>
