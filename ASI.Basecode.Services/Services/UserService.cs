@@ -76,7 +76,7 @@ namespace ASI.Basecode.Services.Services
                 Id = s.Id,
                 UserId = s.UserId,
                 Name = s.Name,
-                Password = s.Password,
+                Roles = s.Roles,
             }).FirstOrDefault();
 
             return user;
@@ -92,7 +92,7 @@ namespace ASI.Basecode.Services.Services
                                            Id = user.Id,
                                            UserId = user.UserId,
                                            Name = user.Name,
-                                           Password = user.Password,
+                                           Roles = user.Roles,
                                        });
 
             return users;
