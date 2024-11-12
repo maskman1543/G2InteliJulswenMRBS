@@ -10,9 +10,9 @@
 
 .list-container {
     width: calc(100% - 20px); /* Occupy the full width minus 20px (10px margin on each side) */
-    max-width: 900px;
-    padding: 20px;
-    background-color: #E2CD79;
+    max-width: 1060px;
+    padding: 60px;
+    background-color: #FFF0D1;
     border-radius: 15px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     margin: 10px; /* Add 10px margin around the container */
