@@ -1,7 +1,6 @@
 ﻿@model IEnumerable<ASI.Basecode.Services.ServiceModels.RoomViewModel>
 @{
-    ViewData["Title"] = "roomsManagement";
-    Context.Session.SetString("IsroomsManagementActive", "true");
+    ViewData["Title"] = "RoomManagement";
 }
 
 <div class="list-container">
@@ -17,13 +16,15 @@
                 <button class="search-button">
                     <i class="fa-solid fa-search"></i>
                 </button>
-                <a asp-controller="Room" asp-action="Create" class="btn btn-add">
+                <button class="btn btn-add" id="loadCreateRoomModal">
                     + Add Room
-                </a>
+                </button>
             </div>
-            
         </div>
     </div>
+
+    <!-- Placeholder for the modal content -->
+    <div id="roomModalContainer"></div>
 
     <!-- Room List Table -->
     <div class="list-table">
@@ -72,3 +73,54 @@
     </div>
 </div>
 
+@section scripts {
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
+
+    <script>
+        // Load the Create Room modal on button click
+        $("#loadCreateRoomModal").click(function () {
+            $.get('@Url.Action("CreateRoomModal", "Room")', function (data) {
+                $("#roomModalContainer").html(data);  // Load modal content into the container
+
+                // Initialize the modal and show it (Bootstrap 5 way)
+                var modalElement = document.getElementById('createRoomModal');
+                var modal = new bootstrap.Modal(modalElement);
+                modal.show();  // Show the modal
+            });
+        });
+
+        // AJAX form submission for Create Room
+        $(document).on("submit", "#createRoomForm", function (event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: '@Url.Action("Create", "Room")',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        toastr.success(response.message);
+                        $('#createRoomModal').modal('hide');
+                        location.reload();
+                    } else {
+                        toastr.error(response.message);
+                    }
+                },
+                error: function () {
+                    toastr.error("An unexpected error occurred.");
+                }
+            });
+        });
+
+        // Display success/error messages from TempData if available
+        var successMessage = '@TempData["SuccessMessage"]';
+        if (successMessage) {
+            toastr.success(successMessage);
+        }
+        var errorMessage = '@TempData["ErrorMessage"]';
+        if (errorMessage) {
+            toastr.error(errorMessage);
+        }
+    </script>
+}

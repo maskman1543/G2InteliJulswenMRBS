@@ -49,16 +49,19 @@ namespace ASI.Basecode.WebApp.Controllers
         [HttpGet]
         public IActionResult UserManagement()
         {
-            HttpContext.Session.SetString("IsUserManagementActive", "true");
-            HttpContext.Session.Remove("IsRoomManagementActive");
-            HttpContext.Session.Remove("IsViewBookingActive");
             var data = _userService.RetrieveActiveNonAdminUsers();
             return View(data);
         }
+        [HttpGet]
         public IActionResult Create()
         {
-            HttpContext.Session.Remove("IsUserManagementActive");
             return View();
+        }
+
+        [HttpGet]
+        public IActionResult CreateUserModal()
+        {
+            return PartialView("Create");
         }
 
         [HttpGet("/User/Edit/{Id}")]
@@ -86,17 +89,16 @@ namespace ASI.Basecode.WebApp.Controllers
             {
                 _userService.AddUser(model);
                 TempData["SuccessMessage"] = "User created successfully!";
-                return View();
+                return Json(new { success = true, message = "User created successfully!" });
             }
             catch (InvalidDataException ex)
             {
-                TempData["ErrorMessage"] = ex.Message;
+                return Json(new { success = false, message = ex.Message });
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                TempData["ErrorMessage"] = Resources.Messages.Errors.ServerError;
+                return Json(new { success = false, message = Resources.Messages.Errors.ServerError });
             }
-            return View();
         }
 
         [HttpPost("/User/Edit/{Id}")]

@@ -38,16 +38,18 @@ namespace ASI.Basecode.WebApp.Controllers
         [HttpGet]
         public IActionResult RoomManagement()
         {
-            HttpContext.Session.SetString("IsRoomManagementActive", "true");
-            HttpContext.Session.Remove("IsUserManagementActive");
-            HttpContext.Session.Remove("IsViewBookingActive");
             var data = _roomService.RetrieveActiveRooms();
             return View(data);
         }
+        [HttpGet]
         public IActionResult Create()
         {
-            HttpContext.Session.Remove("IsRoomManagementActive");
             return View();
+        }
+        [HttpGet]
+        public IActionResult CreateRoomModal()
+        {
+            return PartialView("Create");
         }
 
         [HttpGet("/Room/Edit/{Id}")]
@@ -73,17 +75,16 @@ namespace ASI.Basecode.WebApp.Controllers
             {
                 _roomService.AddRoom(model, UserId);
                 TempData["SuccessMessage1"] = "Room created successfully!";
-                return View();
+                return Json(new { success = true, message = "Room created successfully!" });
             }
             catch (InvalidDataException ex)
             {
-                TempData["ErrorMessage"] = ex.Message;
+                return Json(new { success = false, message = ex.Message });
             }
             catch (Exception ex)
             {
-                TempData["ErrorMessage"] = Resources.Messages.Errors.ServerError;
+                return Json(new { success = false, message = Resources.Messages.Errors.ServerError });
             }
-            return View();
         }
 
         [HttpPost("/Room/Edit/{Id}")]
