@@ -1,31 +1,35 @@
 ﻿@model IEnumerable<ASI.Basecode.Services.ServiceModels.UserViewModel>
+
 @{
     ViewData["Title"] = "UserManagement";
     Context.Session.SetString("IsUserManagementActive", "true");
 }
 
-<div class="user-list-container">
+<div class="list-container">
+    <!-- Linking stylesheets -->
+    <link href="~/css/dashboards.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <!-- Heading and Add User button -->
     <div class="header d-flex align-items-center mb-3">
         <h1 class="title">User List</h1>
         <div class="search-bar">
             <input type="text" placeholder="Search..." />
             <button class="search-button">
-                <i class="fa-solid fa-search"></i>
+                <i class="fas fa-search"></i>
             </button>
         </div>
-        <a asp-controller="User" asp-action="Create" class="btn btn-add-user">
-            + Add User
+        <a asp-controller="User" asp-action="Create" class="btn btn-add">
+            <i class="fas fa-user-plus"></i> Add User
         </a>
-       
     </div>
 
     <!-- User List Table -->
-    <div class="user-list-table">
+    <div class="list-table">
         <div class="table-header">
             <span>Username</span>
-            <span>Password</span>
             <span>Name</span>
+            <span>Role</span>
             <span>Actions</span>
         </div>
 
@@ -35,24 +39,21 @@
                 foreach (var item in Model)
                 {
                     <div class="table-row">
-                        @* <div class="profile-icon">
-                            <img src="~/img/profile-placeholder.png" alt="Profile" />
-                        </div> *@
                         <span>@item.UserId</span>
-                        <span>@item.Password</span>
                         <span>@item.Name</span>
+                        <span>@item.Roles</span> <!-- Ensure 'Role' is the correct property name -->
                         <div class="actions">
                             <!-- Edit Button -->
                             <form asp-controller="User" asp-action="Edit" asp-route-id="@item.Id" method="get" style="display:inline;">
                                 <button type="submit" class="btn btn-warning">
-                                    <i class="fa-solid fa-pencil-alt"></i> Edit
+                                    <i class="fas fa-pencil"></i> Edit
                                 </button>
                             </form>
 
                             <!-- Delete Button -->
                             <form asp-controller="User" asp-action="SoftDelete" asp-route-id="@item.Id" method="post" style="display:inline;">
                                 <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">
-                                    <i class="fa-solid fa-trash"></i> Delete
+                                    <i class="fas fa-trash"></i> Delete
                                 </button>
                             </form>
                         </div>
@@ -61,131 +62,8 @@
             }
             else
             {
-                <div class="no-users text-center">No users found.</div>
+                <div class="no-item text-center">No users found.</div>
             }
         </div>
     </div>
 </div>
-
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        color: #333;
-        background-color: #F4F2E9;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-    }
-
-    .user-list-container {
-        width: 80%;
-        max-width: 900px;
-        padding: 20px;
-        background-color: #E2CD79;
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-bottom: 15px;
-        border-bottom: 1px solid #BFAF5E;
-        margin-bottom: 20px;
-    }
-
-    .title {
-        font-size: 1.5em;
-        font-weight: bold;
-        color: #333;
-    }
-
-    .search-bar {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-        .search-bar input {
-            padding: 5px 10px;
-            border-radius: 10px;
-            border: 1px solid #BFAF5E;
-            background-color: #F4F2E9;
-        }
-
-    .search-button {
-        background-color: #BFAF5E;
-        border: none;
-        border-radius: 50%;
-        padding: 5px;
-        color: white;
-        cursor: pointer;
-    }
-
-    .btn-add-user {
-        background-color: #BFAF5E;
-        color: white;
-        border-radius: 10px;
-        padding: 8px 15px;
-        text-decoration: none;
-    }
-
-        .btn-add-user:hover {
-            background-color: #A2945E;
-        }
-
-    .user-list-table {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .table-header, .table-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 0.5fr; /* 1fr for each main column and 0.5fr for the Actions */
-        gap: 10px;
-        padding: 15px;
-        align-items: center;
-    }
-
-    .table-header {
-        font-weight: bold;
-        color: #333;
-        border-bottom: 1px solid #BFAF5E;
-    }
-
-    .table-row {
-        background-color: #E2CD79;
-        border-radius: 10px;
-        margin-bottom: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-    .profile-icon img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-    }
-
-    .actions {
-        display: flex;
-        gap: 10px;
-        justify-content: center; /* Center aligns the icons within the Actions column */
-    }
-
-        .actions a {
-            color: #333;
-            text-decoration: none;
-            font-size: 1.2em;
-        }
-
-            .actions a:hover {
-                color: #A2945E;
-            }
-
-    .no-users {
-        text-align: center;
-        padding: 20px;
-        color: #333;
-    }
-</style>

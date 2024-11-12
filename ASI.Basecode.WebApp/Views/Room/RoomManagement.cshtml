@@ -4,7 +4,10 @@
     Context.Session.SetString("IsroomsManagementActive", "true");
 }
 
-<div class="room-list-container">
+<div class="list-container">
+    <link href="~/css/dashboards.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
     <!-- Heading and Controls -->
     <div class="header d-flex align-items-center">
         <h1 class="title">Room List</h1>
@@ -14,15 +17,16 @@
                 <button class="search-button">
                     <i class="fa-solid fa-search"></i>
                 </button>
+                <a asp-controller="Room" asp-action="Create" class="btn btn-add">
+                    + Add Room
+                </a>
             </div>
-            <a asp-controller="Room" asp-action="Create" class="btn btn-add-room">
-                + Add Room
-            </a>
+            
         </div>
     </div>
 
     <!-- Room List Table -->
-    <div class="room-list-table">
+    <div class="list-table">
         <div class="table-header">
             <span>Room Name</span>
             <span>Capacity</span>
@@ -62,153 +66,9 @@
             }
             else
             {
-                <div class="no-rooms">No rooms found.</div>
+                <div class="no-item">No rooms found.</div>
             }
         </div>
     </div>
 </div>
 
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        color: #333;
-        background-color: #F4F2E9;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-    }
-
-    .room-list-container {
-        width: 80%;
-        max-width: 900px;
-        padding: 20px;
-        background-color: #E2CD79;
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-bottom: 15px;
-        border-bottom: 1px solid #BFAF5E;
-        margin-bottom: 20px;
-    }
-
-    .title {
-        font-size: 1.8em;
-        font-weight: bold;
-        color: #333;
-    }
-
-    .controls {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-
-    .search-bar {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-        .search-bar input {
-            padding: 8px 12px;
-            border-radius: 10px;
-            border: 1px solid #BFAF5E;
-            background-color: #F4F2E9;
-        }
-
-    .search-button {
-        background-color: #BFAF5E;
-        border: none;
-        border-radius: 50%;
-        padding: 8px;
-        color: white;
-        cursor: pointer;
-        font-size: 0.9em;
-    }
-
-    .btn-add-room {
-        background-color: #BFAF5E;
-        color: white;
-        border-radius: 8px;
-        padding: 8px 15px;
-        text-decoration: none;
-        font-weight: bold;
-    }
-
-        .btn-add-room:hover {
-            background-color: #A2945E;
-        }
-
-    .room-list-table {
-        display: flex;
-        flex-direction: column;
-        margin-top: 20px;
-    }
-
-    .table-header, .table-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 0.5fr;
-        gap: 10px;
-        padding: 12px;
-        align-items: center;
-    }
-
-    .table-header {
-        font-weight: bold;
-        color: #333;
-        background-color: #E2CD79;
-        border-bottom: 2px solid #BFAF5E;
-    }
-
-    .table-row {
-        background-color: #F4F2E9;
-        border-radius: 8px;
-        margin-bottom: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .actions {
-        display: flex;
-        gap: 10px;
-        justify-content: center;
-    }
-
-        .actions a {
-            color: #333;
-            text-decoration: none;
-            font-size: 1.2em;
-        }
-
-            .actions a:hover {
-                color: #A2945E;
-            }
-
-    .no-rooms {
-        text-align: center;
-        padding: 20px;
-        color: #333;
-    }
-
-    .btn-back {
-        display: block;
-        margin: 20px auto 0;
-        background-color: #BFAF5E;
-        color: white;
-        padding: 10px 20px;
-        border-radius: 8px;
-        text-align: center;
-        text-decoration: none;
-        font-weight: bold;
-        width: fit-content;
-    }
-
-        .btn-back:hover {
-            background-color: #A2945E;
-        }
-</style>
