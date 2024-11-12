@@ -101,15 +101,24 @@ namespace ASI.Basecode.Services.Services
         }
 
         public void UpdateUser(UserViewModel model)
-        {
+            {
+            // Retrieve the user from the database
             var user = _repository.RetrieveAll().Where(x => x.Id.Equals(model.Id)).FirstOrDefault();
             if (user != null)
             {
+                // Preserve the existing Roles value
+                var existingRole = user.Roles;
+
+                // Map other properties from the model, excluding the role
                 _mapper.Map(model, user);
                 user.Password = PasswordManager.EncryptPassword(model.Password);
                 user.UpdatedTime = DateTime.Now;
                 user.UpdatedBy = user.Name;
 
+                // Restore the original Roles value
+                user.Roles = existingRole;
+
+                // Update the user in the database
                 _repository.UpdateUser(user);
             }
         }
