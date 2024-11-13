@@ -54,11 +54,9 @@
                             </button>
 
                             <!-- Delete Button -->
-                            <form asp-controller="Room" asp-action="SoftDelete" asp-route-id="@item.Id" method="post" style="display:inline;">
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">
-                                    <i class="fa-solid fa-trash"></i> Delete
-                                </button>
-                            </form>
+                            <button type="button" class="btn btn-danger loadDeleteRoomModal" data-id="@item.Id">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </button>
                         </div>
                     </div>
                 }
@@ -76,7 +74,7 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
 
     <script>
-        // Load the Create Room modal on button click
+        // Load the Modals
         $("#loadCreateRoomModal").click(function () {
             $.get('@Url.Action("CreateRoomModal", "Room")', function (data) {
                 $("#roomModalContainer").html(data);  // Load modal content into the container
@@ -86,14 +84,21 @@
             });
         });
 
-        // Load the Edit Room modal on button click
-        $(document).on("click", ".loadEditRoomModal", function () {
+        $(document).on("click", ".loadDeleteRoomModal", function () {
             var id = $(this).data("id"); // Get the room ID
-            $.get('@Url.Action("EditRoomModal", "Room")', { id: id }, function (data) {
+            $.get('@Url.Action("DeleteRoomModal", "Room")', { id: id }, function (data) {
                 $("#roomModalContainer").html(data);  // Load modal content into the container
-                var modalElement = document.getElementById('editRoomModal'); // Ensure this ID matches
+                var modalElement = document.getElementById('deleteRoomModal');
                 var modal = new bootstrap.Modal(modalElement);
                 modal.show();  // Show the modal
+            });
+        });
+
+        $(document).on("click", ".loadDeleteRoomModal", function () {
+            var id = $(this).data("id"); // Get the room ID from the button
+            $.get('@Url.Action("DeleteRoomModal", "Room")', { id: id }, function (data) {
+                $("#roomModalContainer").html(data); // Ensure correct modal container ID
+                $('#deleteRoomModal').modal('show'); // Show the modal
             });
         });
 
@@ -135,6 +140,29 @@
                         location.reload();
                     } else {
                         toastr.error(response.message);
+                    }
+                },
+                error: function () {
+                    toastr.error("An unexpected error occurred.");
+                }
+            });
+        });
+
+        // AJAX form submission for Delete Room
+        $(document).on("submit", "#deleteRoomForm", function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            $.ajax({
+                url: '@Url.Action("SoftDelete", "Room")', // Soft delete action
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        toastr.success(response.message); // Show success message
+                        $('#deleteRoomModal').modal('hide'); // Hide the modal
+                        location.reload(); // Refresh the page or update the list dynamically
+                    } else {
+                        toastr.error(response.message); // Show error message
                     }
                 },
                 error: function () {

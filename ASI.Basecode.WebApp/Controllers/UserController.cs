@@ -2,6 +2,7 @@
 using ASI.Basecode.Services.Interfaces;
 using ASI.Basecode.Services.Manager;
 using ASI.Basecode.Services.ServiceModels;
+using ASI.Basecode.Services.Services;
 using ASI.Basecode.WebApp.Authentication;
 using ASI.Basecode.WebApp.Models;
 using ASI.Basecode.WebApp.Mvc;
@@ -84,11 +85,15 @@ namespace ASI.Basecode.WebApp.Controllers
         }
 
 
-        [HttpGet("/User/Delete/{Id}")]
-        public IActionResult Delete(int Id)
+        [HttpGet]
+        public IActionResult DeleteUserModal(int id)
         {
-            var data = _userService.RetrieveUser(Id);
-            return View(data);
+            var user = _userService.RetrieveUser(id); // Retrieve the user by ID
+            if (user == null)
+            {
+                return NotFound(); // Handle user not found
+            }
+            return PartialView("Delete", user); // Pass the user to the Delete partial view
         }
 
         #endregion
@@ -138,11 +143,22 @@ namespace ASI.Basecode.WebApp.Controllers
             }
         }
 
-        [HttpPost("/User/Delete/{Id}")]
-        public IActionResult SoftDelete(int Id)
+        [HttpPost]
+        public IActionResult SoftDelete(int id)
         {
-            _userService.DeleteUser(Id);
-            return RedirectToAction("UserManagement");
+            try
+            {
+                _userService.DeleteUser(id); // Soft delete logic for the user
+                TempData["SuccessMessage"] = "User deleted successfully.";
+
+                // Return a JSON response with a redirect URL
+                return Json(new { success = true, redirectUrl = Url.Action("UserManagement", "User") });
+            }
+            catch (Exception)
+            {
+                // Handle any errors
+                return Json(new { success = false, message = "An error occurred while deleting the user." });
+            }
         }
         #endregion
 

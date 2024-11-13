@@ -77,11 +77,15 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("Edit", viewModel);
         }
 
-        [HttpGet("/Room/Delete/{Id}")]
-        public IActionResult Delete(int Id)
+        [HttpGet]
+        public IActionResult DeleteRoomModal(int id)
         {
-            var data = _roomService.RetrieveRoom(Id);
-            return View(data);
+            var room = _roomService.RetrieveRoom(id); // Retrieve the room by ID
+            if (room == null)
+            {
+                return NotFound(); // Handle room not found
+            }
+            return PartialView("Delete", room); // Pass the room to the Delete partial view
         }
         #endregion
 
@@ -129,11 +133,22 @@ namespace ASI.Basecode.WebApp.Controllers
             }
         }
 
-        [HttpPost("/Room/Delete/{Id}")]
-        public IActionResult SoftDelete(int Id)
+        [HttpPost]
+        public IActionResult SoftDelete(int id)
         {
-            _roomService.DeleteRoom(Id);
-            return RedirectToAction("RoomManagement");
+            try
+            {
+                _roomService.DeleteRoom(id); // Soft delete logic for the room
+                TempData["SuccessMessage"] = "Room deleted successfully.";
+
+                // Return a JSON response with a redirect URL
+                return Json(new { success = true, redirectUrl = Url.Action("RoomManagement", "Room") });
+            }
+            catch (Exception)
+            {
+                // Handle any errors
+                return Json(new { success = false, message = "An error occurred while deleting the Room." });
+            }
         }
         #endregion
 
