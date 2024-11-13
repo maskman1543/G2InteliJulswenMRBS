@@ -45,7 +45,7 @@
 
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
-
+    <script>
         // AJAX form submission for Edit User
         $(document).on("submit", "#editUserForm", function (event) {
             event.preventDefault(); // Prevent default form submission
@@ -75,4 +75,5 @@
             }
         });
     });
+    </script>
 }

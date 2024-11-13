@@ -49,11 +49,9 @@
 
                         <div class="actions">
                             <!-- Edit Button -->
-                            <form asp-controller="Room" asp-action="Edit" asp-route-id="@item.Id" method="get" style="display:inline;">
-                                <button type="submit" class="btn btn-warning">
-                                    <i class="fa-solid fa-pencil-alt"></i> Edit
-                                </button>
-                            </form>
+                            <button type="button" class="btn btn-warning loadEditRoomModal" data-id="@item.Id">
+                                <i class="fas fa-pencil"></i> Edit
+                            </button>
 
                             <!-- Delete Button -->
                             <form asp-controller="Room" asp-action="SoftDelete" asp-route-id="@item.Id" method="post" style="display:inline;">
@@ -82,9 +80,18 @@
         $("#loadCreateRoomModal").click(function () {
             $.get('@Url.Action("CreateRoomModal", "Room")', function (data) {
                 $("#roomModalContainer").html(data);  // Load modal content into the container
-
-                // Initialize the modal and show it (Bootstrap 5 way)
                 var modalElement = document.getElementById('createRoomModal');
+                var modal = new bootstrap.Modal(modalElement);
+                modal.show();  // Show the modal
+            });
+        });
+
+        // Load the Edit Room modal on button click
+        $(document).on("click", ".loadEditRoomModal", function () {
+            var id = $(this).data("id"); // Get the room ID
+            $.get('@Url.Action("EditRoomModal", "Room")', { id: id }, function (data) {
+                $("#roomModalContainer").html(data);  // Load modal content into the container
+                var modalElement = document.getElementById('editRoomModal'); // Ensure this ID matches
                 var modal = new bootstrap.Modal(modalElement);
                 modal.show();  // Show the modal
             });
@@ -112,6 +119,30 @@
                 }
             });
         });
+
+        // AJAX form submission for Edit Room
+        $(document).on("submit", "#editRoomForm", function (event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: '@Url.Action("Edit", "Room")',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        toastr.success(response.message);
+                        $('#editRoomModal').modal('hide');
+                        location.reload();
+                    } else {
+                        toastr.error(response.message);
+                    }
+                },
+                error: function () {
+                    toastr.error("An unexpected error occurred.");
+                }
+            });
+        });
+
 
         // Display success/error messages from TempData if available
         var successMessage = '@TempData["SuccessMessage"]';

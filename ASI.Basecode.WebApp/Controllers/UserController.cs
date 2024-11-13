@@ -61,7 +61,6 @@ namespace ASI.Basecode.WebApp.Controllers
         }
 
         [HttpGet]
-        [HttpGet]
         public IActionResult EditUserModal(int id)
         {
             // Retrieve the user based on the ID

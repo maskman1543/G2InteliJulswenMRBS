@@ -52,11 +52,29 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("Create");
         }
 
-        [HttpGet("/Room/Edit/{Id}")]
-        public IActionResult Edit(int Id)
+        [HttpGet]
+        public IActionResult EditRoomModal(int id)
         {
-            var data = _roomService.RetrieveRoom(Id);
-            return View(data);
+            // Retrieve the Room based on the ID
+            var room = _roomService.RetrieveRoom(id);
+            if (room == null)
+            {
+                return NotFound();
+            }
+
+            // Create the RoomViewModel to pass the data to the modal view
+            var viewModel = new RoomViewModel
+            {
+                Id = room.Id,
+                RoomName = room.RoomName,
+                Capacity = room.Capacity,
+                Location = room.Location,
+                Equipment = room.Equipment,
+                Price = room.Price,
+            };
+
+            // Return the partial view with the room data for editing
+            return PartialView("Edit", viewModel);
         }
 
         [HttpGet("/Room/Delete/{Id}")]
@@ -87,11 +105,28 @@ namespace ASI.Basecode.WebApp.Controllers
             }
         }
 
-        [HttpPost("/Room/Edit/{Id}")]
+        [HttpPost]
         public IActionResult Edit(RoomViewModel model)
         {
-            _roomService.UpdateRoom(model, UserId);
-            return RedirectToAction("RoomManagement");
+            try
+            {
+                // Call your service to update the room
+                _roomService.UpdateRoom(model, UserId);
+
+                // Return success response
+                return Json(new { success = true, message = "Room updated successfully!" });
+
+            }
+            catch (InvalidDataException ex)
+            {
+                // Handle known exceptions (e.g., validation failures)
+                return Json(new { success = false, message = ex.Message });
+            }
+            catch (Exception)
+            {
+                // Handle any unforeseen exceptions
+                return Json(new { success = false, message = Resources.Messages.Errors.ServerError });
+            }
         }
 
         [HttpPost("/Room/Delete/{Id}")]
