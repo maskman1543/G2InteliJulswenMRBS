@@ -84,12 +84,12 @@
             });
         });
 
-        $(document).on("click", ".loadDeleteRoomModal", function () {
-            var id = $(this).data("id"); // Get the room ID
-            $.get('@Url.Action("DeleteRoomModal", "Room")', { id: id }, function (data) {
-                $("#roomModalContainer").html(data);  // Load modal content into the container
-                var modalElement = document.getElementById('deleteRoomModal');
-                var modal = new bootstrap.Modal(modalElement);
+        $(document).on("click", ".loadEditRoomModal", function () {
+            var id = $(this).data("id"); // Get the room ID from the button
+            $.get('@Url.Action("EditRoomModal", "Room")', { id: id }, function (data) {
+                $("#roomModalContainer").html(data); // Load modal content into the container
+                var modalElement = document.getElementById('editRoomModal');
+                var modal = new bootstrap.Modal(modalElement); // Initialize the modal using Bootstrap's JS
                 modal.show();  // Show the modal
             });
         });
