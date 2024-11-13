@@ -2,6 +2,7 @@
 using ASI.Basecode.Services.Interfaces;
 using ASI.Basecode.Services.Manager;
 using ASI.Basecode.Services.ServiceModels;
+using ASI.Basecode.Services.Services;
 using ASI.Basecode.WebApp.Authentication;
 using ASI.Basecode.WebApp.Models;
 using ASI.Basecode.WebApp.Mvc;
@@ -12,6 +13,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -52,11 +54,6 @@ namespace ASI.Basecode.WebApp.Controllers
             var data = _userService.RetrieveActiveNonAdminUsers();
             return View(data);
         }
-        [HttpGet]
-        public IActionResult Create()
-        {
-            return View();
-        }
 
         [HttpGet]
         public IActionResult CreateUserModal()
@@ -64,19 +61,39 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("Create");
         }
 
-        [HttpGet("/User/Edit/{Id}")]
-        public IActionResult Edit(int Id)
+        [HttpGet]
+        public IActionResult EditUserModal(int id)
         {
-            var data = _userService.RetrieveUser(Id);
-            data.Password = string.Empty;
-            return View(data);
+            // Retrieve the user based on the ID
+            var user = _userService.RetrieveUser(id); // Ensure this method correctly retrieves the user
+            if (user == null)
+            {
+                return NotFound(); 
+            }
+
+            // Create the UserViewModel to pass the data to the modal view
+            var viewModel = new UserViewModel
+            {
+                Id = user.Id,
+                UserId = user.UserId,
+                Name = user.Name,
+                Roles = user.Roles,
+            };
+
+            // Return the partial view with the user data for editing
+            return PartialView("Edit", viewModel); 
         }
 
-        [HttpGet("/User/Delete/{Id}")]
-        public IActionResult Delete(int Id)
+
+        [HttpGet]
+        public IActionResult DeleteUserModal(int id)
         {
-            var data = _userService.RetrieveUser(Id);
-            return View(data);
+            var user = _userService.RetrieveUser(id); // Retrieve the user by ID
+            if (user == null)
+            {
+                return NotFound(); // Handle user not found
+            }
+            return PartialView("Delete", user); // Pass the user to the Delete partial view
         }
 
         #endregion
@@ -101,18 +118,47 @@ namespace ASI.Basecode.WebApp.Controllers
             }
         }
 
-        [HttpPost("/User/Edit/{Id}")]
+        [HttpPost]
         public IActionResult Edit(UserViewModel model)
         {
-            _userService.UpdateUser(model);
-            return RedirectToAction("UserManagement");
+            try
+            {
+
+                // Call your service to update the user
+                _userService.UpdateUser(model);
+
+                // Return success response
+                return Json(new { success = true, message = "User updated successfully!" });
+               
+            }
+            catch (InvalidDataException ex)
+            {
+                // Handle known exceptions (e.g., validation failures)
+                return Json(new { success = false, message = ex.Message });
+            }
+            catch (Exception)
+            {
+                // Handle any unforeseen exceptions
+                return Json(new { success = false, message = Resources.Messages.Errors.ServerError });
+            }
         }
 
-        [HttpPost("/User/Delete/{Id}")]
-        public IActionResult SoftDelete(int Id)
+        [HttpPost]
+        public IActionResult SoftDelete(int id)
         {
-            _userService.DeleteUser(Id);
-            return RedirectToAction("UserManagement");
+            try
+            {
+                _userService.DeleteUser(id); // Soft delete logic for the user
+                TempData["SuccessMessage"] = "User deleted successfully.";
+
+                // Return a JSON response with a redirect URL
+                return Json(new { success = true, redirectUrl = Url.Action("UserManagement", "User") });
+            }
+            catch (Exception)
+            {
+                // Handle any errors
+                return Json(new { success = false, message = "An error occurred while deleting the user." });
+            }
         }
         #endregion
 

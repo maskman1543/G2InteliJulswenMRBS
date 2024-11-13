@@ -46,18 +46,14 @@
                         <span>@item.Roles</span> <!-- Ensure 'Role' is the correct property name -->
                         <div class="actions">
                             <!-- Edit Button -->
-                            <form asp-controller="User" asp-action="Edit" asp-route-id="@item.Id" method="get" style="display:inline;">
-                                <button type="submit" class="btn btn-warning">
-                                    <i class="fas fa-pencil"></i> Edit
-                                </button>
-                            </form>
+                            <button type="button" class="btn btn-warning loadEditUserModal" data-id="@item.Id">
+                                <i class="fas fa-pencil"></i> Edit
+                            </button>
 
                             <!-- Delete Button -->
-                            <form asp-controller="User" asp-action="SoftDelete" asp-route-id="@item.Id" method="post" style="display:inline;">
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this item?');">
-                                    <i class="fas fa-trash"></i> Delete
-                                </button>
-                            </form>
+                            <button type="button" class="btn btn-danger loadDeleteUserModal" data-id="@item.Id">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </button>
                         </div>
                     </div>
                 }
@@ -72,11 +68,27 @@
 
 @section scripts {
     <script>
-        // Load the Create User modal on button click
+        // Load the Modals
         $("#loadCreateUserModal").click(function () {
             $.get('@Url.Action("CreateUserModal", "User")', function (data) {
                 $("#modalContainer").html(data);
                 $("#createUserModal").modal("show");
+            });
+        });
+
+        $(document).on("click", ".loadEditUserModal", function () {
+            var id = $(this).data("id"); // Primary key ID
+            $.get('@Url.Action("EditUserModal", "User")', { id: id }, function (data) {
+                $("#modalContainer").html(data);
+                $("#editUserModal").modal("show");
+            });
+        });
+
+        $(document).on("click", ".loadDeleteUserModal", function () {
+            var id = $(this).data("id"); // Get the user ID from the button
+            $.get('@Url.Action("DeleteUserModal", "User")', { id: id }, function (data) {
+                $("#modalContainer").html(data); // Load the modal content
+                $('#deleteUserModal').modal('show'); // Show the modal
             });
         });
 
@@ -95,6 +107,52 @@
                         location.reload();
                     } else {
                         toastr.error(response.message);
+                    }
+                },
+                error: function () {
+                    toastr.error("An unexpected error occurred.");
+                }
+            });
+        });
+
+        // AJAX form submission for Edit User
+        $(document).on("submit", "#editUserForm", function (event) {
+            event.preventDefault();
+
+            $.ajax({
+                url: '@Url.Action("Edit", "User")',
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        toastr.success(response.message);
+                        $('#editUserModal').modal('hide');
+                        location.reload(); // or update the user list dynamically
+                    } else {
+                        toastr.error(response.message);
+                    }
+                },
+                error: function () {
+                    toastr.error("An unexpected error occurred.");
+                }
+            });
+        });
+
+        // AJAX form submission for Delete User
+        $(document).on("submit", "#deleteUserForm", function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            $.ajax({
+                url: '@Url.Action("SoftDelete", "User")', // Soft delete action
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        toastr.success(response.message); // Show success message
+                        $('#deleteUserModal').modal('hide'); // Hide the modal
+                        location.reload(); // Refresh the page or update the list dynamically
+                    } else {
+                        toastr.error(response.message); // Show error message
                     }
                 },
                 error: function () {

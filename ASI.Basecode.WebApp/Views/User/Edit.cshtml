@@ -1,45 +1,79 @@
 ﻿@model ASI.Basecode.Services.ServiceModels.UserViewModel
 
-@{
-    ViewData["Title"] = "Edit";
-}
+<div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editUserModalLabel">Edit User</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="editUserForm" asp-action="Edit" asp-route-id="@Model.Id" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="Roles" /> <!-- Hidden field to send roles -->
 
-<h1>Edit</h1>
+                    <div class="form-group">
+                        <label asp-for="UserId" class="control-label"></label>
+                        <input asp-for="UserId" class="form-control" readonly />
+                        <span asp-validation-for="UserId" class="text-danger"></span>
+                    </div>
 
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit" asp-route-id="@Model.Id" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
-            <div class="form-group">
-                <label asp-for="UserId" class="control-label"></label>
-                <input asp-for="UserId" class="form-control" />
-                <span asp-validation-for="UserId" class="text-danger"></span>
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" required />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Password" class="control-label"></label>
+                        <input asp-for="Password" class="form-control" type="password" />
+                        <span asp-validation-for="Password" class="text-danger"></span>
+                    </div>
+
+                    <div class="form-group text-right">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                        <input type="submit" value="Save" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Password" class="control-label"></label>
-                <input asp-for="Password" class="form-control" />
-                <span asp-validation-for="Password" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a asp-action="UserManagement">Back to List</a>
-</div>
-
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script>
+        // AJAX form submission for Edit User
+        $(document).on("submit", "#editUserForm", function (event) {
+            event.preventDefault(); // Prevent default form submission
+
+            $.ajax({
+                url: '@Url.Action("Edit", "User")', // Ensure the correct action method
+            type: 'POST',
+            data: $(this).serialize(), // Serialize form data for submission
+            success: function (response) {
+                if (response.success) {
+                    toastr.success(response.message);
+                    $('#editUserModal').modal('hide'); // Hide the modal after success
+                    location.reload(); // Reload the page or update the user list dynamically
+                } else {
+                    toastr.error(response.message);
+
+                    // If there are validation errors, display them in the modal
+                    if (response.errors) {
+                        response.errors.forEach(function (error) {
+                            toastr.error(error);
+                        });
+                    }
+                }
+            },
+            error: function () {
+                toastr.error("An unexpected error occurred.");
+            }
+        });
+    });
+    </script>
 }

@@ -52,18 +52,40 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("Create");
         }
 
-        [HttpGet("/Room/Edit/{Id}")]
-        public IActionResult Edit(int Id)
+        [HttpGet]
+        public IActionResult EditRoomModal(int id)
         {
-            var data = _roomService.RetrieveRoom(Id);
-            return View(data);
+            // Retrieve the Room based on the ID
+            var room = _roomService.RetrieveRoom(id);
+            if (room == null)
+            {
+                return NotFound();
+            }
+
+            // Create the RoomViewModel to pass the data to the modal view
+            var viewModel = new RoomViewModel
+            {
+                Id = room.Id,
+                RoomName = room.RoomName,
+                Capacity = room.Capacity,
+                Location = room.Location,
+                Equipment = room.Equipment,
+                Price = room.Price,
+            };
+
+            // Return the partial view with the room data for editing
+            return PartialView("Edit", viewModel);
         }
 
-        [HttpGet("/Room/Delete/{Id}")]
-        public IActionResult Delete(int Id)
+        [HttpGet]
+        public IActionResult DeleteRoomModal(int id)
         {
-            var data = _roomService.RetrieveRoom(Id);
-            return View(data);
+            var room = _roomService.RetrieveRoom(id); // Retrieve the room by ID
+            if (room == null)
+            {
+                return NotFound(); // Handle room not found
+            }
+            return PartialView("Delete", room); // Pass the room to the Delete partial view
         }
         #endregion
 
@@ -87,18 +109,46 @@ namespace ASI.Basecode.WebApp.Controllers
             }
         }
 
-        [HttpPost("/Room/Edit/{Id}")]
+        [HttpPost]
         public IActionResult Edit(RoomViewModel model)
         {
-            _roomService.UpdateRoom(model, UserId);
-            return RedirectToAction("RoomManagement");
+            try
+            {
+                // Call your service to update the room
+                _roomService.UpdateRoom(model, UserId);
+
+                // Return success response
+                return Json(new { success = true, message = "Room updated successfully!" });
+
+            }
+            catch (InvalidDataException ex)
+            {
+                // Handle known exceptions (e.g., validation failures)
+                return Json(new { success = false, message = ex.Message });
+            }
+            catch (Exception)
+            {
+                // Handle any unforeseen exceptions
+                return Json(new { success = false, message = Resources.Messages.Errors.ServerError });
+            }
         }
 
-        [HttpPost("/Room/Delete/{Id}")]
-        public IActionResult SoftDelete(int Id)
+        [HttpPost]
+        public IActionResult SoftDelete(int id)
         {
-            _roomService.DeleteRoom(Id);
-            return RedirectToAction("RoomManagement");
+            try
+            {
+                _roomService.DeleteRoom(id); // Soft delete logic for the room
+                TempData["SuccessMessage"] = "Room deleted successfully.";
+
+                // Return a JSON response with a redirect URL
+                return Json(new { success = true, redirectUrl = Url.Action("RoomManagement", "Room") });
+            }
+            catch (Exception)
+            {
+                // Handle any errors
+                return Json(new { success = false, message = "An error occurred while deleting the Room." });
+            }
         }
         #endregion
 
