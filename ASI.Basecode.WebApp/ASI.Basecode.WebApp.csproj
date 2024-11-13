@@ -62,4 +62,11 @@
   <ItemGroup>
     <UpToDateCheckInput Remove="Views\BookingUser\Edit.cshtml" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\css\modal.css">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

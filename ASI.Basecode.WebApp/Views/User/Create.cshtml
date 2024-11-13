@@ -6,15 +6,17 @@
     ViewData["Title"] = "Create User";
 }
 
-@section styles {
-    <link rel="stylesheet" href="~/css/login.css" />
-}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="~/css/modal.css" />
 <div class="modal fade" id="createUserModal" tabindex="-1" aria-labelledby="createUserModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="createUserModalLabel">Create User</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                    <i class="bi bi-x"></i> <!-- Bootstrap Icons example -->
+                </button>
             </div>
             <div class="modal-body">
                 <form method="post" id="createUserForm">
