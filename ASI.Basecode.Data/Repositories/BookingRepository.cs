@@ -33,7 +33,6 @@ namespace ASI.Basecode.Data.Repositories
         }
         public void DeleteBooking(Booking model)
         {
-            model.IsDeleted = true;
             this.GetDbSet<Booking>().Update(model);
             UnitOfWork.SaveChanges();
         }

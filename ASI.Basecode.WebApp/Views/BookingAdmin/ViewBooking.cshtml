@@ -23,7 +23,6 @@
                 <th>@Html.DisplayNameFor(model => model.EndTime)</th>
                 <th>@Html.DisplayNameFor(model => model.Purpose)</th>
                 <th>@Html.DisplayNameFor(model => model.Status)</th>
-                <th>Action</th>
             </tr>
         </thead>
         <tbody>
@@ -38,16 +37,7 @@
                         <td>@item.StartTime.Hours.ToString("D2"):@item.StartTime.Minutes.ToString("D2")</td>
                         <td>@item.EndTime.Hours.ToString("D2"):@item.EndTime.Minutes.ToString("D2")</td>
                         <td>@Html.DisplayFor(modelItem => item.Purpose)</td>
-                        <td id="status-@item.BookingId">@Html.DisplayFor(modelItem => item.Status)</td>
-                        <td>
-                            <!-- Dropdown for changing status -->
-                            <select class="form-select status-dropdown" data-booking-id="@item.BookingId" aria-label="Select status">
-                                <option value="" selected disabled>-- Select Status --</option>
-                                <option value="Approved" selected="@((item.Status == "Approved") ? "selected" : "")">Approved</option>
-                                <option value="Disapproved" selected="@((item.Status == "Disapproved") ? "selected" : "")">Disapproved</option>
-                                <option value="Pending" selected="@((item.Status == "Pending") ? "selected" : "")">Pending</option>
-                            </select>
-                        </td>
+                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
                     </tr>
                 }
             }

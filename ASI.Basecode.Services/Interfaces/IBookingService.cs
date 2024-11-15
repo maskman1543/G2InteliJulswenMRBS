@@ -12,7 +12,6 @@ namespace ASI.Basecode.Services.Interfaces
         IEnumerable<BookingViewModel> RetrieveActiveBookings(string userId);
         BookingViewModel RetrieveBooking(int BookingId);
         void UpdateBooking(BookingViewModel model, string userId);
-        void UpdateBookingStatus(int bookingId, string newStatus);
         void DeleteBooking(int Id);
     }
 }
