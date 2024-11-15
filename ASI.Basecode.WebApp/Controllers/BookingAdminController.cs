@@ -46,25 +46,5 @@ namespace ASI.Basecode.WebApp.Controllers
         }
         #endregion
 
-        #region Post Methods
-        [HttpPost]
-        public IActionResult ChangeStatus(int bookingId, string status)
-        {
-            if (status != "Approved" && status != "Disapproved" && status != "Pending")
-            {
-                return Json(new { success = false, message = "Invalid status value." });
-            }
-
-            try
-            {
-                _bookingService.UpdateBookingStatus(bookingId, status);
-                return Json(new { success = true });
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, message = ex.Message });
-            }
-        }
-        #endregion
     }
 }

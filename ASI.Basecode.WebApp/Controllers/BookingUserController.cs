@@ -101,7 +101,7 @@ namespace ASI.Basecode.WebApp.Controllers
         {
             if (ModelState.IsValid)
             { 
-                model.Status = "Pending";
+                model.Status = "Booked";
                 _bookingService.UpdateBooking(model, UserId);
 
                 // TempData message to show success

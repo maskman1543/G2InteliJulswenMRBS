@@ -35,7 +35,7 @@ namespace ASI.Basecode.Services.Services
             newBooking.StartDate = model.StartDate.Date;
             newBooking.StartTime = new TimeSpan(model.StartTime.Hours, model.StartTime.Minutes, 0);  
             newBooking.EndTime = new TimeSpan(model.EndTime.Hours, model.EndTime.Minutes, 0);  
-            newBooking.Status = "Pending";
+            newBooking.Status = "Booked";
             newBooking.IsDeleted = false;
             newBooking.CreatedBy = userId;
             newBooking.UpdatedBy = userId;
@@ -48,7 +48,7 @@ namespace ASI.Basecode.Services.Services
         public IEnumerable<BookingViewModel> RetrieveAllBookings()
         {
             var bookings = _bookingRepository.RetrieveAll()
-                                             .Where(booking => booking.IsDeleted != true)  // Exclude deleted bookings
+                                             .Where(booking => booking.IsDeleted = true)
                                              .Select(booking => new BookingViewModel
                                              {
                                                  BookingId = booking.BookingId,
@@ -124,7 +124,7 @@ namespace ASI.Basecode.Services.Services
 
                 
                 _mapper.Map(model, booking);
-                booking.Status = "Pending";
+                booking.Status = "Booked";
                 booking.UpdatedTime = DateTime.Now;
                 booking.UpdatedBy = userId;
                 booking.Username = userId;
@@ -134,40 +134,24 @@ namespace ASI.Basecode.Services.Services
             }
         }
 
-        public void UpdateBookingStatus(int bookingId, string newStatus)
-        {
-            // Ensure the status is either "Approved", "Disapproved", or "Pending"
-            if (newStatus != "Approved" && newStatus != "Disapproved" && newStatus != "Pending")
-            {
-                throw new InvalidOperationException("Invalid status value.");
-            }
-
-            var booking = _bookingRepository.RetrieveAll().FirstOrDefault(x => x.BookingId == bookingId);
-
-            if (booking == null)
-            {
-                throw new InvalidOperationException("Booking not found.");
-            }
-
-            // Update the status and the time of update
-            booking.Status = newStatus;
-            booking.UpdatedTime = DateTime.Now;
-
-            _bookingRepository.UpdateBooking(booking);
-        }
-
 
         public void DeleteBooking(int Id)
         {
             var booking = _bookingRepository.RetrieveAll().FirstOrDefault(x => x.BookingId == Id);
-            if (booking != null)
-            {
-                _bookingRepository.DeleteBooking(booking);
-            }
-            else
-            {
-                throw new InvalidOperationException("Booking not found.");
-            }
+             if (booking != null)
+    {
+        // Update the status and mark as deleted
+        booking.Status = "Cancelled";
+        booking.IsDeleted = true;
+        booking.UpdatedTime = DateTime.Now;
+
+        // Save the changes to the repository
+        _bookingRepository.UpdateBooking(booking);
+    }
+    else
+    {
+        throw new InvalidOperationException("Booking not found.");
+    }
         }
     }
 }
