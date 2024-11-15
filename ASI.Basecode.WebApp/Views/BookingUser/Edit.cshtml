@@ -4,21 +4,19 @@
     ViewData["Title"] = "Edit";
 }
 
-<h1>Edit</h1>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="~/css/modal.css"/>
+<h1>Edit Booking</h1>
+
+<h4>Booking Details</h4>
 <hr />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
+<link rel="stylesheet" href="~/css/modal.css" />
+
 <div class="row">
     <div class="col-md-4">
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <!-- Hidden field for BookingId -->
-            <input type="hidden" asp-for="BookingId" />
-
-            <!-- Hidden field for RoomId  -->
-            <input type="hidden" asp-for="RoomId" />
-
+            <!-- Purpose field -->
             <div class="form-group">
                 <label asp-for="Purpose" class="control-label"></label>
                 <input asp-for="Purpose" class="form-control" />
@@ -34,53 +32,103 @@
 
             <!-- Start Time field -->
             <div class="form-group">
-                <label asp-for="StartTime" class="control-label">Start Date</label>
-                <input type="time" asp-for="StartTime" class="form-control" id="startTime" />
+                <label asp-for="StartTime" class="control-label">Start Time</label>
+                <select asp-for="StartTime" class="form-control" id="startTime">
+                    <option value="">Select Start Time</option>
+                </select>
                 <span asp-validation-for="StartTime" class="text-danger"></span>
             </div>
 
             <!-- End Time field -->
             <div class="form-group">
-                <label asp-for="EndTime" class="control-label">Start Date</label>
-                <input type="time" asp-for="EndTime" class="form-control" id="startTime" />
+                <label asp-for="EndTime" class="control-label">End Time</label>
+                <select asp-for="EndTime" class="form-control" id="endTime">
+                    <option value="">Select End Time</option>
+                </select>
                 <span asp-validation-for="EndTime" class="text-danger"></span>
             </div>
 
+            <!-- Hidden field for BookingId -->
+            <input type="hidden" asp-for="BookingId" />
+
+            <!-- Hidden field for RoomId  -->
+            <input type="hidden" asp-for="RoomId" />
+
+            <!-- Submit button -->
             <div class="form-group">
-                <input type="submit" value="Save" class="btn btn-primary" />
+                <input type="submit" value="Save Changes" class="btn btn-primary" />
             </div>
         </form>
     </div>
 </div>
 
 <div>
-    <a asp-action="ViewBooking">Back to List</a>
+    <a href="@Url.Action("ViewBooking", "BookingUser")" class="btn btn-secondary">Back to List</a>
 </div>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
     <script>
-        // Set today's date as the default value for Start Date field
         document.getElementById('startDate').value = new Date().toISOString().split('T')[0]; // Set today's date for Start Date
 
-        // Set default time for Start and End Time to current time
-        const currentTime = new Date().toTimeString().split(' ')[0].substring(0, 5); // Get current time in HH:mm format
-        document.getElementById('startTime').value = currentTime; // Set current time for Start Time
-        document.getElementById('endTime').value = currentTime;   // Set current time for End Time
+        // Function to generate time slots (24-hour format)
+        function generateTimeSlots(startHour, endHour) {
+            const timeSlots = [];
+            for (let hour = startHour; hour <= endHour; hour++) {
+                const time = new Date();
+                time.setHours(hour, 0, 0, 0);
+                const formattedTime = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
+                timeSlots.push(formattedTime);
+            }
+            return timeSlots;
+        }
+
+        // Populate dropdowns with time slots
+        function populateTimeDropdowns() {
+            const startTimeDropdown = document.getElementById('startTime');
+            const endTimeDropdown = document.getElementById('endTime');
+            const timeSlots = generateTimeSlots(8, 18); // Generate time slots from 8:00 AM to 6:00 PM
+
+            timeSlots.forEach((slot) => {
+                const startOption = document.createElement('option');
+                const endOption = document.createElement('option');
+                startOption.value = endOption.value = slot;
+                startOption.textContent = endOption.textContent = slot;
+                startTimeDropdown.appendChild(startOption);
+                endTimeDropdown.appendChild(endOption);
+            });
+        }
+
+        // Initialize the dropdowns on page load
+        document.addEventListener('DOMContentLoaded', populateTimeDropdowns);
 
         // Form validation before submit
         document.querySelector("form").onsubmit = function (e) {
-            var startTime = document.getElementById('startTime').value;
-            var endTime = document.getElementById('endTime').value;
+            const startTime = document.getElementById('startTime').value;
+            const endTime = document.getElementById('endTime').value;
 
-            // Check if StartTime is greater than EndTime
+            // Check if StartTime is empty or EndTime is empty
+            if (!startTime || !endTime) {
+                e.preventDefault();  // Prevent form submission
+                alert("Please select both Start Time and End Time.");
+                return false;
+            }
+
+            // Check if StartTime is greater than or equal to EndTime
             if (startTime >= endTime) {
                 e.preventDefault();  // Prevent form submission
-                alert("Start Time must be earlier than End Time.");
+                alert("End Time must be greater than Start Time.");
                 return false;
             }
         };
     </script>
 }
+
+<style>
+    div {
+        background-color: #FFF0D1;
+    }
+</style>
