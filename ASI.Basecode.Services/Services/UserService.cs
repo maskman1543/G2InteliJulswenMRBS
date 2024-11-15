@@ -47,8 +47,8 @@ namespace ASI.Basecode.Services.Services
                 user.Password = PasswordManager.EncryptPassword(model.Password);
                 user.CreatedTime = DateTime.Now;
                 user.UpdatedTime = DateTime.Now;
-                user.CreatedBy = user.UserId;
-                user.UpdatedBy = user.UserId;
+                user.CreatedBy = "Admin";
+                user.UpdatedBy = "Admin";
                 user.IsDeleted = false;
 
                 // Assign roles based on the existence of an admin
