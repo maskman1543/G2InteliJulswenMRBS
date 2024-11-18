@@ -4,28 +4,35 @@
     ViewData["Title"] = "ViewBooking";
     Context.Session.SetString("IsViewBookingActive", "true");
 }
+<link href="~/css/dashboards.css" rel="stylesheet" />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<div class="booking-list-container">
+<div class="list-container">
     <!-- Heading -->
-    <div class="header d-flex align-items-center mb-3">
+    <div class="header d-flex align-items-center">
         <h1 class="title">Booking List</h1>
+        <div class="search-bar">
+            <input type="text" placeholder="Search..." />
+            <button class="search-button">
+                <i class="fa-solid fa-search"></i>
+            </button>
+        </div>
     </div>
 
     <!-- Booking List Table -->
-    <table class="table booking-table">
-        <thead>
-            <tr>
-                <th>@Html.DisplayNameFor(model => model.Username)</th>
-                <th>@Html.DisplayNameFor(model => model.RoomName)</th>
-                <th>@Html.DisplayNameFor(model => model.StartDate)</th>
-                <th>@Html.DisplayNameFor(model => model.StartTime)</th>
-                <th>@Html.DisplayNameFor(model => model.EndTime)</th>
-                <th>@Html.DisplayNameFor(model => model.Purpose)</th>
-                <th>@Html.DisplayNameFor(model => model.Status)</th>
-            </tr>
-        </thead>
-        <tbody>
+    <div class="table-body">
+        <div>
+            <div class="table-header">
+                <span>@Html.DisplayNameFor(model => model.Username)</span>
+                <span>@Html.DisplayNameFor(model => model.RoomName)</span>
+                <span>@Html.DisplayNameFor(model => model.StartDate)</span>
+                <span>@Html.DisplayNameFor(model => model.StartTime)</span>
+                <span>@Html.DisplayNameFor(model => model.EndTime)</span>
+                <span>@Html.DisplayNameFor(model => model.Purpose)</span>
+                <span>@Html.DisplayNameFor(model => model.Status)</span>
+            </div>
+        </div>
+        <div>
             @if (Model != null && Model.Any())
             {
                 @foreach (var item in Model)
@@ -43,12 +50,12 @@
             }
             else
             {
-                <tr>
-                    <td colspan="7" class="text-center">No Bookings found.</td>
-                </tr>
+                <div>
+                    <div colspan="7" class="text-center">No Bookings found.</div>
+                </div>
             }
-        </tbody>
-    </table>
+        </div>
+    </div>
 </div>
 
 <style>

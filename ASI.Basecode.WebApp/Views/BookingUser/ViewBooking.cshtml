@@ -19,10 +19,19 @@
     </div>
 }
 
-<div class="booking-list-container p-4 rounded" style="background-color: #E2CD79;">
-    <div class="d-flex align-items-center mb-3">
-        <h1 class="me-3">Booking List</h1>
-        
+<div class="list-container">
+    <link href="~/css/dashboards.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <div class="header d-flex align-items-center">
+        <h1 class="title">Booking List</h1>
+        <div class="controls">
+            <div class="search-bar">
+                <input type="text" placeholder="Search..." />
+                <button class="search-button">
+                    <i class="fa-solid fa-search"></i>
+                </button>
+            </div>
+        </div>
     </div>
 
     <table class="table" style="background-color: #F3E5AB; border-radius: 10px; overflow: hidden;">
@@ -78,126 +87,3 @@
         
     </table>
 </div>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        color: #333;
-        background-color: #F4F2E9;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-    }
-
-    .booking-list-container {
-        width: 80%;
-        max-width: 900px;
-        padding: 20px;
-        background-color: #E2CD79;
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-bottom: 15px;
-        border-bottom: 1px solid #BFAF5E;
-        margin-bottom: 20px;
-    }
-
-    .title {
-        font-size: 1.5em;
-        font-weight: bold;
-        color: #333;
-    }
-
-    .search-bar {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
-
-        .search-bar input {
-            padding: 5px 10px;
-            border-radius: 10px;
-            border: 1px solid #BFAF5E;
-            background-color: #F4F2E9;
-        }
-
-    .search-button {
-        background-color: #BFAF5E;
-        border: none;
-        border-radius: 50%;
-        padding: 5px;
-        color: white;
-        cursor: pointer;
-    }
-
-    .btn-add-user {
-        background-color: #BFAF5E;
-        color: white;
-        border-radius: 10px;
-        padding: 8px 15px;
-        text-decoration: none;
-    }
-
-        .btn-add-user:hover {
-            background-color: #A2945E;
-        }
-
-    .user-list-table {
-        display: flex;
-        flex-direction: column;
-    }
-
-    .table-header, .table-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 0.5fr; /* 1fr for each main column and 0.5fr for the Actions */
-        gap: 10px;
-        padding: 15px;
-        align-items: center;
-    }
-
-    .table-header {
-        font-weight: bold;
-        color: #333;
-        border-bottom: 1px solid #BFAF5E;
-    }
-
-    .table-row {
-        background-color: #E2CD79;
-        border-radius: 10px;
-        margin-bottom: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .profile-icon img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-    }
-
-    .actions {
-        display: flex;
-        gap: 10px;
-        justify-content: center; /* Center aligns the icons within the Actions column */
-    }
-
-        .actions a {
-            color: #333;
-            text-decoration: none;
-            font-size: 1.2em;
-        }
-
-            .actions a:hover {
-                color: #A2945E;
-            }
-
-    .no-users {
-        text-align: center;
-        padding: 20px;
-        color: #333;
-    }
-</style>
