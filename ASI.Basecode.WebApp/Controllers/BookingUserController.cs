@@ -45,15 +45,14 @@ namespace ASI.Basecode.WebApp.Controllers
             return View(data);
         }
 
-        [HttpGet("/BookingUser/Create/{Id}")]
-        public IActionResult Create(int Id)
+        [HttpGet]
+        public IActionResult CreateBookingModal(int roomId)
         {
             var model = new BookingViewModel
             {
-                RoomId = Id // Set the RoomId to the selected room
+                RoomId = roomId
             };
-
-            return View(model);
+            return PartialView("Create", model);
         }
 
         [HttpGet("/BookingUser/Edit/{Id}")]
@@ -77,24 +76,26 @@ namespace ASI.Basecode.WebApp.Controllers
         #endregion
 
         #region Post Methods
-        [HttpPost("/BookingUser/Create/{Id}")]
+        [HttpPost]
         public IActionResult Create(BookingViewModel model)
         {
-            if (ModelState.IsValid)
+            try
             {   
                 _bookingService.AddBooking(model, UserId);
-
-                TempData["SuccessMessage3"] = "Booking created successfully!";
-                return RedirectToAction("UserDashboard", "Home");
+                TempData["SuccessMessage"] = "Booking created successfully!";
+                return Json(new { success = true, message = "Booking created successfully!" });
             }
-            else
+            catch (InvalidDataException ex)
             {
-                // If the model is invalid, set error message
-                TempData["ErrorMessage"] = "There was an issue with your submission. Please check the form and try again.";
-                return View(model); 
+                return Json(new { success = false, message = ex.Message });
             }
-           
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = Resources.Messages.Errors.ServerError });
+            }
+
         }
+
 
         [HttpPost("/BookingUser/Edit/{Id}")]
         public IActionResult Edit(BookingViewModel model)

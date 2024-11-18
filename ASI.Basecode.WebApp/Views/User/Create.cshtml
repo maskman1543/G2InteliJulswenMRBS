@@ -52,6 +52,7 @@
 </div>
 
 @section scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
     <script>
         // Form submission with AJAX
         $(document).on("submit", "#createUserForm", function (event) {
