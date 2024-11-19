@@ -16,34 +16,7 @@
             </div>
             <div class="modal-body">
                 <h3>Are you sure you want to delete this room?</h3>
-                <div>
-                    <dl class="row">
-                        <dt class="col-sm-4">
-                            @Html.DisplayNameFor(model => model.RoomName)
-                        </dt>
-                        <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.RoomName)
-                        </dd>
-                        <dt class="col-sm-4">
-                            @Html.DisplayNameFor(model => model.Capacity)
-                        </dt>
-                        <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.Capacity)
-                        </dd>
-                        <dt class="col-sm-4">
-                            @Html.DisplayNameFor(model => model.Location)
-                        </dt>
-                        <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.Location)
-                        </dd>
-                        <dt class="col-sm-4">
-                            @Html.DisplayNameFor(model => model.Equipment)
-                        </dt>
-                        <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.Equipment)
-                        </dd>
-                    </dl>
-                </div>
+                
                 <form id="deleteRoomForm" method="post">
                     <input type="hidden" name="Id" value="@Model.Id" />
                     <button type="submit" class="btn btn-danger">Delete</button>

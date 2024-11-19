@@ -39,7 +39,7 @@
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.Username)</td>
                         <td>@Html.DisplayFor(modelItem => item.RoomName)</td>
-                        <td>@item.StartDate.ToString("yyyy-MM-dd")</td>
+                        <td>@item.StartDate.ToString("dd-MM-yyyy")</td>
                         <td>@item.StartTime.Hours.ToString("D2"):@item.StartTime.Minutes.ToString("D2")</td>
                         <td>@item.EndTime.Hours.ToString("D2"):@item.EndTime.Minutes.ToString("D2")</td>
                         <td>@Html.DisplayFor(modelItem => item.Purpose)</td>

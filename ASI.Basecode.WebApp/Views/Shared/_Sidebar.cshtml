@@ -41,12 +41,7 @@
             <a asp-controller="BookingAdmin" asp-action="ViewBooking" class="nav-item">
                 <i class="fa-solid fa-calendar"></i> Bookings
             </a>
-            <a asp-controller="Analytics" asp-action="Index" class="nav-item">
-                <i class="fa-solid fa-chart-line"></i> Analytics
-            </a>
-            <a asp-controller="Settings" asp-action="Index" class="nav-item">
-                <i class="fa-solid fa-gear"></i> Settings
-            </a>
+            
         </nav>
     }
     else if (HttpContextAccessor.HttpContext.Session.GetString("Role") == "User")
@@ -59,9 +54,7 @@
             <a asp-controller="BookingUser" asp-action="ViewBooking" class="nav-item">
                 <i class="fa-solid fa-calendar"></i> Bookings
             </a>
-            <a asp-controller="Settings" asp-action="Index" class="nav-item">
-                <i class="fa-solid fa-gear"></i> Settings
-            </a>
+           
         </nav>
     }
 
