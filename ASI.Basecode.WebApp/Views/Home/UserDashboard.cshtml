@@ -86,14 +86,6 @@
             // Populate both Start Time and End Time dropdowns (8:00 AM to 6:00 PM with 30 min intervals)
             populateTimeDropdowns(startTimeDropdown, endTimeDropdown);
 
-            // Set default values for Start Time and End Time (if not selected)
-            if (startTimeDropdown.value === '') {
-                startTimeDropdown.value = "08:00"; // Default to 8:00 AM
-            }
-            if (endTimeDropdown.value === '') {
-                endTimeDropdown.value = "08:00"; // Default to 8:00 AM
-            }
-
             // Add event listeners to validate end time whenever start or end time changes
             startTimeDropdown.addEventListener('change', () => validateEndTime(startTimeDropdown, endTimeDropdown));
             endTimeDropdown.addEventListener('change', () => validateEndTime(startTimeDropdown, endTimeDropdown));
@@ -104,8 +96,8 @@
             const timeOptions = generateTimeOptions(8, 18);
             const optionsHtml = timeOptions.map(time => `<option value="${time}">${time}</option>`).join('');
 
-            startTimeDropdown.innerHTML = optionsHtml;
-            endTimeDropdown.innerHTML = optionsHtml;
+            startTimeDropdown.innerHTML += optionsHtml;
+            endTimeDropdown.innerHTML += optionsHtml;
         }
 
         // Function to generate time options from a start hour to end hour with 30 minute intervals
@@ -135,14 +127,20 @@
             const startTimeInMinutes = convertToMinutes(startTime);
             const endTimeInMinutes = convertToMinutes(endTime);
 
-            // If End Time is less than or equal to Start Time, show error and reset both Start and End Time to 8:00
-            if (endTimeInMinutes <= startTimeInMinutes) {
+            // If Start Time and End Time are the same or End Time is not greater than Start Time
+            if (startTime === endTime) {
+                alert('Start time and End time cannot be the same.');
+                resetDropdownsToPlaceholder(startTimeDropdown, endTimeDropdown);
+            } else if (endTimeInMinutes <= startTimeInMinutes) {
                 alert('End time must be greater than start time.');
-
-                // Reset both Start Time and End Time dropdown values to 08:00 after validation error
-                startTimeDropdown.value = "08:00";  // Reset Start Time to 08:00
-                endTimeDropdown.value = "08:00";    // Reset End Time to 08:00
+                resetDropdownsToPlaceholder(startTimeDropdown, endTimeDropdown);
             }
+        }
+
+        // Function to reset dropdown values to placeholder
+        function resetDropdownsToPlaceholder(startTimeDropdown, endTimeDropdown) {
+            startTimeDropdown.value = ""; // Reset Start Time to placeholder
+            endTimeDropdown.value = "";  // Reset End Time to placeholder
         }
 
         // Function to convert 'HH:mm' time format to total minutes

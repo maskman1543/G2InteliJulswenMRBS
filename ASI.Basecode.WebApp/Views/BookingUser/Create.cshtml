@@ -31,20 +31,22 @@
                         <span asp-validation-for="StartDate" class="text-danger"></span>
                     </div>
 
-                    <!-- Start Time field -->
+                    <!-- Start Time Dropdown -->
                     <div class="form-group">
                         <label for="startTime" class="control-label">Start Time</label>
                         <select asp-for="StartTime" class="form-control" id="startTime" required>
-                            <option value="">Select Start Time</option>
+                            <option value="" selected disabled>Select Start Time</option>
+                            <!-- Time options will be added dynamically -->
                         </select>
                         <span asp-validation-for="StartTime" class="text-danger"></span>
                     </div>
 
-                    <!-- End Time field -->
+                    <!-- End Time Dropdown -->
                     <div class="form-group">
                         <label for="endTime" class="control-label">End Time</label>
                         <select asp-for="EndTime" class="form-control" id="endTime" required>
-                            <option value="">Select End Time</option>
+                            <option value="" selected disabled>Select End Time</option>
+                            <!-- Time options will be added dynamically -->
                         </select>
                         <span asp-validation-for="EndTime" class="text-danger"></span>
                     </div>
