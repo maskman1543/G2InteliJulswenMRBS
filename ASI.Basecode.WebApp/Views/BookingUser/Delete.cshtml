@@ -1,54 +1,24 @@
 ﻿@model ASI.Basecode.Services.ServiceModels.BookingViewModel
 
-@{
-    ViewData["Title"] = "Delete";
-}
+<div class="modal fade" id="deleteBookingModal" tabindex="-1" role="dialog" aria-labelledby="deleteBookingModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteBookingModalLabel">Delete Booking</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <h3>Are you sure you want to delete this booking?</h3>
 
-<h1>Delete</h1>
-
-<h3>Are you sure you want to delete this?</h3>
-<div>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.BookingId)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.BookingId)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StartDate)
-        </dt>
-        <dd class="col-sm-10">
-          
-                @Model.StartDate.ToString("yyyy-MM-dd")
-           
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.StartTime)
-        </dt>
-        <dd class="col-sm-10">
-            
-                @Model.StartTime.ToString("HH:MM")
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.EndTime)
-        </dt>
-        <dd class="col-sm-10">
-
-            @Model.EndTime.ToString("HH:MM")
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Purpose)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Purpose)
-        </dd>
-    </dl>
-
-    <form asp-action="SoftDelete" method="post">
-        <input type="hidden" asp-for="BookingId" />
-        <input type="submit" value="Delete" class="btn btn-danger" />
-        <a href="@Url.Action("ViewBooking")" class="btn btn-secondary">Cancel</a>
-    </form>
+                <input type="hidden" asp-for="RoomId" id="RoomId" />
+                <form id="deleteBookingForm" method="post" action="@Url.Action("DeleteBooking", "BookingUser")">
+                    <input type="hidden" asp-for="BookingId" />
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
