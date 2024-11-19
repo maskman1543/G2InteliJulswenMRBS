@@ -96,6 +96,17 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("Delete", user); // Pass the user to the Delete partial view
         }
 
+        [HttpGet]
+        public IActionResult SearchUser(string term)
+        {
+            if (string.IsNullOrEmpty(term))
+            {
+                var users = _userService.RetrieveActiveNonAdminUsers();
+                return Json(users);
+            } 
+            var filteredUsers = _userService.GetUsersBySearchTerm(term);
+            return Json(filteredUsers);
+        }
         #endregion
 
         #region Post Methods
