@@ -32,5 +32,15 @@ namespace ASI.Basecode.Data.Repositories
             this.GetDbSet<Room>().Update(model);
             UnitOfWork.SaveChanges();
         }
+
+        // New implementation for searching rooms - Camus 
+        
+        public IEnumerable<Room> SearchRooms(string term)
+        {
+            return this.GetDbSet<Room>()
+                       .Where(r => !r.IsDeleted &&
+                                   (r.RoomName.Contains(term) || r.Equipment.Contains(term)))
+                       .ToList();
+        }
     }
 }

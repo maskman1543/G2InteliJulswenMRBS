@@ -13,5 +13,8 @@ namespace ASI.Basecode.Data.Interfaces
         IEnumerable<Room> RetrieveAll();
         void UpdateRoom(Room model);
         void DeleteRoom(Room room);
+
+        // Add this new method for searching rooms
+        IEnumerable<Room> SearchRooms(string term);
     }
 }

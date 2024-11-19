@@ -16,5 +16,8 @@ namespace ASI.Basecode.Data.Interfaces
         void UpdateUser(User user);
         void DeleteUser(User user);
         bool AdminExists();
+
+        //for searching added by camus  
+        IEnumerable<User> SearchUser(string term);
     }
 }

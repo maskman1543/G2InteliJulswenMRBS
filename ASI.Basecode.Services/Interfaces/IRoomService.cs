@@ -14,5 +14,8 @@ namespace ASI.Basecode.Services.Interfaces
         RoomViewModel RetrieveRoom(int Id);
         void UpdateRoom(RoomViewModel model, string userId);
         void DeleteRoom(int Id);
+
+        // Add the missing method - Camus 
+        List<RoomViewModel> GetRoomsBySearchTerm(string term);
     }
 }

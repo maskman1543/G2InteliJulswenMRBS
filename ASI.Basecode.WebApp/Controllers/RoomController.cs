@@ -87,6 +87,22 @@ namespace ASI.Basecode.WebApp.Controllers
             }
             return PartialView("Delete", room); // Pass the room to the Delete partial view
         }
+        [HttpGet]
+        public IActionResult SearchRoom(string term)
+        {
+            // If no search term is provided, return all rooms
+            if (string.IsNullOrEmpty(term))
+            {
+                var rooms = _roomService.RetrieveActiveRooms(); // Replace with your logic to fetch all rooms
+                return Json(rooms);
+            }
+
+            // Filter rooms based on the search term
+            var filteredRooms = _roomService.GetRoomsBySearchTerm(term); // Your service method to search rooms
+
+            return Json(filteredRooms);
+        }
+
         #endregion
 
         #region Post Methods

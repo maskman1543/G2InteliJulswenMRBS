@@ -2,22 +2,55 @@
     font-family: Arial, sans-serif;
     color: #333;
     background-color: #F4F2E9;
+    margin: 0;
     display: flex;
-    justify-content: center;
-    align-items: center;
     min-height: 100vh;
 }
 
-.list-container {
-    width: calc(100% - 20px); /* Occupy the full width minus 20px (10px margin on each side) */
-    max-width: 1060px;
-    padding: 60px;
-    background-color: #FFF0D1;
-    border-radius: 15px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    margin: 10px; /* Add 10px margin around the container */
+.sidebar {
+    width: 250px;
+    background-color: #F7E7B4;
+    flex-shrink: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
+    .sidebar a {
+        color: #333;
+        text-decoration: none;
+        margin-bottom: 15px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .sidebar a:hover {
+            color: #A2945E;
+        }
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFF0D1;
+}
+
+.list-container {
+    flex-grow: 1;
+    width: 100%;
+    height: calc(100vh - 40px);
+    background-color: #FFF0D1;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
 
 .header {
     display: flex;
@@ -25,7 +58,6 @@
     justify-content: space-between;
     padding-bottom: 15px;
     border-bottom: 1px solid #BFAF5E;
-    margin-bottom: 20px;
 }
 
 .title {
@@ -56,43 +88,74 @@
     cursor: pointer;
 }
 
-.btn-add {
-    background-color: #BFAF5E;
-    color: white;
-    border-radius: 10px;
-    padding: 8px 15px;
-    text-decoration: none;
-}
-
-    .btn-add:hover {
-        background-color: #A2945E;
-    }
-
 .list-table {
-    display: flex;
-    flex-direction: column;
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
 }
 
-.table-header, .table-row {
+.table-header,
+.table-row {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 0.5fr; /* 1fr for each main column and 0.5fr for the Actions */
-    gap: 10px;
-    padding: 15px;
+    grid-template-columns: 1.5fr 1.5fr 1fr 1fr 1fr 2fr 1fr;
+    gap: 0;
+    padding: 15px 0;
     align-items: center;
+    border-bottom: 1px solid #BFAF5E;
 }
 
 .table-header {
     font-weight: bold;
     color: #333;
-    border-bottom: 1px solid #BFAF5E;
+    text-align: center;
+    background-color: #F9F4D6;
+    border-top: 1px solid #BFAF5E;
 }
 
+    .table-header div,
+    .table-row div {
+        padding: 10px;
+        border-right: 1px solid #BFAF5E;
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: break-word;
+    }
+
+        .table-header div:last-child,
+        .table-row div:last-child {
+            border-right: none;
+        }
+
 .table-row {
-    background-color: #E2CD79;
+    background-color: #F9F4D6;
     border-radius: 10px;
     margin-bottom: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+    /* Style for span inside table cell (responsive) */
+    .table-row span {
+        display: block; /* Make span behave like a block element inside a cell */
+        width: 100%; /* Ensure span takes up full width inside the cell */
+        padding: 5px 10px;
+        background-color: #F9F4D6;
+        font-weight: bold;
+        color: #333;
+        border-radius: 5px;
+        text-align: center;
+        box-sizing: border-box; /* Ensures padding does not affect width */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* Allow span size to adjust based on container (card size) */
+    .table-row span {
+        flex: 1; /* Make span flexible and adjust size based on parent size */
+        text-align: center;
+    }
 
 .profile-icon img {
     width: 40px;
@@ -100,20 +163,33 @@
     border-radius: 50%;
 }
 
+/* Style for the container holding the buttons */
 .actions {
     display: flex;
-    gap: 10px;
-    justify-content: center; /* Center aligns the icons within the Actions column */
+    flex-direction: column; /* Stack the buttons vertically */
+    gap: 10px; /* Space between buttons */
+    justify-content: center;
+    align-items: center; /* Align buttons in the center horizontally */
 }
 
+    /* Style for individual action buttons */
     .actions a {
-        color: #333;
+        color: #FFF; /* White text color for contrast */
         text-decoration: none;
-        font-size: 1.2em;
+        font-size: 1em; /* Slightly smaller font size */
+        padding: 8px 16px; /* Reduced padding to make buttons smaller */
+        background-color: #BFAF5E; /* Soft gold color to match theme */
+        border-radius: 5px;
+        text-align: center;
+        width: 100%; /* Make buttons take up the full width of the container */
+        box-sizing: border-box; /* Ensure padding does not affect button width */
+        transition: background-color 0.3s ease; /* Smooth transition on hover */
     }
 
+        /* Button hover effect */
         .actions a:hover {
-            color: #A2945E;
+            background-color: #A2945E; /* Darker gold color for hover */
+            color: #F4F2E9; /* Light background color when hovered */
         }
 
 .no-item {
@@ -121,4 +197,3 @@
     padding: 20px;
     color: #333;
 }
-

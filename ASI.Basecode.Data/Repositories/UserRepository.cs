@@ -56,7 +56,13 @@ namespace ASI.Basecode.Data.Repositories
         {
             return this.GetDbSet<User>().Any(u => u.Roles.Contains("Admin"));
         }
-        
 
+        // New implementation for searching rooms - Camus 
+        public IEnumerable<User> SearchUser(string term)
+        {   
+                return this.GetDbSet<User>()
+                            .Where(r => !r.IsDeleted && (r.Name.Contains(term) || r.UserId.Contains(term)))
+                            .ToList();
+        }
     }
 }
