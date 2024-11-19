@@ -91,5 +91,18 @@ namespace ASI.Basecode.Services.Services
                 _roomRepository.DeleteRoom(room);
             }
         }
+        public List<RoomViewModel> GetRoomsBySearchTerm(string term)
+        {
+            var rooms = _roomRepository.SearchRooms(term);
+
+            return rooms.Select(r => new RoomViewModel
+            {
+                Id = r.Id,
+                RoomName = r.RoomName,
+                Capacity = r.Capacity,
+                Equipment = r.Equipment,
+                Price = r.Price
+            }).ToList();
+        }
     }
 }

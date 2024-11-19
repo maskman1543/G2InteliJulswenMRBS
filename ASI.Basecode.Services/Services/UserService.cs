@@ -135,6 +135,17 @@ namespace ASI.Basecode.Services.Services
         {
             return _repository.AdminExists();
         }
+        public List<UserViewModel> GetUsersBySearchTerm(string term)
+        {
+            var users = _repository.SearchUser(term);
 
+            return users.Select(r => new UserViewModel
+            {
+               Id = r.Id,
+               UserId = r.UserId,
+               Name = r.Name,
+               Roles = r.Roles,
+            }).ToList();
+        }
     }
 }
