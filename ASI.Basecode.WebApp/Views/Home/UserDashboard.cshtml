@@ -4,8 +4,12 @@
     ViewData["Title"] = "Rooms";
 }
 
+
+
+
+
 <div class="d-flex align-items-center mb-3">
-    <h1 class="me-3">Room List</h1> <!-- Adds margin to the right of the heading -->
+    <h1 class="me-3">Room List</h1>
 </div>
 
 <!-- Modal container where modal content will be dynamically loaded -->
@@ -31,8 +35,8 @@
                     <td>@Html.DisplayFor(modelItem => item.Equipment)</td>
                     <td>@Html.DisplayFor(modelItem => item.Price)</td>
                     <td>
-                        <button type="button" class="btn btn-warning loadCreateBookingModal" data-room-id="@item.Id">
-                            <i class="fas fa-pencil"></i> Book
+                        <button type="button" class="btn btn-primary loadCreateBookingModal" data-room-id="@item.Id">
+                            <i class="bi bi-pencil"></i> Book
                         </button>
                     </td>
                 </tr>
@@ -146,7 +150,6 @@
             const [hours, minutes] = time.split(':').map(Number);
             return hours * 60 + minutes;
         }
-
 
 
 

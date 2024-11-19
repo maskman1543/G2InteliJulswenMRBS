@@ -55,11 +55,31 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("Create", model);
         }
 
-        [HttpGet("/BookingUser/Edit/{Id}")]
-        public IActionResult Edit(int Id)
+        [HttpGet]
+        public IActionResult EditBookingModal(int BookingId)
         {
-            var data = _bookingService.RetrieveBooking(Id);
-            return View(data);
+            // Retrieve the Room based on the ID
+            var booking = _bookingService.RetrieveBooking(BookingId);
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            // Create the RoomViewModel to pass the data to the modal view
+            var viewModel = new BookingViewModel
+            {
+                BookingId = booking.BookingId,
+                Purpose = booking.Purpose,
+                StartDate = booking.StartDate,
+                StartTime = booking.StartTime,
+                EndTime = booking.EndTime,
+                Status = booking.Status,
+                RoomId = booking.RoomId,
+                RoomName = booking.RoomName,
+            };
+
+            //Return the partial view with the room data for editing
+            return PartialView("Edit", viewModel);
         }
 
         [HttpGet("/BookingUser/Delete/{Id}")]
@@ -96,24 +116,28 @@ namespace ASI.Basecode.WebApp.Controllers
 
         }
 
-
-        [HttpPost("/BookingUser/Edit/{Id}")]
+        [HttpPost]
         public IActionResult Edit(BookingViewModel model)
         {
-            if (ModelState.IsValid)
-            { 
+            try
+            {
                 model.Status = "Booked";
+                // Call your service to update the booking
                 _bookingService.UpdateBooking(model, UserId);
 
-                // TempData message to show success
-                TempData["SuccessMessage"] = "Booking updated successfully!";
-                return RedirectToAction("ViewBooking");
+                // Return success response
+                return Json(new { success = true, message = "Booking updated successfully!" });
+
             }
-            else
+            catch (InvalidDataException ex)
             {
-                // If the model is invalid, set error message
-                TempData["ErrorMessage"] = "There was an issue with your submission. Please check the form and try again.";
-                return View(model); 
+                // Handle known exceptions (e.g., validation failures)
+                return Json(new { success = false, message = ex.Message });
+            }
+            catch (Exception)
+            {
+                // Handle any unforeseen exceptions
+                return Json(new { success = false, message = Resources.Messages.Errors.ServerError });
             }
         }
 

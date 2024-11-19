@@ -5,25 +5,13 @@
     Context.Session.SetString("IsViewBookingActive", "true");
 }
 
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["SuccessMessage"]
-    </div>
-}
-
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["ErrorMessage"]
-    </div>
-}
-
 <div class="booking-list-container p-4 rounded" style="background-color: #E2CD79;">
     <div class="d-flex align-items-center mb-3">
         <h1 class="me-3">Booking List</h1>
-        
     </div>
+
+    <!-- Modal container where modal content will be dynamically loaded -->
+    <div id="bookingModalContainer"></div>
 
     <table class="table" style="background-color: #F3E5AB; border-radius: 10px; overflow: hidden;">
         <thead style="background-color: #E2CD79;">
@@ -51,11 +39,9 @@
                         <td>@Html.DisplayFor(modelItem => item.Status)</td>
                         <td class="text-center">
                             <!-- Edit Button -->
-                            <form asp-controller="BookingUser" asp-action="Edit" asp-route-id="@item.BookingId" method="get" style="display:inline;">
-                                <button type="submit" class="btn btn-primary me-2">
-                                    <i class="fas fa-edit"></i> Edit
-                                </button>
-                            </form>
+                            <button type="button" class="btn btn-primary loadEditBookingModal" data-booking-id="@item.BookingId">
+                                <i class="bi bi-pencil"></i> Edit
+                            </button>
 
                             <!-- Cancel Button -->
                             <form asp-controller="BookingUser" asp-action="Delete" asp-route-id="@item.BookingId" method="post" style="display:inline;">
@@ -65,7 +51,7 @@
                             </form>
                         </td>
                     </tr>
-                    
+
                 }
             }
             else
@@ -75,129 +61,136 @@
                 </tr>
             }
         </tbody>
-        
+
     </table>
 </div>
-<style>
-    body {
-        font-family: Arial, sans-serif;
-        color: #333;
-        background-color: #F4F2E9;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-    }
 
-    .booking-list-container {
-        width: 80%;
-        max-width: 900px;
-        padding: 20px;
-        background-color: #E2CD79;
-        border-radius: 15px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
 
-    .header {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding-bottom: 15px;
-        border-bottom: 1px solid #BFAF5E;
-        margin-bottom: 20px;
-    }
+    <script>
+        // Load Modals on "Edit" button click
+        $(document).on("click", ".loadEditBookingModal", function () {
+            var bookingId = $(this).data("booking-id"); // Get the BookingId from the button
 
-    .title {
-        font-size: 1.5em;
-        font-weight: bold;
-        color: #333;
-    }
+            // Fetch the modal content using an AJAX request
+            $.get('@Url.Action("EditBookingModal", "BookingUser")', { bookingId: bookingId }, function (data) {
+                $("#bookingModalContainer").html(data); // Load modal content into the container
+                var modalElement = document.getElementById('editBookingModal'); // Ensure the modal ID matches
+                var modal = new bootstrap.Modal(modalElement);
+                modal.show(); // Show the modal
 
-    .search-bar {
-        display: flex;
-        align-items: center;
-        gap: 5px;
-    }
+                // After loading the modal, set up the form (populate start and end times)
+                setupBookingForm(); // Call the function to populate start and end times
+            });
+        });
 
-        .search-bar input {
-            padding: 5px 10px;
-            border-radius: 10px;
-            border: 1px solid #BFAF5E;
-            background-color: #F4F2E9;
-        }
 
-    .search-button {
-        background-color: #BFAF5E;
-        border: none;
-        border-radius: 50%;
-        padding: 5px;
-        color: white;
-        cursor: pointer;
-    }
+        // AJAX form submission for Edit Booking
+        $(document).on("submit", "#editBookingForm", function (event) {
+            event.preventDefault();  // Prevent the default form submission
 
-    .btn-add-user {
-        background-color: #BFAF5E;
-        color: white;
-        border-radius: 10px;
-        padding: 8px 15px;
-        text-decoration: none;
-    }
+            // Serialize the form data
+            var formData = $(this).serialize();
 
-        .btn-add-user:hover {
-            background-color: #A2945E;
-        }
+            $.ajax({
+                url: '@Url.Action("Edit", "BookingUser")', // URL to the Edit method in the controller
+                type: 'POST',  // POST method
+                data: formData,  // Send serialized form data
+                success: function (response) {
+                    // Check the response object
+                    if (response.success) {
+                        toastr.success(response.message);  // Show success message using toastr
+                        $('#editBookingModal').modal('hide');  // Close the modal after success
+                        location.reload();  // Reload the page to reflect the updated booking
+                    } else {
+                        toastr.error(response.message);  // Show error message using toastr
+                    }
+                },
+                error: function () {
+                    toastr.error("An unexpected error occurred.");  // Show a generic error if the request fails
+                }
+            });
+        });
 
-    .user-list-table {
-        display: flex;
-        flex-direction: column;
-    }
+        function setupBookingForm() {
+            const startDateField = document.getElementById('startDate');
+            const startTimeDropdown = document.getElementById('startTime');
+            const endTimeDropdown = document.getElementById('endTime');
 
-    .table-header, .table-row {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr 1fr 0.5fr; /* 1fr for each main column and 0.5fr for the Actions */
-        gap: 10px;
-        padding: 15px;
-        align-items: center;
-    }
+            // Set today's date for the Start Date and prevent past dates
+            const today = new Date().toISOString().split('T')[0];
+            startDateField.value = today;
+            startDateField.min = today;
 
-    .table-header {
-        font-weight: bold;
-        color: #333;
-        border-bottom: 1px solid #BFAF5E;
-    }
+            // Populate both Start Time and End Time dropdowns (8:00 AM to 6:00 PM with 30 min intervals)
+            populateTimeDropdowns(startTimeDropdown, endTimeDropdown);
 
-    .table-row {
-        background-color: #E2CD79;
-        border-radius: 10px;
-        margin-bottom: 10px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    }
-
-    .profile-icon img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-    }
-
-    .actions {
-        display: flex;
-        gap: 10px;
-        justify-content: center; /* Center aligns the icons within the Actions column */
-    }
-
-        .actions a {
-            color: #333;
-            text-decoration: none;
-            font-size: 1.2em;
-        }
-
-            .actions a:hover {
-                color: #A2945E;
+            // Set default values for Start Time and End Time (if not selected)
+            if (startTimeDropdown.value === '') {
+                startTimeDropdown.value = "08:00"; // Default to 8:00 AM
+            }
+            if (endTimeDropdown.value === '') {
+                endTimeDropdown.value = "08:00"; // Default to 8:00 AM
             }
 
-    .no-users {
-        text-align: center;
-        padding: 20px;
-        color: #333;
-    }
-</style>
+            // Add event listeners to validate end time whenever start or end time changes
+            startTimeDropdown.addEventListener('change', () => validateEndTime(startTimeDropdown, endTimeDropdown));
+            endTimeDropdown.addEventListener('change', () => validateEndTime(startTimeDropdown, endTimeDropdown));
+        }
+
+        // Function to populate the dropdowns with times from 8:00 AM to 6:00 PM (30 min increments)
+        function populateTimeDropdowns(startTimeDropdown, endTimeDropdown) {
+            const timeOptions = generateTimeOptions(8, 18);
+            const optionsHtml = timeOptions.map(time => `<option value="${time}">${time}</option>`).join('');
+
+            startTimeDropdown.innerHTML = optionsHtml;
+            endTimeDropdown.innerHTML = optionsHtml;
+        }
+
+        // Function to generate time options from a start hour to end hour with 30 minute intervals
+        function generateTimeOptions(startHour, endHour) {
+            const options = [];
+            for (let hour = startHour; hour <= endHour; hour++) {
+                for (const minute of [0, 30]) {
+                    if (hour === 18 && minute === 30) break; // Avoid 18:30
+                    options.push(formatTime(hour, minute));
+                }
+            }
+            return options;
+        }
+
+        // Function to format hour and minute into 'HH:mm' format
+        function formatTime(hour, minute) {
+            return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        }
+
+        // Function to validate that the End Time is greater than Start Time
+        function validateEndTime(startTimeDropdown, endTimeDropdown) {
+            const startTime = startTimeDropdown.value;
+            const endTime = endTimeDropdown.value;
+
+            if (!startTime || !endTime) return; // If any value is empty, do nothing
+
+            const startTimeInMinutes = convertToMinutes(startTime);
+            const endTimeInMinutes = convertToMinutes(endTime);
+
+            // If End Time is less than or equal to Start Time, show error and reset both Start and End Time to 8:00
+            if (endTimeInMinutes <= startTimeInMinutes) {
+                alert('End time must be greater than start time.');
+
+                // Reset both Start Time and End Time dropdown values to 08:00 after validation error
+                startTimeDropdown.value = "08:00";  // Reset Start Time to 08:00
+                endTimeDropdown.value = "08:00";    // Reset End Time to 08:00
+            }
+        }
+
+        // Function to convert 'HH:mm' time format to total minutes
+        function convertToMinutes(time) {
+            const [hours, minutes] = time.split(':').map(Number);
+            return hours * 60 + minutes;
+        }
+
+        
+    </script>
+}
