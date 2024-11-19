@@ -135,6 +135,17 @@ namespace ASI.Basecode.Services.Services
         {
             return _repository.AdminExists();
         }
+
+        public bool IsUserDeleted(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentException("User ID cannot be null or empty.", nameof(userId));
+            }
+
+            return _repository.IsUserDeleted(userId);
+        }
+
         public List<UserViewModel> GetUsersBySearchTerm(string term)
         {
             var users = _repository.SearchUser(term);

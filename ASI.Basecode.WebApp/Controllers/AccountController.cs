@@ -109,6 +109,13 @@ namespace ASI.Basecode.WebApp.Controllers
             var loginResult = _userService.AuthenticateUser(model.UserId, model.Password, ref user);
             if (loginResult == LoginResult.Success)
             {
+                // Check if the user is deleted
+                if (user.IsDeleted)
+                {
+                    TempData["ErrorMessage"] = "This account has been deleted.";
+                    ViewBag.AdminExists = _userService.AdminExists(); // Re-check admin existence on failed login
+                    return View();
+                }
                 // 認証OK
                 await this._signInManager.SignInAsync(user);
                 this._session.SetString("UserName", user.Name);
