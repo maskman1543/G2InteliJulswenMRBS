@@ -70,8 +70,7 @@
 
 @section scripts {
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
+    
 
     <script>
         // Debounce function to delay execution until the user stops typing
@@ -131,10 +130,7 @@
                 }
             });
         }, 300)); // Delay of 300ms after the user stops typing
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
-    <script>
+    
         // Load the Modals
         $("#loadCreateUserModal").click(function () {
             $.get('@Url.Action("CreateUserModal", "User")', function (data) {
@@ -159,25 +155,29 @@
             });
         });
 
-        // AJAX form submission for Create User
+        // AJAX Form submission for Create User
         $(document).on("submit", "#createUserForm", function (event) {
             event.preventDefault();
+
+            var password = $('#password').val();
+            var confirmPassword = $('#confirmpassword').val();
+
+            // Check if passwords match
+            if (password !== confirmPassword) {
+                toastr.error("Passwords do not match.");
+                return; // Prevent form submission if passwords do not match
+            }
 
             $.ajax({
                 url: '@Url.Action("Create", "User")',
                 type: 'POST',
                 data: $(this).serialize(),
                 success: function (response) {
-                    if (response.success) {
-                        toastr.success(response.message);
-                        $('#createUserModal').modal('hide');
-                        location.reload();
-                    } else {
-                        toastr.error(response.message);
-                    }
+                    $('#createUserModal').modal('hide');
+                    location.reload();
                 },
-                error: function () {
-                    toastr.error("An unexpected error occurred.");
+                error: function (response) {
+                    toastr.error("An error occurred while creating the user.");
                 }
             });
         });
@@ -227,6 +227,8 @@
                 }
             });
         });
+
+        
 
         // Display success/error messages from TempData if available
         var successMessage = '@TempData["SuccessMessage"]';
