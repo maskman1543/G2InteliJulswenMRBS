@@ -32,7 +32,7 @@
                 {
                     <tr style="background-color: #F3E5AB;">
                         <td>@Html.DisplayFor(modelItem => item.RoomName)</td>
-                        <td>@item.StartDate.ToString("yyyy-MM-dd")</td>
+                        <td>@item.StartDate.ToString("dd-MM-yyyy")</td>
                         <td>@item.StartTime.Hours.ToString("D2"):@item.StartTime.Minutes.ToString("D2")</td>
                         <td>@item.EndTime.Hours.ToString("D2"):@item.EndTime.Minutes.ToString("D2")</td>
                         <td>@Html.DisplayFor(modelItem => item.Purpose)</td>
@@ -44,11 +44,9 @@
                             </button>
 
                             <!-- Cancel Button -->
-                            <form asp-controller="BookingUser" asp-action="Delete" asp-route-id="@item.BookingId" method="post" style="display:inline;">
-                                <button type="submit" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this booking?');">
-                                    <i class="fas fa-trash"></i> Cancel
-                                </button>
-                            </form>
+                            <button type="button" class="btn btn-danger loadDeleteBookingModal" data-booking-id="@item.BookingId">
+                                <i class="fa-solid fa-trash"></i> Delete
+                            </button>
                         </td>
                     </tr>
 
@@ -85,6 +83,16 @@
             });
         });
 
+        $(document).on("click", ".loadDeleteBookingModal", function () {
+            var bookingId = $(this).data("booking-id"); // Get the booking ID from the button
+            $.get('@Url.Action("DeleteBookingModal", "BookingUser")', { bookingId: bookingId }, function (data) {
+                $("#bookingModalContainer").html(data); // Load the modal content
+                var modalElement = document.getElementById('deleteBookingModal');
+                var modal = new bootstrap.Modal(modalElement);
+                modal.show(); // Show the modal
+            });
+        });
+
 
         // AJAX form submission for Edit Booking
         $(document).on("submit", "#editBookingForm", function (event) {
@@ -112,6 +120,39 @@
                 }
             });
         });
+
+        // AJAX form submission for Delete booking
+        $(document).on("submit", "#deleteBookingForm", function (event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            $.ajax({
+                url: '@Url.Action("SoftDelete", "BookingUser")', // Soft delete action
+                type: 'POST',
+                data: $(this).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        toastr.success(response.message); // Show success message
+                        $('#deleteBookingModal').modal('hide'); // Hide the modal
+                        location.reload(); // Refresh the page or update the list dynamically
+                    } else {
+                        toastr.error(response.message); // Show error message
+                    }
+                },
+                error: function () {
+                    toastr.error("An unexpected error occurred.");
+                }
+            });
+        });
+
+        // Display success/error messages from TempData if available
+        var successMessage = '@TempData["SuccessMessage"]';
+        if (successMessage) {
+            toastr.success(successMessage);
+        }
+        var errorMessage = '@TempData["ErrorMessage"]';
+        if (errorMessage) {
+            toastr.error(errorMessage);
+        }
 
         function setupBookingForm() {
             const startDateField = document.getElementById('startDate');

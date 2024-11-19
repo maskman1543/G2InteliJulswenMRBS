@@ -1,4 +1,4 @@
-﻿ using ASI.Basecode.Services.Interfaces;
+﻿using ASI.Basecode.Services.Interfaces;
 using ASI.Basecode.Services.ServiceModels;
 using ASI.Basecode.Services.Services;
 using ASI.Basecode.WebApp.Mvc;
@@ -29,7 +29,7 @@ namespace ASI.Basecode.WebApp.Controllers
                             IHttpContextAccessor httpContextAccessor,
                             ILoggerFactory loggerFactory,
                             IConfiguration configuration,
-                            IMapper mapper, 
+                            IMapper mapper,
                             IBookingService bookingService) : base(httpContextAccessor, loggerFactory, configuration, mapper)
         {
             _bookingService = bookingService;
@@ -82,17 +82,20 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("Edit", viewModel);
         }
 
-        [HttpGet("/BookingUser/Delete/{Id}")]
-        public IActionResult Delete(int Id)
+        [HttpGet]
+        public IActionResult DeleteBookingModal(int BookingId)
         {
-            var data = _bookingService.RetrieveBooking(Id);  // Retrieves the booking details
-            if (data == null)
+            // Retrieve the booking by ID
+            var booking = _bookingService.RetrieveBooking(BookingId);
+            if (booking == null)
             {
-                TempData["ErrorMessage"] = "Booking not found!";  // Show error if booking not found
-                return RedirectToAction("ViewBooking");
+                return NotFound(); // Handle the case if the booking doesn't exist
             }
-            return View(data);
+
+            // Return the partial view with the booking data
+            return PartialView("Delete"); // Ensure the correct view name is used here
         }
+
         #endregion
 
         #region Post Methods
@@ -100,7 +103,7 @@ namespace ASI.Basecode.WebApp.Controllers
         public IActionResult Create(BookingViewModel model)
         {
             try
-            {   
+            {
                 _bookingService.AddBooking(model, UserId);
                 TempData["SuccessMessage"] = "Booking created successfully!";
                 return Json(new { success = true, message = "Booking created successfully!" });
@@ -141,20 +144,22 @@ namespace ASI.Basecode.WebApp.Controllers
             }
         }
 
-        [HttpPost("/BookingUser/Delete/{BookingId}")]
+        [HttpPost]
         public IActionResult SoftDelete(int BookingId)
         {
             try
             {
-                _bookingService.DeleteBooking(BookingId);  // Call service to delete the booking
-                TempData["SuccessMessage"] = "Booking deleted successfully!";  // Show success message
-            }
-            catch (InvalidOperationException ex)
-            {
-                TempData["ErrorMessage"] = ex.Message;  // Handle error and display message
-            }
+                _bookingService.DeleteBooking(BookingId); // Soft delete logic for the user
+                TempData["SuccessMessage"] = "Booking deleted successfully.";
 
-            return RedirectToAction("ViewBooking");
+                // Return a JSON response with a redirect URL
+                return Json(new { success = true, redirectUrl = Url.Action("ViewBooking", "BookingUser") });
+            }
+            catch (Exception)
+            {
+                // Handle any errors
+                return Json(new { success = false, message = "An error occurred while deleting the user." });
+            }
         }
         #endregion
 
