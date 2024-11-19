@@ -70,7 +70,6 @@ namespace ASI.Basecode.WebApp.Controllers
                 Capacity = room.Capacity,
                 Location = room.Location,
                 Equipment = room.Equipment,
-                Price = room.Price,
             };
 
             // Return the partial view with the room data for editing

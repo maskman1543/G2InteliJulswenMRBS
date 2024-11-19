@@ -21,7 +21,6 @@
             <th>@Html.DisplayNameFor(model => model.RoomName)</th>
             <th>@Html.DisplayNameFor(model => model.Capacity)</th>
             <th>@Html.DisplayNameFor(model => model.Equipment)</th>
-            <th>@Html.DisplayNameFor(model => model.Price)</th>
         </tr>
     </thead>
     <tbody>
@@ -33,7 +32,6 @@
                     <td>@Html.DisplayFor(modelItem => item.RoomName)</td>
                     <td>@Html.DisplayFor(modelItem => item.Capacity)</td>
                     <td>@Html.DisplayFor(modelItem => item.Equipment)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Price)</td>
                     <td>
                         <button type="button" class="btn btn-primary loadCreateBookingModal" data-room-id="@item.Id">
                             <i class="bi bi-pencil"></i> Book

@@ -41,32 +41,3 @@
         </div>
     </div>
 </div>
-
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-    <script>
-        $(document).on("submit", "#deleteUserForm", function (event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            $.ajax({
-                url: '@Url.Action("SoftDelete", "User")', // The action method to perform soft delete
-                type: 'POST',
-                data: $(this).serialize(), // Serialize the form data to send with the request
-                success: function (response) {
-                    if (response.success) {
-                        toastr.success("User deleted successfully!"); // Show success message
-                        $('#deleteUserModal').modal('hide'); // Close the modal
-
-                        // Redirect to the User Management page
-                        window.location.href = response.redirectUrl;
-                    } else {
-                        toastr.error(response.message); // Show error message
-                    }
-                },
-                error: function () {
-                    toastr.error("An unexpected error occurred.");
-                }
-            });
-        });
-    </script>
-}

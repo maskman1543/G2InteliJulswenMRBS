@@ -1,6 +1,8 @@
 ﻿@model ASI.Basecode.Services.ServiceModels.RoomViewModel
+@{
+    ViewData["Title"] = "Edit Room";
+}
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
 <link rel="stylesheet" href="~/css/modal.css" />
 <div class="modal fade" id="editRoomModal" tabindex="-1" role="dialog" aria-labelledby="editRoomModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -40,12 +42,6 @@
                         <span asp-validation-for="Equipment" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="Price" class="control-label"></label>
-                        <input asp-for="Price" class="form-control" />
-                        <span asp-validation-for="Price" class="text-danger"></span>
-                    </div>
-
                     <div class="form-group text-right">
                         <input type="submit" value="Save" class="btn btn-primary" />
                     </div>
@@ -54,37 +50,3 @@
         </div>
     </div>
 </div>
-
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-
-    <script>
-        // AJAX form submission for Edit Room
-        $(document).on("submit", "#editRoomForm", function (event) {
-            event.preventDefault(); // Prevent default form submission
-
-            $.ajax({
-                url: '@Url.Action("Edit", "Room")',  // Ensure this URL points to the correct POST action
-                type: 'POST',
-                data: $(this).serialize(), // Serialize form data for submission
-                success: function (response) {
-                    if (response.success) {
-                        toastr.success(response.message);  // Success message
-                        $('#editRoomModal').modal('hide'); // Hide the modal after success
-                        location.reload();  // Reload the page or update the room list dynamically
-                    } else {
-                        toastr.error(response.message);  // Show error message if failure
-                        if (response.errors) {
-                            response.errors.forEach(function (error) {
-                                toastr.error(error);  // Display validation errors
-                            });
-                        }
-                    }
-                },
-                error: function () {
-                    toastr.error("An unexpected error occurred.");  // Handle unforeseen errors
-                }
-            });
-        });
-    </script>
-}

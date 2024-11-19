@@ -54,30 +54,3 @@
     </div>
 </div>
 
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-    <script>
-        $(document).on("submit", "#deleteRoomForm", function (event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            $.ajax({
-                url: '@Url.Action("SoftDelete", "Room")', // The action method to perform soft delete
-                type: 'POST',
-                data: $(this).serialize(), // Serialize the form data to send with the request
-                success: function (response) {
-                    if (response.success) {
-                        toastr.success("Room deleted successfully!"); // Show success message
-                        $('#deleteRoomModal').modal('hide'); // Close the modal
-                        location.reload(); // Reload the page to reflect the change
-                    } else {
-                        toastr.error(response.message); // Show error message
-                    }
-                },
-                error: function () {
-                    toastr.error("An unexpected error occurred.");
-                }
-            });
-        });
-    </script>
-}
-

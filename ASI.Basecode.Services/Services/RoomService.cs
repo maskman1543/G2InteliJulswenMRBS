@@ -52,7 +52,6 @@ namespace ASI.Basecode.Services.Services
                                            Capacity = room.Capacity,
                                            Location = room.Location,
                                            Equipment = room.Equipment,
-                                           Price = room.Price,
                                        });
 
             return rooms;
@@ -66,7 +65,6 @@ namespace ASI.Basecode.Services.Services
                 Capacity = s.Capacity,
                 Location = s.Location,
                 Equipment = s.Equipment,
-                Price = s.Price,
             }).FirstOrDefault();
 
             return room;
@@ -101,7 +99,6 @@ namespace ASI.Basecode.Services.Services
                 RoomName = r.RoomName,
                 Capacity = r.Capacity,
                 Equipment = r.Equipment,
-                Price = r.Price
             }).ToList();
         }
     }

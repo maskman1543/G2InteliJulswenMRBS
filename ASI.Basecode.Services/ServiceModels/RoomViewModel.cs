@@ -17,9 +17,6 @@ namespace ASI.Basecode.Services.ServiceModels
         [Required(ErrorMessage = "Location is required.")]
         public string Location { get; set; }
         [Required(ErrorMessage = "Equipment is required.")]
-        public string Equipment { get; set; }
-        [Required(ErrorMessage = "Price is required.")]
-        public string Price { get; set; }
-        
+        public string Equipment { get; set; }   
     }
 }
