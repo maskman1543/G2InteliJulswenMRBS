@@ -1,5 +1,10 @@
 ﻿@model ASI.Basecode.Services.ServiceModels.BookingViewModel
 
+@{
+    ViewData["Title"] = "Delete Booking";
+    Context.Session.SetString("IsViewBookingActive", "true");
+}
+
 <div class="modal fade" id="deleteBookingModal" tabindex="-1" role="dialog" aria-labelledby="deleteBookingModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

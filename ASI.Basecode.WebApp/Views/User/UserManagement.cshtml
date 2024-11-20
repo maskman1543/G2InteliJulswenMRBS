@@ -7,7 +7,7 @@
 <div class="list-container">
     <!-- Linking stylesheets -->
     <link href="~/css/dashboards.css" rel="stylesheet" />
-    
+
 
     <!-- Heading and Add User button -->
     <div class="header d-flex align-items-center mb-3">
@@ -69,55 +69,59 @@
 </div>
 
 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@section scripts {
     <script>
-               $(document).ready(function () {
+        $(document).ready(function () {
+            // Debounce to reduce the number of AJAX calls while typing
+            let debounceTimeout;
             $("#searchUserInput").on("input", function () {
-                var searchTerm = $(this).val().trim();
+                clearTimeout(debounceTimeout);
 
-                // Send the search term to the server via AJAX
-                $.ajax({
-                    url: '/User/SearchUser',
-                    type: 'GET',
-                    data: { term: searchTerm },
-                    success: function (data) {
-                        var tableBody = $(".table-body");
-                        tableBody.empty(); // Clear the current rows
+                debounceTimeout = setTimeout(function () {
+                    var searchTerm = $("#searchUserInput").val().trim();
 
-                        if (data.length > 0) {
-                            // Populate rows with filtered users
-                            $.each(data, function (index, user) {
-                                var row = `
-                                    <div class="table-row">
-                                        <span>${user.userId}</span>
-                                        <span>${user.name}</span>
-                                        <span>${user.roles}</span>
-                                        <div class="actions">
-                                            <button type="button" class="btn btn-warning loadEditUserModal" data-id="${user.id}">
-                                                <i class="fas fa-pencil"></i> Edit
-                                            </button>
-                                            <button type="button" class="btn btn-danger loadDeleteUserModal" data-id="${user.id}">
-                                                <i class="fa-solid fa-trash"></i> Delete
-                                            </button>
-                                        </div>
-                                    </div>`;
-                                tableBody.append(row);
-                            });
-                        } else {
-                            // Show "No users found" message
-                            tableBody.append('<div class="no-item text-center">No users found.</div>');
+                    // Send the search term to the server via AJAX
+                    $.ajax({
+                        url: '/User/SearchUser',
+                        type: 'GET',
+                        data: { term: searchTerm },
+                        success: function (data) {
+                            var tableBody = $(".table-body");
+                            tableBody.empty(); // Clear the current rows
+
+                            if (data.length > 0) {
+                                // Populate rows with filtered users
+                                $.each(data, function (index, user) {
+                                    var row = `
+                                                <div class="table-row">
+                                                    <span>${user.userId}</span>
+                                                    <span>${user.name}</span>
+                                                    <span>${user.roles}</span>
+                                                    <div class="actions">
+                                                        <button type="button" class="btn btn-warning loadEditUserModal" data-id="${user.id}">
+                                                            <i class="fas fa-pencil"></i> Edit
+                                                        </button>
+                                                        <button type="button" class="btn btn-danger loadDeleteUserModal" data-id="${user.id}">
+                                                            <i class="fa-solid fa-trash"></i> Delete
+                                                        </button>
+                                                    </div>
+                                                </div>`;
+                                    tableBody.append(row);
+                                });
+                            } else {
+                                // Show "No users found" message
+                                tableBody.append('<div class="no-item text-center">No users found.</div>');
+                            }
+                        },
+                        error: function () {
+                            toastr.error("An error occurred while searching for users."); // Replace alert with toastr for a better user experience
                         }
-                    },
-                    error: function () {
-                        alert("An error occurred while searching for users.");
-                    }
-                });
+                    });
+                }, 300); // Delay of 300ms after the user stops typing
             });
-
         });
 
-        }, 300)); // Delay of 300ms after the user stops typing
-    
+
 
         // Load the Modals
         $("#loadCreateUserModal").click(function () {
@@ -216,7 +220,7 @@
             });
         });
 
-        
+
 
         // Display success/error messages from TempData if available
         var successMessage = '@TempData["SuccessMessage"]';
