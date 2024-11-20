@@ -120,6 +120,9 @@
   <data name="LocationExists" xml:space="preserve">
     <value>Location already exists!</value>
   </data>
+  <data name="RoomAlreadyBooked" xml:space="preserve">
+    <value>This room is already booked from the selected time.</value>
+  </data>
   <data name="RoomNameExists" xml:space="preserve">
     <value>Room already exists!</value>
   </data>

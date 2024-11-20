@@ -4,10 +4,6 @@
     ViewData["Title"] = "User Dashboard";
 }
 
-
-
-
-
 <div class="d-flex align-items-center mb-3">
     <h1 class="me-3">Room List</h1>
 </div>
@@ -49,8 +45,6 @@
     </tbody>
 </table>
 
-
-
 @section Scripts {
     @await Html.PartialAsync("_ValidationScriptsPartial")
 
@@ -62,7 +56,13 @@
             // Fetch the modal content using an AJAX request
             $.get('@Url.Action("CreateBookingModal", "BookingUser")', { roomId: roomId }, function (data) {
                 $("#bookingModalContainer").html(data); // Load modal content into the container
+
                 var modalElement = document.getElementById('createBookingModal'); // Ensure the modal ID matches
+                if (!modalElement) {
+                    console.error("Modal element not found");
+                    return;
+                }
+
                 var modal = new bootstrap.Modal(modalElement);
                 modal.show(); // Show the modal
 
@@ -70,83 +70,6 @@
                 setupBookingForm(); // Call the function to populate start and end times
             });
         });
-
-        function setupBookingForm() {
-            const startDateField = document.getElementById('startDate');
-            const startTimeDropdown = document.getElementById('startTime');
-            const endTimeDropdown = document.getElementById('endTime');
-
-            // Set today's date for the Start Date and prevent past dates
-            const today = new Date().toISOString().split('T')[0];
-            startDateField.value = today;
-            startDateField.min = today;
-
-            // Populate both Start Time and End Time dropdowns (8:00 AM to 6:00 PM with 30 min intervals)
-            populateTimeDropdowns(startTimeDropdown, endTimeDropdown);
-
-            // Add event listeners to validate end time whenever start or end time changes
-            startTimeDropdown.addEventListener('change', () => validateEndTime(startTimeDropdown, endTimeDropdown));
-            endTimeDropdown.addEventListener('change', () => validateEndTime(startTimeDropdown, endTimeDropdown));
-        }
-
-        // Function to populate the dropdowns with times from 8:00 AM to 6:00 PM (30 min increments)
-        function populateTimeDropdowns(startTimeDropdown, endTimeDropdown) {
-            const timeOptions = generateTimeOptions(8, 18);
-            const optionsHtml = timeOptions.map(time => `<option value="${time}">${time}</option>`).join('');
-
-            startTimeDropdown.innerHTML += optionsHtml;
-            endTimeDropdown.innerHTML += optionsHtml;
-        }
-
-        // Function to generate time options from a start hour to end hour with 30 minute intervals
-        function generateTimeOptions(startHour, endHour) {
-            const options = [];
-            for (let hour = startHour; hour <= endHour; hour++) {
-                for (const minute of [0, 30]) {
-                    if (hour === 18 && minute === 30) break; // Avoid 18:30
-                    options.push(formatTime(hour, minute));
-                }
-            }
-            return options;
-        }
-
-        // Function to format hour and minute into 'HH:mm' format
-        function formatTime(hour, minute) {
-            return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
-        }
-
-        // Function to validate that the End Time is greater than Start Time
-        function validateEndTime(startTimeDropdown, endTimeDropdown) {
-            const startTime = startTimeDropdown.value;
-            const endTime = endTimeDropdown.value;
-
-            if (!startTime || !endTime) return; // If any value is empty, do nothing
-
-            const startTimeInMinutes = convertToMinutes(startTime);
-            const endTimeInMinutes = convertToMinutes(endTime);
-
-            // If Start Time and End Time are the same or End Time is not greater than Start Time
-            if (startTime === endTime) {
-                alert('Start time and End time cannot be the same.');
-                resetDropdownsToPlaceholder(startTimeDropdown, endTimeDropdown);
-            } else if (endTimeInMinutes <= startTimeInMinutes) {
-                alert('End time must be greater than start time.');
-                resetDropdownsToPlaceholder(startTimeDropdown, endTimeDropdown);
-            }
-        }
-
-        // Function to reset dropdown values to placeholder
-        function resetDropdownsToPlaceholder(startTimeDropdown, endTimeDropdown) {
-            startTimeDropdown.value = ""; // Reset Start Time to placeholder
-            endTimeDropdown.value = "";  // Reset End Time to placeholder
-        }
-
-        // Function to convert 'HH:mm' time format to total minutes
-        function convertToMinutes(time) {
-            const [hours, minutes] = time.split(':').map(Number);
-            return hours * 60 + minutes;
-        }
-
 
 
         // AJAX form submission for Create Booking
@@ -171,6 +94,74 @@
                 }
             });
         });
+
+        // Function to setup the booking form with validations
+        function setupBookingForm() {
+            const startDateField = document.getElementById('startDate');
+            const startTimeDropdown = document.getElementById('startTime');
+            const endTimeDropdown = document.getElementById('endTime');
+
+            // Set today's date for the Start Date and prevent past dates
+            const today = new Date().toISOString().split('T')[0];
+            startDateField.value = today;
+            startDateField.min = today;
+
+            // Populate both Start Time and End Time dropdowns (8:00 AM to 6:00 PM with 30 min intervals)
+            populateTimeDropdowns(startTimeDropdown, endTimeDropdown);
+
+            // Add event listeners to validate end time whenever start or end time changes
+            startTimeDropdown.addEventListener('change', () => validateEndTime(startTimeDropdown, endTimeDropdown));
+            endTimeDropdown.addEventListener('change', () => validateEndTime(startTimeDropdown, endTimeDropdown));
+        }
+
+
+        // Time and validation utilities
+        function populateTimeDropdowns(startTimeDropdown, endTimeDropdown) {
+            const timeOptions = generateTimeOptions(8, 18);
+            const optionsHtml = timeOptions.map(time => `<option value="${time}">${time}</option>`).join('');
+
+            startTimeDropdown.innerHTML += optionsHtml;
+            endTimeDropdown.innerHTML += optionsHtml;
+        }
+
+        function generateTimeOptions(startHour, endHour) {
+            const options = [];
+            for (let hour = startHour; hour <= endHour; hour++) {
+                for (const minute of [0, 30]) {
+                    if (hour === 18 && minute === 30) break; // Avoid 18:30
+                    options.push(formatTime(hour, minute));
+                }
+            }
+            return options;
+        }
+
+        function formatTime(hour, minute) {
+            return `${hour.toString().padStart(2, '0')}:${minute.toString().padStart(2, '0')}`;
+        }
+
+        function validateEndTime(startTimeDropdown, endTimeDropdown) {
+            const startTime = startTimeDropdown.value;
+            const endTime = endTimeDropdown.value;
+
+            if (!startTime || !endTime) return;
+
+            const startTimeInMinutes = convertToMinutes(startTime);
+            const endTimeInMinutes = convertToMinutes(endTime);
+
+            if (endTimeInMinutes <= startTimeInMinutes) {
+                alert('End time must be greater than start time.');
+                resetDropdownsToPlaceholder(startTimeDropdown, endTimeDropdown);
+            }
+        }
+
+        function convertToMinutes(time) {
+            const [hours, minutes] = time.split(':').map(Number);
+            return hours * 60 + minutes;
+        }
+
+        function resetDropdownsToPlaceholder(startTimeDropdown, endTimeDropdown) {
+            startTimeDropdown.value = "";
+            endTimeDropdown.value = "";
+        }
     </script>
 }
-

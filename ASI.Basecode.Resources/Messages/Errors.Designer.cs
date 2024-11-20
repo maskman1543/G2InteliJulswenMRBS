@@ -70,6 +70,15 @@ namespace ASI.Basecode.Resources.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This room is already booked from the selected time..
+        /// </summary>
+        public static string RoomAlreadyBooked {
+            get {
+                return ResourceManager.GetString("RoomAlreadyBooked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Room already exists!.
         /// </summary>
         public static string RoomNameExists {

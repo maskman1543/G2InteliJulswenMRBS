@@ -30,21 +30,44 @@ namespace ASI.Basecode.Services.Services
         }
         public void AddBooking(BookingViewModel model, string userId)
         {
-            var newBooking = new Booking();
-            _mapper.Map(model, newBooking);
-            newBooking.StartDate = model.StartDate.Date;
-            newBooking.StartTime = new TimeSpan(model.StartTime.Hours, model.StartTime.Minutes, 0);
-            newBooking.EndTime = new TimeSpan(model.EndTime.Hours, model.EndTime.Minutes, 0);
-            newBooking.Status = "Booked";
-            newBooking.IsDeleted = false;
-            newBooking.CreatedBy = userId;
-            newBooking.UpdatedBy = userId;
-            newBooking.Username = userId;
-            newBooking.CreatedTime = DateTime.Now;
-            newBooking.UpdatedTime = DateTime.Now;
+            // Check if the room is available for the requested time
+            bool isRoomAvailable = IsRoomAvailable(model.RoomId, model.StartDate, model.StartTime, model.EndTime);
 
-            _bookingRepository.AddBooking(newBooking);
+            if (!isRoomAvailable)
+            {
+                throw new InvalidDataException(Resources.Messages.Errors.RoomAlreadyBooked);
+            }
+            else
+            {
+                var newBooking = new Booking();
+                _mapper.Map(model, newBooking);
+                newBooking.StartDate = model.StartDate.Date;
+                newBooking.StartTime = new TimeSpan(model.StartTime.Hours, model.StartTime.Minutes, 0);
+                newBooking.EndTime = new TimeSpan(model.EndTime.Hours, model.EndTime.Minutes, 0);
+                newBooking.Status = "Booked";
+                newBooking.IsDeleted = false;
+                newBooking.CreatedBy = userId;
+                newBooking.UpdatedBy = userId;
+                newBooking.Username = userId;
+                newBooking.CreatedTime = DateTime.Now;
+                newBooking.UpdatedTime = DateTime.Now;
+
+                _bookingRepository.AddBooking(newBooking);
+            }
+            
         }
+
+        private bool IsRoomAvailable(int roomId, DateTime startDate, TimeSpan startTime, TimeSpan endTime)
+        {
+            var conflictingBookings = _bookingRepository.RetrieveAll()
+                .Where(b => b.RoomId == roomId && !b.IsDeleted && b.StartDate == startDate.Date)
+                .Any(b =>
+                    b.StartTime < endTime && b.EndTime > startTime
+                );
+
+            return !conflictingBookings;
+        }
+
         public IEnumerable<BookingViewModel> RetrieveAllBookings()
         {
             var bookings = _bookingRepository.RetrieveAll()
