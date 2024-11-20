@@ -7,7 +7,7 @@
 <div class="list-container">
     <!-- Linking stylesheets -->
     <link href="~/css/dashboards.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
 
     <!-- Heading and Add User button -->
     <div class="header d-flex align-items-center mb-3">
@@ -68,10 +68,6 @@
     </div>
 </div>
 
-@section scripts {
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
-
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
@@ -117,13 +113,12 @@
                     }
                 });
             });
+
         });
-    </script>
 
+        }, 300)); // Delay of 300ms after the user stops typing
+    
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script> <!-- Bootstrap JS -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> <!-- jQuery -->
-    <script>
         // Load the Modals
         $("#loadCreateUserModal").click(function () {
             $.get('@Url.Action("CreateUserModal", "User")', function (data) {
@@ -148,25 +143,29 @@
             });
         });
 
-        // AJAX form submission for Create User
+        // AJAX Form submission for Create User
         $(document).on("submit", "#createUserForm", function (event) {
             event.preventDefault();
+
+            var password = $('#password').val();
+            var confirmPassword = $('#confirmpassword').val();
+
+            // Check if passwords match
+            if (password !== confirmPassword) {
+                toastr.error("Passwords do not match.");
+                return; // Prevent form submission if passwords do not match
+            }
 
             $.ajax({
                 url: '@Url.Action("Create", "User")',
                 type: 'POST',
                 data: $(this).serialize(),
                 success: function (response) {
-                    if (response.success) {
-                        toastr.success(response.message);
-                        $('#createUserModal').modal('hide');
-                        location.reload();
-                    } else {
-                        toastr.error(response.message);
-                    }
+                    $('#createUserModal').modal('hide');
+                    location.reload();
                 },
-                error: function () {
-                    toastr.error("An unexpected error occurred.");
+                error: function (response) {
+                    toastr.error("An error occurred while creating the user.");
                 }
             });
         });
@@ -216,6 +215,8 @@
                 }
             });
         });
+
+        
 
         // Display success/error messages from TempData if available
         var successMessage = '@TempData["SuccessMessage"]';

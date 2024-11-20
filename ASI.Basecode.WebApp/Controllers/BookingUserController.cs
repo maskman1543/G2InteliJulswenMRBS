@@ -1,4 +1,4 @@
-﻿ using ASI.Basecode.Services.Interfaces;
+﻿using ASI.Basecode.Services.Interfaces;
 using ASI.Basecode.Services.ServiceModels;
 using ASI.Basecode.Services.Services;
 using ASI.Basecode.WebApp.Mvc;
@@ -29,7 +29,7 @@ namespace ASI.Basecode.WebApp.Controllers
                             IHttpContextAccessor httpContextAccessor,
                             ILoggerFactory loggerFactory,
                             IConfiguration configuration,
-                            IMapper mapper, 
+                            IMapper mapper,
                             IBookingService bookingService) : base(httpContextAccessor, loggerFactory, configuration, mapper)
         {
             _bookingService = bookingService;
@@ -45,91 +45,121 @@ namespace ASI.Basecode.WebApp.Controllers
             return View(data);
         }
 
-        [HttpGet("/BookingUser/Create/{Id}")]
-        public IActionResult Create(int Id)
+        [HttpGet]
+        public IActionResult CreateBookingModal(int roomId)
         {
             var model = new BookingViewModel
             {
-                RoomId = Id // Set the RoomId to the selected room
+                RoomId = roomId
+            };
+            return PartialView("Create", model);
+        }
+
+        [HttpGet]
+        public IActionResult EditBookingModal(int BookingId)
+        {
+            // Retrieve the Room based on the ID
+            var booking = _bookingService.RetrieveBooking(BookingId);
+            if (booking == null)
+            {
+                return NotFound();
+            }
+
+            // Create the RoomViewModel to pass the data to the modal view
+            var viewModel = new BookingViewModel
+            {
+                BookingId = booking.BookingId,
+                Purpose = booking.Purpose,
+                StartDate = booking.StartDate,
+                StartTime = booking.StartTime,
+                EndTime = booking.EndTime,
+                Status = booking.Status,
+                RoomId = booking.RoomId,
+                RoomName = booking.RoomName,
             };
 
-            return View(model);
+            //Return the partial view with the room data for editing
+            return PartialView("Edit", viewModel);
         }
 
-        [HttpGet("/BookingUser/Edit/{Id}")]
-        public IActionResult Edit(int Id)
+        [HttpGet]
+        public IActionResult DeleteBookingModal(int BookingId)
         {
-            var data = _bookingService.RetrieveBooking(Id);
-            return View(data);
-        }
-
-        [HttpGet("/BookingUser/Delete/{Id}")]
-        public IActionResult Delete(int Id)
-        {
-            var data = _bookingService.RetrieveBooking(Id);  // Retrieves the booking details
-            if (data == null)
+            // Retrieve the booking by ID
+            var booking = _bookingService.RetrieveBooking(BookingId);
+            if (booking == null)
             {
-                TempData["ErrorMessage"] = "Booking not found!";  // Show error if booking not found
-                return RedirectToAction("ViewBooking");
+                return NotFound(); // Handle the case if the booking doesn't exist
             }
-            return View(data);
+
+            // Return the partial view with the booking data
+            return PartialView("Delete"); // Ensure the correct view name is used here
         }
+
         #endregion
 
         #region Post Methods
-        [HttpPost("/BookingUser/Create/{Id}")]
+        [HttpPost]
         public IActionResult Create(BookingViewModel model)
         {
-            if (ModelState.IsValid)
-            {   
-                _bookingService.AddBooking(model, UserId);
-
-                TempData["SuccessMessage3"] = "Booking created successfully!";
-                return RedirectToAction("UserDashboard", "Home");
-            }
-            else
+            try
             {
-                // If the model is invalid, set error message
-                TempData["ErrorMessage"] = "There was an issue with your submission. Please check the form and try again.";
-                return View(model); 
+                _bookingService.AddBooking(model, UserId);
+                TempData["SuccessMessage"] = "Booking created successfully!";
+                return Json(new { success = true, message = "Booking created successfully!" });
             }
-           
+            catch (InvalidDataException ex)
+            {
+                return Json(new { success = false, message = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                return Json(new { success = false, message = Resources.Messages.Errors.ServerError });
+            }
+
         }
 
-        [HttpPost("/BookingUser/Edit/{Id}")]
+        [HttpPost]
         public IActionResult Edit(BookingViewModel model)
         {
-            if (ModelState.IsValid)
-            { 
+            try
+            {
                 model.Status = "Booked";
+                // Call your service to update the booking
                 _bookingService.UpdateBooking(model, UserId);
 
-                // TempData message to show success
-                TempData["SuccessMessage"] = "Booking updated successfully!";
-                return RedirectToAction("ViewBooking");
+                // Return success response
+                return Json(new { success = true, message = "Booking updated successfully!" });
+
             }
-            else
+            catch (InvalidDataException ex)
             {
-                // If the model is invalid, set error message
-                TempData["ErrorMessage"] = "There was an issue with your submission. Please check the form and try again.";
-                return View(model); 
+                // Handle known exceptions (e.g., validation failures)
+                return Json(new { success = false, message = ex.Message });
+            }
+            catch (Exception)
+            {
+                // Handle any unforeseen exceptions
+                return Json(new { success = false, message = Resources.Messages.Errors.ServerError });
             }
         }
 
-        [HttpPost("/BookingUser/Delete/{BookingId}")]
+        [HttpPost]
         public IActionResult SoftDelete(int BookingId)
         {
             try
             {
-                _bookingService.DeleteBooking(BookingId);  // Call service to delete the booking
-                TempData["SuccessMessage"] = "Booking deleted successfully!";  // Show success message
-            }
-            catch (InvalidOperationException ex)
-            {
-                TempData["ErrorMessage"] = ex.Message;  // Handle error and display message
-            }
+                _bookingService.DeleteBooking(BookingId); // Soft delete logic for the user
+                TempData["SuccessMessage"] = "Booking deleted successfully.";
 
-            return RedirectToAction("ViewBooking");
+                // Return a JSON response with a redirect URL
+                return Json(new { success = true, redirectUrl = Url.Action("ViewBooking", "BookingUser") });
+            }
+            catch (Exception)
+            {
+                // Handle any errors
+                return Json(new { success = false, message = "An error occurred while deleting the user." });
+            }
         }
         #endregion
 

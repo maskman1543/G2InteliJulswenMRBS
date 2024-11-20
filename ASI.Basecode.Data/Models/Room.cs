@@ -15,7 +15,6 @@ namespace ASI.Basecode.Data.Models
         public int Capacity { get; set; }
         public string Location { get; set; }
         public string Equipment { get; set; }
-        public string Price { get; set; }
         public bool IsDeleted { get; set; }
         public string Createdby { get; set; }
         public string Updatedby { get; set; }

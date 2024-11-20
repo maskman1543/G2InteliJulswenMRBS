@@ -14,6 +14,7 @@ namespace ASI.Basecode.Services.Interfaces
         void UpdateUser(UserViewModel model);
         void DeleteUser(int Id);
         bool AdminExists();
+        bool IsUserDeleted(string userId);
 
         // Add the missing method - Camus 
         List<UserViewModel> GetUsersBySearchTerm(string term);

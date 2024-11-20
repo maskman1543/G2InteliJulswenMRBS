@@ -16,34 +16,7 @@
             </div>
             <div class="modal-body">
                 <h3>Are you sure you want to delete this room?</h3>
-                <div>
-                    <dl class="row">
-                        <dt class="col-sm-4">
-                            @Html.DisplayNameFor(model => model.RoomName)
-                        </dt>
-                        <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.RoomName)
-                        </dd>
-                        <dt class="col-sm-4">
-                            @Html.DisplayNameFor(model => model.Capacity)
-                        </dt>
-                        <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.Capacity)
-                        </dd>
-                        <dt class="col-sm-4">
-                            @Html.DisplayNameFor(model => model.Location)
-                        </dt>
-                        <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.Location)
-                        </dd>
-                        <dt class="col-sm-4">
-                            @Html.DisplayNameFor(model => model.Equipment)
-                        </dt>
-                        <dd class="col-sm-8">
-                            @Html.DisplayFor(model => model.Equipment)
-                        </dd>
-                    </dl>
-                </div>
+                
                 <form id="deleteRoomForm" method="post">
                     <input type="hidden" name="Id" value="@Model.Id" />
                     <button type="submit" class="btn btn-danger">Delete</button>
@@ -53,31 +26,4 @@
         </div>
     </div>
 </div>
-
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-    <script>
-        $(document).on("submit", "#deleteRoomForm", function (event) {
-            event.preventDefault(); // Prevent the default form submission
-
-            $.ajax({
-                url: '@Url.Action("SoftDelete", "Room")', // The action method to perform soft delete
-                type: 'POST',
-                data: $(this).serialize(), // Serialize the form data to send with the request
-                success: function (response) {
-                    if (response.success) {
-                        toastr.success("Room deleted successfully!"); // Show success message
-                        $('#deleteRoomModal').modal('hide'); // Close the modal
-                        location.reload(); // Reload the page to reflect the change
-                    } else {
-                        toastr.error(response.message); // Show error message
-                    }
-                },
-                error: function () {
-                    toastr.error("An unexpected error occurred.");
-                }
-            });
-        });
-    </script>
-}
 
