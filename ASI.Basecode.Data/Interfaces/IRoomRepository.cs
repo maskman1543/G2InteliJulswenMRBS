@@ -11,6 +11,8 @@ namespace ASI.Basecode.Data.Interfaces
     {
         void AddRoom(Room model);
         IEnumerable<Room> RetrieveAll();
+        bool RoomNameExists(string roomName);
+        bool LocationExists(string location);
         void UpdateRoom(Room model);
         void DeleteRoom(Room room);
 

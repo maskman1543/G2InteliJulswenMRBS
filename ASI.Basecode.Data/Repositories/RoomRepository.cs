@@ -17,6 +17,16 @@ namespace ASI.Basecode.Data.Repositories
             this.GetDbSet<Room>().Add(model);
             UnitOfWork.SaveChanges();
         }
+        public bool RoomNameExists(string roomName)
+        {
+            return this.GetDbSet<Room>().Any(x => x.RoomName == roomName);
+        }
+
+        public bool LocationExists(string location)
+        {
+            return this.GetDbSet<Room>().Any(x => x.Location == location);
+        }
+
         public IEnumerable<Room> RetrieveAll()
         {
             return this.GetDbSet<Room>();
