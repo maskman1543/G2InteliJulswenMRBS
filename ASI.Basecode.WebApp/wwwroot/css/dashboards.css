@@ -197,3 +197,210 @@
     padding: 20px;
     color: #333;
 }
+
+body {
+    font-family: Arial, sans-serif;
+    color: #333;
+    background-color: #F4F2E9;
+    margin: 0;
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: 250px;
+    background-color: #F7E7B4;
+    flex-shrink: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+    .sidebar a {
+        color: #333;
+        text-decoration: none;
+        margin-bottom: 15px;
+        font-weight: bold;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .sidebar a:hover {
+            color: #A2945E;
+        }
+
+.main-content {
+    flex-grow: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    background-color: #FFF0D1;
+}
+
+.list-container {
+    flex-grow: 1;
+    width: 100%;
+    height: calc(100vh - 40px);
+    background-color: #FFF0D1;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #BFAF5E;
+}
+
+.title {
+    font-size: 1.5em;
+    font-weight: bold;
+    color: #333;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+    .search-bar input {
+        padding: 5px 10px;
+        border-radius: 10px;
+        border: 1px solid #BFAF5E;
+        background-color: #F4F2E9;
+    }
+
+.search-button {
+    background-color: #BFAF5E;
+    border: none;
+    border-radius: 50%;
+    padding: 5px;
+    color: white;
+    cursor: pointer;
+}
+
+.list-table {
+    width: 100%;
+    margin-top: 20px;
+    border-collapse: collapse;
+}
+
+.table-header,
+.table-row {
+    display: grid;
+    grid-template-columns: 1.5fr 1.5fr 1fr 1fr 1fr 2fr 1fr;
+    gap: 0;
+    padding: 15px 0;
+    align-items: center;
+    border-bottom: 1px solid #BFAF5E;
+}
+
+.table-header {
+    font-weight: bold;
+    color: #333;
+    text-align: center;
+    background-color: #F9F4D6;
+    border-top: 1px solid #BFAF5E;
+}
+
+    .table-header div,
+    .table-row div {
+        padding: 10px;
+        border-right: 1px solid #BFAF5E;
+        text-align: center;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        word-wrap: break-word;
+    }
+
+        .table-header div:last-child,
+        .table-row div:last-child {
+            border-right: none;
+        }
+
+.table-row {
+    background-color: #F9F4D6;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    /* Style for span inside table cell (responsive) */
+    .table-row span {
+        display: block; /* Make span behave like a block element inside a cell */
+        width: 100%; /* Ensure span takes up full width inside the cell */
+        padding: 5px 10px;
+        background-color: #F9F4D6;
+        font-weight: bold;
+        color: #333;
+        border-radius: 5px;
+        text-align: center;
+        box-sizing: border-box; /* Ensures padding does not affect width */
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* Allow span size to adjust based on container (card size) */
+    .table-row span {
+        flex: 1; /* Make span flexible and adjust size based on parent size */
+        text-align: center;
+    }
+
+.profile-icon img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+/* Style for the container holding the buttons */
+.actions {
+    display: flex;
+    flex-direction: column; /* Stack the buttons vertically */
+    gap: 10px; /* Space between buttons */
+    justify-content: center;
+    align-items: center; /* Align buttons in the center horizontally */
+}
+
+    /* Style for individual action buttons */
+    .actions a {
+        color: #FFF; /* White text color for contrast */
+        text-decoration: none;
+        font-size: 1em; /* Slightly smaller font size */
+        padding: 8px 16px; /* Reduced padding to make buttons smaller */
+        background-color: #BFAF5E; /* Soft gold color to match theme */
+        border-radius: 5px;
+        text-align: center;
+        width: 100%; /* Make buttons take up the full width of the container */
+        box-sizing: border-box; /* Ensure padding does not affect button width */
+        transition: background-color 0.3s ease; /* Smooth transition on hover */
+    }
+
+        /* Button hover effect */
+        .actions a:hover {
+            background-color: #A2945E; /* Darker gold color for hover */
+            color: #F4F2E9; /* Light background color when hovered */
+        }
+
+.no-item {
+    text-align: center;
+    padding: 20px;
+    color: #333;
+}
+
+#loadCreateUserModal {
+    width: auto; /* Make sure the width is not dynamic */
+    padding: 10px 20px; /* Set consistent padding */
+    font-size: 16px; /* Set a fixed font size */
+    transition: none; /* Remove any transition that might affect size */
+}

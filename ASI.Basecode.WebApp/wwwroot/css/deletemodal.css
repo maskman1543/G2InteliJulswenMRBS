@@ -1,0 +1,62 @@
+﻿/* Modal Content (Overall Border Radius) */
+.modal-content {
+    background-color: #FFF0D1;
+    border-radius: 10px; /* Adjust this value to change the border radius */
+}
+
+/* Modal Header */
+.modal-header {
+    border-top-left-radius: 10px; /* Optional: Add rounded corners to the header */
+    border-top-right-radius: 10px; /* Optional: Add rounded corners to the header */
+}
+
+/* Modal Body */
+.modal-body {
+    background-color: white;
+    padding: 2rem;
+    margin: 0;
+    border-bottom-left-radius: 10px; /* Optional: Add rounded corners to the body */
+    border-bottom-right-radius: 10px; /* Optional: Add rounded corners to the body */
+}
+
+/* Modal Footer */
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    padding: 1rem;
+    background-color: white;
+    border-bottom-left-radius: 10px; /* Optional: Add rounded corners to the footer */
+    border-bottom-right-radius: 10px; /* Optional: Add rounded corners to the footer */
+}
+
+    /* Optional: Adjusting Button Radius */
+    .modal-footer .btn {
+        width: 100px;
+        margin: 0 5px;
+        padding: 5px;
+        border-radius: 5px; /* Adjust button border radius */
+    }
+
+/* Primary Save/Register Button */
+.btn-danger1 {
+    background-color: #FFDBB5;
+    border-color: #FFDBB5;
+}
+
+/* Secondary Cancel Button */
+.btn-secondary {
+    background-color: #acb6bf;
+    border-color: #acb6bf;
+}
+
+/* Optional: Hover effect for buttons */
+.btn-danger1:hover {
+    background-color: #D9C0A3;
+    border-color: #D9C0A3;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
