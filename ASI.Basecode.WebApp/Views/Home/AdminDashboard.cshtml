@@ -6,8 +6,99 @@
     Context.Session.Remove("IsViewBookingActive");
 }
 
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<link rel="stylesheet" href="~/css/AdminDashboard.css"/>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Admin</p>
+
+<div class="container mt-4">
+    <h2 class="title">Admin Dashboard</h2>
+    <div class="row justify-content-center">
+        <!-- Card for displaying the number of rooms -->
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title">Total Rooms</h5>
+                    <p class="card-text display-4">@ViewBag.RoomCount</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card for displaying the number of users -->
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title">Total Users</h5>
+                    <p class="card-text display-4">@ViewBag.UserCount</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card for displaying the number of bookings -->
+        <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h5 class="card-title">Total Bookings</h5>
+                    <p class="card-text display-4">@ViewBag.BookingCount</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Add Canvas for the Graph -->
+    <div class="row justify-content-center mt-4">
+        <div class="col-lg-6 col-md-8 col-sm-12 mb-4">
+            <canvas id="myChart" width="500" height="300"></canvas>
+        </div>
+    </div>
 </div>
+
+<script>
+    var ctx = document.getElementById('myChart').getContext('2d');
+    var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Rooms', 'Bookings'],  // X-axis labels, removed "Users"
+            datasets: [{
+                label: 'Total Count',
+                data: [6, 1],  // Data values for Rooms and Bookings only
+                backgroundColor: ['#E2CD79', '#4CAF50'],  // Adjusted colors for each bar
+                borderColor: ['#D1B46A', '#388E3C'],  // Matching border colors
+                borderWidth: 2
+            }]
+        },
+        options: {
+            responsive: true,  // Ensures the chart resizes with the page
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,  // Ensures the Y-axis starts at zero
+                    ticks: {
+                        stepSize: 1,  // Set step size for Y-axis ticks
+                        font: {
+                            size: 14,  // Increase font size of the Y-axis numbers
+                        }
+                    }
+                },
+                x: {
+                    ticks: {
+                        font: {
+                            size: 14,  // Increase font size of the X-axis labels
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    position: 'top',  // Move the legend to the top
+                    labels: {
+                        font: {
+                            size: 14,  // Increase font size of legend text
+                        }
+                    }
+                }
+            }
+        }
+    });
+</script>
+
