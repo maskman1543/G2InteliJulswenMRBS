@@ -28,6 +28,12 @@ namespace ASI.Basecode.Data.Repositories
             return this.GetDbSet<User>().Any(x => x.UserId == userId);
         }
 
+        public bool IsUserDeleted(string userId)
+        {
+            var user = this.GetDbSet<User>().FirstOrDefault(x => x.UserId == userId);
+            return user != null && user.IsDeleted;
+        }
+
         public void AddUser(User user)
         {
             this.GetDbSet<User>().Add(user);

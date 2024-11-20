@@ -61,6 +61,33 @@ namespace ASI.Basecode.Resources.Messages {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Location already exists!.
+        /// </summary>
+        public static string LocationExists {
+            get {
+                return ResourceManager.GetString("LocationExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to This room is already booked from the selected time..
+        /// </summary>
+        public static string RoomAlreadyBooked {
+            get {
+                return ResourceManager.GetString("RoomAlreadyBooked", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Room already exists!.
+        /// </summary>
+        public static string RoomNameExists {
+            get {
+                return ResourceManager.GetString("RoomNameExists", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Server error occured!.
         /// </summary>
         public static string ServerError {

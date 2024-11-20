@@ -119,7 +119,6 @@ namespace ASI.Basecode.WebApp.Controllers
             try
             {
                 _userService.AddUser(model);
-                TempData["SuccessMessage"] = "User created successfully!";
                 return Json(new { success = true, message = "User created successfully!" });
             }
             catch (InvalidDataException ex)

@@ -1,134 +1,84 @@
 ﻿@model ASI.Basecode.Services.ServiceModels.BookingViewModel
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Edit Booking";
 }
 
-<h1>Edit Booking</h1>
-
-<h4>Booking Details</h4>
-<hr />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
-<link rel="stylesheet" href="~/css/modal.css" />
-
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-            <!-- Purpose field -->
-            <div class="form-group">
-                <label asp-for="Purpose" class="control-label"></label>
-                <input asp-for="Purpose" class="form-control" />
-                <span asp-validation-for="Purpose" class="text-danger"></span>
+<!-- Modal structure -->
+<div class="modal fade" id="editBookingModal" tabindex="-1" aria-labelledby="editBookingModalLabel" aria-hidden="true">
+    <link rel="stylesheet" href="~/css/modal.css" />
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editBookingModalLabel">Edit Booking</h5>
             </div>
+            <div class="modal-body">
+                <form method="post" asp-action="Edit" id="editBookingForm" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <!-- Start Date field -->
-            <div class="form-group">
-                <label asp-for="StartDate" class="control-label">Start Date</label>
-                <input type="date" asp-for="StartDate" class="form-control" id="startDate" />
-                <span asp-validation-for="StartDate" class="text-danger"></span>
+                    <!-- Purpose field -->
+                    <div class="form-group">
+                        <label for="Purpose" class="control-label">Purpose</label>
+                        <input asp-for="Purpose" id="Purpose" class="form-control" required />
+                        <span asp-validation-for="Purpose" class="text-danger"></span>
+                    </div>
+
+                    <!-- Start Date field -->
+                    <div class="form-group">
+                        <label for="startDate" class="control-label">Start Date</label>
+                        <input type="date" asp-for="StartDate" class="form-control" id="startDate" required />
+                        <span asp-validation-for="StartDate" class="text-danger"></span>
+                    </div>
+
+                    <!-- Start Time Dropdown -->
+                    <div class="form-group">
+                        <label for="startTime" class="control-label">Start Time</label>
+                        <select asp-for="StartTime" class="form-control" id="startTime" required>
+                            <option value="" selected disabled>Select Start Time</option>
+                            <!-- Time options will be added dynamically -->
+                        </select>
+                        <span asp-validation-for="StartTime" class="text-danger"></span>
+                    </div>
+
+                    <!-- End Time Dropdown -->
+                    <div class="form-group">
+                        <label for="endTime" class="control-label">End Time</label>
+                        <select asp-for="EndTime" class="form-control" id="endTime" required>
+                            <option value="" selected disabled>Select End Time</option>
+                            <!-- Time options will be added dynamically -->
+                        </select>
+                        <span asp-validation-for="EndTime" class="text-danger"></span>
+                    </div>
+
+                    <!-- Hidden RoomId -->
+                    <input type="hidden" asp-for="RoomId" id="RoomId" />
+
+                    <!-- Hidden BookingId -->
+                    <input type="hidden" asp-for="BookingId" id="BookingId" />
+
+                    <div class="form-group">
+                        <input type="submit" value="Update Booking" class="btn btn-primary" />
+                    </div>
+                </form>
             </div>
-
-            <!-- Start Time field -->
-            <div class="form-group">
-                <label asp-for="StartTime" class="control-label">Start Time</label>
-                <select asp-for="StartTime" class="form-control" id="startTime">
-                    <option value="">Select Start Time</option>
-                </select>
-                <span asp-validation-for="StartTime" class="text-danger"></span>
-            </div>
-
-            <!-- End Time field -->
-            <div class="form-group">
-                <label asp-for="EndTime" class="control-label">End Time</label>
-                <select asp-for="EndTime" class="form-control" id="endTime">
-                    <option value="">Select End Time</option>
-                </select>
-                <span asp-validation-for="EndTime" class="text-danger"></span>
-            </div>
-
-            <!-- Hidden field for BookingId -->
-            <input type="hidden" asp-for="BookingId" />
-
-            <!-- Hidden field for RoomId  -->
-            <input type="hidden" asp-for="RoomId" />
-
-            <!-- Submit button -->
-            <div class="form-group">
-                <input type="submit" value="Save Changes" class="btn btn-primary" />
-            </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<div>
-    <a href="@Url.Action("ViewBooking", "BookingUser")" class="btn btn-secondary">Back to List</a>
-</div>
-
-@section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+<style>
+    .modal-dialog {
+        max-width: 500px;
     }
 
-    <script>
-        document.getElementById('startDate').value = new Date().toISOString().split('T')[0]; // Set today's date for Start Date
+    .form-group {
+        margin-bottom: 15px;
+    }
 
-        // Function to generate time slots (24-hour format)
-        function generateTimeSlots(startHour, endHour) {
-            const timeSlots = [];
-            for (let hour = startHour; hour <= endHour; hour++) {
-                const time = new Date();
-                time.setHours(hour, 0, 0, 0);
-                const formattedTime = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: false });
-                timeSlots.push(formattedTime);
-            }
-            return timeSlots;
-        }
+    .form-control {
+        margin-top: 5px;
+    }
 
-        // Populate dropdowns with time slots
-        function populateTimeDropdowns() {
-            const startTimeDropdown = document.getElementById('startTime');
-            const endTimeDropdown = document.getElementById('endTime');
-            const timeSlots = generateTimeSlots(8, 18); // Generate time slots from 8:00 AM to 6:00 PM
-
-            timeSlots.forEach((slot) => {
-                const startOption = document.createElement('option');
-                const endOption = document.createElement('option');
-                startOption.value = endOption.value = slot;
-                startOption.textContent = endOption.textContent = slot;
-                startTimeDropdown.appendChild(startOption);
-                endTimeDropdown.appendChild(endOption);
-            });
-        }
-
-        // Initialize the dropdowns on page load
-        document.addEventListener('DOMContentLoaded', populateTimeDropdowns);
-
-        // Form validation before submit
-        document.querySelector("form").onsubmit = function (e) {
-            const startTime = document.getElementById('startTime').value;
-            const endTime = document.getElementById('endTime').value;
-
-            // Check if StartTime is empty or EndTime is empty
-            if (!startTime || !endTime) {
-                e.preventDefault();  // Prevent form submission
-                alert("Please select both Start Time and End Time.");
-                return false;
-            }
-
-            // Check if StartTime is greater than or equal to EndTime
-            if (startTime >= endTime) {
-                e.preventDefault();  // Prevent form submission
-                alert("End Time must be greater than Start Time.");
-                return false;
-            }
-        };
-    </script>
-}
-
-<style>
-    div {
-        background-color: #FFF0D1;
+    .btn-primary {
+        width: 100%;
     }
 </style>

@@ -4,7 +4,7 @@
 }
 
 <div class="modal fade" id="createRoomModal" tabindex="-1" aria-labelledby="createRoomModalLabel" aria-hidden="true">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
+    
     <link rel="stylesheet" href="~/css/modal.css" />
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -21,6 +21,7 @@
                         <input asp-for="RoomName" class="form-control" required />
                         <span asp-validation-for="RoomName" class="text-danger"></span>
                     </div>
+
                     <div class="form-group">
                         <label asp-for="Capacity" class="control-label"></label>
                         <input asp-for="Capacity" class="form-control" required />
@@ -36,11 +37,7 @@
                         <input asp-for="Equipment" class="form-control" required />
                         <span asp-validation-for="Equipment" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Price" class="control-label"></label>
-                        <input asp-for="Price" class="form-control" required/>
-                        <span asp-validation-for="Price" class="text-danger"></span>
-                    </div>
+                    
                     <div class="form-group">
                         <input type="submit" value="Create" class="btn btn-primary" />
                     </div>
@@ -50,32 +47,6 @@
     </div>
 </div>
 
-@section Scripts {
-    <script>
-        // AJAX form submission for Create Room
-        $(document).on("submit", "#createRoomForm", function (event) {
-            event.preventDefault();
-
-            $.ajax({
-                url: '@Url.Action("Create", "Room")',
-                type: 'POST',
-                data: $(this).serialize(),
-                success: function (response) {
-                    if (response.success) {
-                        toastr.success(response.message);
-                        $('#createRoomModal').modal('hide');  // Hide the modal after submission
-                        location.reload();  // Reload the page to reflect the new room
-                    } else {
-                        toastr.error(response.message);  // Show error if creation failed
-                    }
-                },
-                error: function () {
-                    toastr.error("An unexpected error occurred.");
-                }
-            });
-        });
-    </script>
-}
 <style>
     .btn-primary{
         

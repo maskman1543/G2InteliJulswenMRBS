@@ -1,5 +1,9 @@
 ﻿@model ASI.Basecode.Services.ServiceModels.UserViewModel
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.5.0/font/bootstrap-icons.min.css">
+
+@{
+    ViewData["Title"] = "Edit User";
+}
+
 <link rel="stylesheet" href="~/css/modal.css" />
 <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -30,7 +34,7 @@
 
                     <div class="form-group">
                         <label asp-for="Password" class="control-label"></label>
-                        <input asp-for="Password" class="form-control" type="password" />
+                        <input asp-for="Password" class="form-control" type="password" required />
                         <span asp-validation-for="Password" class="text-danger"></span>
                     </div>
 
@@ -43,38 +47,3 @@
         </div>
     </div>
 </div>
-
-@section Scripts {
-    @await Html.PartialAsync("_ValidationScriptsPartial")
-    <script>
-        // AJAX form submission for Edit User
-        $(document).on("submit", "#editUserForm", function (event) {
-            event.preventDefault(); // Prevent default form submission
-
-            $.ajax({
-                url: '@Url.Action("Edit", "User")', // Ensure the correct action method
-            type: 'POST',
-            data: $(this).serialize(), // Serialize form data for submission
-            success: function (response) {
-                if (response.success) {
-                    toastr.success(response.message);
-                    $('#editUserModal').modal('hide'); // Hide the modal after success
-                    location.reload(); // Reload the page or update the user list dynamically
-                } else {
-                    toastr.error(response.message);
-
-                    // If there are validation errors, display them in the modal
-                    if (response.errors) {
-                        response.errors.forEach(function (error) {
-                            toastr.error(error);
-                        });
-                    }
-                }
-            },
-            error: function () {
-                toastr.error("An unexpected error occurred.");
-            }
-        });
-    });
-    </script>
-}

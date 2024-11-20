@@ -108,20 +108,32 @@ namespace ASI.Basecode.Services.Services
             var user = _repository.RetrieveAll().Where(x => x.Id.Equals(model.Id)).FirstOrDefault();
             if (user != null)
             {
-                // Preserve the existing Roles value
-                var existingRole = user.Roles;
+                if(!_repository.UserExists(model.UserId))
+                {
+                    // Preserve the existing Roles value
+                    var existingRole = user.Roles;
 
-                // Map other properties from the model, excluding the role
-                _mapper.Map(model, user);
-                user.Password = PasswordManager.EncryptPassword(model.Password);
-                user.UpdatedTime = DateTime.Now;
-                user.UpdatedBy = user.Name;
+                    // Map other properties from the model, excluding the role
+                    _mapper.Map(model, user);
+                    user.Password = PasswordManager.EncryptPassword(model.Password);
+                    user.UpdatedTime = DateTime.Now;
+                    user.UpdatedBy = user.Name;
 
-                // Restore the original Roles value
-                user.Roles = existingRole;
+                    // Restore the original Roles value
+                    user.Roles = existingRole;
 
-                // Update the user in the database
-                _repository.UpdateUser(user);
+                    // Update the user in the database
+                    _repository.UpdateUser(user);
+                }
+                else
+                {
+                    throw new InvalidDataException(Resources.Messages.Errors.UserExists);
+                }
+                
+            }
+            else
+            {
+                throw new InvalidDataException(Resources.Messages.Errors.ServerError);
             }
         }
         public void DeleteUser(int Id)
@@ -137,6 +149,17 @@ namespace ASI.Basecode.Services.Services
         {
             return _repository.AdminExists();
         }
+
+        public bool IsUserDeleted(string userId)
+        {
+            if (string.IsNullOrEmpty(userId))
+            {
+                throw new ArgumentException("User ID cannot be null or empty.", nameof(userId));
+            }
+
+            return _repository.IsUserDeleted(userId);
+        }
+
         public List<UserViewModel> GetUsersBySearchTerm(string term)
         {
             // Retrieve all active non-admin users

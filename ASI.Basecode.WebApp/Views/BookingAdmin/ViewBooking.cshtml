@@ -1,23 +1,10 @@
 ﻿@model IEnumerable<ASI.Basecode.Services.ServiceModels.BookingViewModel>
 
 @{
-    ViewData["Title"] = "ViewBooking";
-    Context.Session.SetString("IsViewBookingActive", "true");
+    ViewData["Title"] = "View Booking";
 }
-
-@if (TempData["SuccessMessage"] != null)
-{
-    <div class="alert alert-success">
-        @TempData["SuccessMessage"]
-    </div>
-}
-
-@if (TempData["ErrorMessage"] != null)
-{
-    <div class="alert alert-danger">
-        @TempData["ErrorMessage"]
-    </div>
-}
+   
+<link href="~/css/dashboards.css" rel="stylesheet" />
 
 <div class="list-container">
     <link href="~/css/dashboards.css" rel="stylesheet" />
@@ -52,7 +39,7 @@
                 {
                     <tr style="background-color: #F3E5AB;">
                         <td>@Html.DisplayFor(modelItem => item.RoomName)</td>
-                        <td>@item.StartDate.ToString("yyyy-MM-dd")</td>
+                        <td>@item.StartDate.ToString("dd-MM-yyyy")</td>
                         <td>@item.StartTime.Hours.ToString("D2"):@item.StartTime.Minutes.ToString("D2")</td>
                         <td>@item.EndTime.Hours.ToString("D2"):@item.EndTime.Minutes.ToString("D2")</td>
                         <td>@Html.DisplayFor(modelItem => item.Purpose)</td>
