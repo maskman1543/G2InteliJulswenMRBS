@@ -16,7 +16,9 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Reflection.Metadata.Ecma335;
 using System.Threading.Tasks;
+using System.Xml.Schema;
 using static ASI.Basecode.Resources.Constants.Enums;
 using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
@@ -47,8 +49,11 @@ namespace ASI.Basecode.WebApp.Controllers
             var data = _userService.RetrieveAll();
             return View(data);
         }*/
+       
 
         #region Get Methods
+
+
         [HttpGet]
         public IActionResult UserManagement()
         {
