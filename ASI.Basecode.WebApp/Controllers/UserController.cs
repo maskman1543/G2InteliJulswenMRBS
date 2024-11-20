@@ -18,6 +18,7 @@ using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using static ASI.Basecode.Resources.Constants.Enums;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace ASI.Basecode.WebApp.Controllers
 {
@@ -103,10 +104,12 @@ namespace ASI.Basecode.WebApp.Controllers
             {
                 var users = _userService.RetrieveActiveNonAdminUsers();
                 return Json(users);
-            } 
+            }
+
             var filteredUsers = _userService.GetUsersBySearchTerm(term);
             return Json(filteredUsers);
         }
+
         #endregion
 
         #region Post Methods

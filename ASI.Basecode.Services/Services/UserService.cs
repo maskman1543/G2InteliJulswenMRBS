@@ -20,6 +20,8 @@ namespace ASI.Basecode.Services.Services
         private readonly IUserRepository _repository;
         private readonly IMapper _mapper;
         private readonly IConfiguration _config;
+        
+
 
         public UserService(IUserRepository repository, IMapper mapper, IConfiguration configuration)
         {
@@ -148,15 +150,22 @@ namespace ASI.Basecode.Services.Services
 
         public List<UserViewModel> GetUsersBySearchTerm(string term)
         {
-            var users = _repository.SearchUser(term);
+            // Retrieve all active non-admin users
+            var users = RetrieveActiveNonAdminUsers()
+                .Where(u =>
+                    u.UserId.Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                    u.Name.Contains(term, StringComparison.OrdinalIgnoreCase) ||
+                    u.Roles.Contains(term, StringComparison.OrdinalIgnoreCase))
+                .Select(u => new UserViewModel
+                {
+                    Id = u.Id,
+                    UserId = u.UserId,
+                    Name = u.Name,
+                    Roles = u.Roles
+                }).ToList();
 
-            return users.Select(r => new UserViewModel
-            {
-               Id = r.Id,
-               UserId = r.UserId,
-               Name = r.Name,
-               Roles = r.Roles,
-            }).ToList();
+            Console.WriteLine($"Filtered Users: {users.Count}"); // Log count of filtered users
+            return users;   
         }
     }
 }
