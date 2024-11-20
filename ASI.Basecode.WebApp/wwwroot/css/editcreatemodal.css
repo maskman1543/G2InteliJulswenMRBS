@@ -1,0 +1,73 @@
+﻿/* Modal Content */
+.modal-content {
+    background-color: #FFF0D1; /* Header color */
+    border-radius: 10px; /* Apply border-radius to all sides */
+}
+
+/* Modal Body */
+.modal-body {
+    background-color: white; /* Set the body color to white */
+    padding: 2rem; /* Add padding to the body */
+
+}
+
+/* Modal Footer */
+.modal-footer {
+    display: flex;
+    justify-content: center;
+    padding: 1rem;
+    background-color: white; /* Set the footer color to white */
+}
+
+    /* Buttons in the Footer (same width for both) */
+    .modal-footer .btn {
+        width: 200px; /* Ensure both buttons have equal width */
+        padding: 10px;
+        margin: 0 10px; /* Space between the buttons */
+    }
+
+/* Primary Save/Register Button */
+.btn-primary {
+    background-color: #FFDBB5;
+    border-color: #FFDBB5;
+}
+
+/* Secondary Cancel Button */
+.btn-secondary {
+    background-color: #acb6bf;
+    border-color: #acb6bf;
+}
+
+/* Optional: Hover effect for buttons */
+.btn-primary:hover {
+    background-color: #D9C0A3;
+    border-color: #D9C0A3;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+/* Button size adjustments */
+.btn-block {
+    display: block;
+    width: 100%; /* Make buttons fill the container if desired */
+}
+
+/* Modal Header */
+.modal-header {
+    background-color: #FFF0D1; /* Header color */
+    padding: 1rem; /* Add padding to the header */
+}
+
+    /* Modal Header Title */
+    .modal-header .modal-title {
+        font-size: 1.5rem; /* Adjust font size for the title */
+        font-weight: bold;
+    }
+
+/* Additional styling for the modal */
+.modal-dialog {
+    max-width: 30%; /* Adjust modal size to be the same as 'User/Create' */
+}

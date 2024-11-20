@@ -16,11 +16,8 @@
             <div class="mb-3">
                 <input type="text" id="searchUserInput" class="form-control" placeholder="Search users..." />
             </div>
-            <button class="search-button">
-                <i class="fas fa-search"></i>
-            </button>
         </div>
-        <button class="btn btn-add" id="loadCreateUserModal">
+        <button class="btn" id="loadCreateUserModal" style="background-color: #FFDBB5; color: black;">
             <i class="fas fa-user-plus"></i> Add User
         </button>
     </div>
@@ -165,11 +162,16 @@
                 type: 'POST',
                 data: $(this).serialize(),
                 success: function (response) {
-                    $('#createUserModal').modal('hide');
-                    location.reload();
+                    if (response.success) {
+                        toastr.success(response.message); // Show success message
+                        $('#createUserModal').modal('hide');
+                        location.reload(); // Reload the page or update the user list dynamically
+                    } else {
+                        toastr.error(response.message); // Show error message if response indicates failure
+                    }
                 },
-                error: function (response) {
-                    toastr.error("An error occurred while creating the user.");
+                error: function () {
+                    toastr.error("An unexpected error occurred.");
                 }
             });
         });

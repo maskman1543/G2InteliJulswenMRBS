@@ -119,6 +119,7 @@ namespace ASI.Basecode.WebApp.Controllers
             try
             {
                 _userService.AddUser(model);
+                TempData["SuccessMessage"] = "User Added successfully.";
                 return Json(new { success = true, message = "User created successfully!" });
             }
             catch (InvalidDataException ex)
@@ -139,14 +140,14 @@ namespace ASI.Basecode.WebApp.Controllers
 
                 // Call your service to update the user
                 _userService.UpdateUser(model);
-
+                TempData["SuccessMessage"] = "User Updated successfully.";
                 // Return success response
                 return Json(new { success = true, message = "User updated successfully!" });
                
             }
             catch (InvalidDataException ex)
             {
-                // Handle known exceptions (e.g., validation failures)
+              
                 return Json(new { success = false, message = ex.Message });
             }
             catch (Exception)
@@ -161,10 +162,9 @@ namespace ASI.Basecode.WebApp.Controllers
         {
             try
             {
-                _userService.DeleteUser(id); // Soft delete logic for the user
+                _userService.DeleteUser(id); 
                 TempData["SuccessMessage"] = "User deleted successfully.";
 
-                // Return a JSON response with a redirect URL
                 return Json(new { success = true, redirectUrl = Url.Action("UserManagement", "User") });
             }
             catch (Exception)
