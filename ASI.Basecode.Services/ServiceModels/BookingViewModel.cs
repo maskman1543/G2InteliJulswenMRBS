@@ -11,6 +11,7 @@ namespace ASI.Basecode.Services.ServiceModels
     {
         public int BookingId { get; set; }
         public int RoomId { get; set; }
+        [Required(ErrorMessage = "Username is required.")]
         public string RoomName { get; set; }
         public string Username { get; set; }
 

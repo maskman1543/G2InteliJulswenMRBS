@@ -96,6 +96,7 @@ namespace ASI.Basecode.WebApp.Controllers
             return PartialView("Delete"); // Ensure the correct view name is used here
         }
 
+
         #endregion
 
         #region Post Methods
@@ -105,7 +106,6 @@ namespace ASI.Basecode.WebApp.Controllers
             try
             {
                 _bookingService.AddBooking(model, UserId);
-                TempData["SuccessMessage"] = "Booking created successfully!";
                 return Json(new { success = true, message = "Booking created successfully!" });
             }
             catch (InvalidDataException ex)
@@ -114,9 +114,9 @@ namespace ASI.Basecode.WebApp.Controllers
             }
             catch (Exception ex)
             {
+                // Handle other unexpected errors
                 return Json(new { success = false, message = Resources.Messages.Errors.ServerError });
             }
-
         }
 
         [HttpPost]
