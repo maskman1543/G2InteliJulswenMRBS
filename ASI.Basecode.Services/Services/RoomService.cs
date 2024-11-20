@@ -27,17 +27,34 @@ namespace ASI.Basecode.Services.Services
             _mapper = mapper;
             _config = configuration;
         }
+       
         public void AddRoom(RoomViewModel model, string userId)
         {
-            var newRoom = new Room();
-            _mapper.Map(model, newRoom);
-            newRoom.Createdby = userId;
-            newRoom.Updatedby = userId;
-            newRoom.CreatedTime = DateTime.Now;
-            newRoom.UpdatedTime = DateTime.Now;
-            newRoom.IsDeleted = false;
+            if(!_roomRepository.RoomNameExists(model.RoomName))
+            {
+                if(!_roomRepository.LocationExists(model.Location))
+                {
+                    var newRoom = new Room();
+                    _mapper.Map(model, newRoom);
+                    newRoom.Createdby = userId;
+                    newRoom.Updatedby = userId;
+                    newRoom.CreatedTime = DateTime.Now;
+                    newRoom.UpdatedTime = DateTime.Now;
+                    newRoom.IsDeleted = false;
 
-            _roomRepository.AddRoom(newRoom);
+                    _roomRepository.AddRoom(newRoom);
+                }
+                else
+                {
+                    throw new InvalidDataException(Resources.Messages.Errors.LocationExists);
+                }
+                
+            }
+            else
+            {
+                throw new InvalidDataException(Resources.Messages.Errors.RoomNameExists);
+            }
+           
         }
    
         public IEnumerable<RoomViewModel> RetrieveActiveRooms()
@@ -74,11 +91,30 @@ namespace ASI.Basecode.Services.Services
             var room = _roomRepository.RetrieveAll().Where(x => x.Id.Equals(model.Id)).FirstOrDefault(); 
             if (room != null)
             {
-                _mapper.Map(model, room);
-                room.UpdatedTime = DateTime.Now;
-                room.Updatedby = userId;
+                if (!_roomRepository.RoomNameExists(model.RoomName))
+                {
+                    if(!_roomRepository.LocationExists(model.Location))
+                    {
+                        _mapper.Map(model, room);
+                        room.UpdatedTime = DateTime.Now;
+                        room.Updatedby = userId;
 
-                _roomRepository.UpdateRoom(room);
+                        _roomRepository.UpdateRoom(room);
+                    }
+                    else
+                    {
+                        throw new InvalidDataException(Resources.Messages.Errors.LocationExists);
+                    }
+                    
+                }
+                else
+                {
+                    throw new InvalidDataException(Resources.Messages.Errors.RoomNameExists);
+                }
+            }
+            else
+            {
+                throw new InvalidDataException(Resources.Messages.Errors.ServerError);
             }
         }
         public void DeleteRoom(int Id)
