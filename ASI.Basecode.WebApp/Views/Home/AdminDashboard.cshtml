@@ -61,7 +61,7 @@
             labels: ['Rooms', 'Bookings'],  // X-axis labels, removed "Users"
             datasets: [{
                 label: 'Total Count',
-                data: [6, 1],  // Data values for Rooms and Bookings only
+                data: [@ViewBag.RoomCount, @ViewBag.BookingCount],  // Data values for Rooms and Bookings only
                 backgroundColor: ['#E2CD79', '#4CAF50'],  // Adjusted colors for each bar
                 borderColor: ['#D1B46A', '#388E3C'],  // Matching border colors
                 borderWidth: 2
