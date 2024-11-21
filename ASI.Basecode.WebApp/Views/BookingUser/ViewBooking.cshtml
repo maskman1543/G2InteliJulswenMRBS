@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<ASI.Basecode.Services.ServiceModels.BookingViewModel>
 
 @{
-    ViewData["Title"] = "ViewBooking";
+    ViewData["Title"] = "View Booking";
     Context.Session.SetString("IsViewBookingActive", "true");
     Pager pager = new Pager();
 
@@ -13,63 +13,70 @@
     }
 }
 
-<div class="booking-list-container p-4 rounded" style="background-color: #E2CD79;">
-    <div class="d-flex align-items-center mb-3">
-        <h1 class="me-3">Booking List</h1>
+<link href="~/css/dashboards.css" rel="stylesheet" />
 
+<div class="list-container">
+
+    <!-- Heading and Controls -->
+    <div class="header d-flex align-items-center mb-3">
+        <h1 class="title">Booking List</h1>
+        <div class="search-bar">
+            <div class="mb-3">
+                <input type="text" id="searchUserInput" class="form-control" placeholder="Search bookings..." />
+            </div>
+        </div>
     </div>
 
-    <!-- Modal container where modal content will be dynamically loaded -->
+    <!-- Placeholder for the modal content -->
     <div id="bookingModalContainer"></div>
 
-    <table class="table" style="background-color: #F3E5AB; border-radius: 10px; overflow: hidden;">
-        <thead style="background-color: #E2CD79;">
-            <tr>
-                <th>Room Name</th>
-                <th>Start Date</th>
-                <th>Start Time</th>
-                <th>End Time</th>
-                <th>Purpose</th>
-                <th>Status</th>
-                <th class="text-center">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
+    <!-- Booking List Table -->
+    <div class="list-table">
+        <div class="table-header">
+            <span>Room Name</span>
+            <span>Start Date</span>
+            <span>Start Time</span>
+            <span>End Time</span>
+            <span>Purpose</span>
+            <span>Status</span>
+            <span>Actions</span>
+        </div>
+
+        <div class="table-body">
             @if (Model != null && Model.Any())
             {
-                @foreach (var item in Model)
+                foreach (var item in Model)
                 {
-                    <tr style="background-color: #F3E5AB;">
-                        <td>@Html.DisplayFor(modelItem => item.RoomName)</td>
-                        <td>@item.StartDate.ToString("dd-MM-yyyy")</td>
-                        <td>@item.StartTime.Hours.ToString("D2"):@item.StartTime.Minutes.ToString("D2")</td>
-                        <td>@item.EndTime.Hours.ToString("D2"):@item.EndTime.Minutes.ToString("D2")</td>
-                        <td>@Html.DisplayFor(modelItem => item.Purpose)</td>
-                        <td>@Html.DisplayFor(modelItem => item.Status)</td>
-                        <td class="text-center">
+                    <div class="table-row">
+                        <span>@item.RoomName</span>
+                        <span>@item.StartDate.ToString("dd-MM-yyyy")</span>
+                        <span>@item.StartTime.Hours.ToString("D2"):@item.StartTime.Minutes.ToString("D2")</span>
+                        <span>@item.EndTime.Hours.ToString("D2"):@item.EndTime.Minutes.ToString("D2")</span>
+                        <span>@item.Purpose</span>
+                        <span>@item.Status</span>
+
+                        <div class="actions">
                             <!-- Edit Button -->
-                            <button type="button" class="btn btn-primary loadEditBookingModal" data-booking-id="@item.BookingId">
-                                <i class="bi bi-pencil"></i> Edit
+                            <button type="button" class="btn btn-warning loadEditBookingModal" data-booking-id="@item.BookingId">
+                                <i class="fas fa-pencil"></i> Edit
                             </button>
 
-                            <!-- Cancel Button -->
+                            <!-- Delete Button -->
                             <button type="button" class="btn btn-danger loadDeleteBookingModal" data-booking-id="@item.BookingId">
                                 <i class="fa-solid fa-trash"></i> Delete
                             </button>
-                        </td>
-                    </tr>
-
+                        </div>
+                    </div>
                 }
             }
             else
             {
-                <tr style="background-color: #F3E5AB;">
-                    <td colspan="6" class="text-center">No Booking found.</td>
-                </tr>
+                <div class="no-item text-center">No bookings found.</div>
             }
-        </tbody>
+        </div>
+    </div>
 
-    </table>
+    <!-- Pagination -->
     <div class="pagination">
         @if (pager.TotalPages > 0)
         {
@@ -80,7 +87,7 @@
                         <a class="page-link" asp-controller="BookingUser" asp-action="ViewBooking" asp-route-pg="1">First</a>
                     </li>
                     <li class="page-item">
-                        <a class="page-link" asp-controller="BookingUser" asp-action="ViewBooking" asp-route-pg="@(pager.CurrentPage - 1)">Previouse</a>
+                        <a class="page-link" asp-controller="BookingUser" asp-action="ViewBooking" asp-route-pg="@(pager.CurrentPage - 1)">Previous</a>
                     </li>
                 }
                 @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
@@ -91,17 +98,18 @@
                 }
                 @if (pager.CurrentPage < pager.TotalPages)
                 {
-                    <li class="page-Item">
+                    <li class="page-item">
                         <a class="page-link" asp-controller="BookingUser" asp-action="ViewBooking" asp-route-pg="@(pager.CurrentPage + 1)">Next</a>
                     </li>
-                    <li>
+                    <li class="page-item">
                         <a class="page-link" asp-controller="BookingUser" asp-action="ViewBooking" asp-route-pg="@(pager.TotalPages)">Last</a>
                     </li>
                 }
             </ul>
         }
-        <div />
+    </div>
 </div>
+
 
 
 @section Scripts {

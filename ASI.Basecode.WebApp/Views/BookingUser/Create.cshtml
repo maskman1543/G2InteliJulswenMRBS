@@ -4,10 +4,9 @@
     ViewData["Title"] = "Create Booking";
 }
 
-<!-- Modal structure -->
+<link rel="stylesheet" href="~/css/editcreatemodal.css" />
+
 <div class="modal fade" id="createBookingModal" tabindex="-1" aria-labelledby="createBookingModalLabel" aria-hidden="true">
-    
-    <link rel="stylesheet" href="~/css/modal.css" />
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -15,36 +14,34 @@
             </div>
             <div class="modal-body">
                 <form method="post" asp-action="Create" id="createBookingForm" enctype="multipart/form-data">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    <!-- Purpose field -->
-                    <div class="form-group">
-                        <label for="Purpose" class="control-label">Purpose</label>
-                        <input asp-for="Purpose" id="Purpose" class="form-control" required />
+                    <!-- Purpose -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label fw-bold" for="Purpose">Purpose</label>
+                        <input type="text" id="Purpose" class="form-control" asp-for="Purpose" placeholder="Enter purpose" required />
                         <span asp-validation-for="Purpose" class="text-danger"></span>
                     </div>
 
-                    <!-- Start Date field -->
-                    <div class="form-group">
-                        <label for="startDate" class="control-label">Start Date</label>
-                        <input type="date" asp-for="StartDate" class="form-control" id="startDate" required />
+                    <!-- Start Date -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label fw-bold" for="startDate">Start Date</label>
+                        <input type="date" id="startDate" class="form-control" asp-for="StartDate" required />
                         <span asp-validation-for="StartDate" class="text-danger"></span>
                     </div>
 
-                    <!-- Start Time Dropdown -->
-                    <div class="form-group">
-                        <label for="startTime" class="control-label">Start Time</label>
-                        <select asp-for="StartTime" class="form-control" id="startTime" required>
+                    <!-- Start Time -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label fw-bold" for="startTime">Start Time</label>
+                        <select id="startTime" class="form-control" asp-for="StartTime" required>
                             <option value="" selected disabled>Select Start Time</option>
-                            
                         </select>
                         <span asp-validation-for="StartTime" class="text-danger"></span>
                     </div>
 
-                    <!-- End Time Dropdown -->
-                    <div class="form-group">
-                        <label for="endTime" class="control-label">End Time</label>
-                        <select asp-for="EndTime" class="form-control" id="endTime" required>
+                    <!-- End Time -->
+                    <div class="form-outline mb-4">
+                        <label class="form-label fw-bold" for="endTime">End Time</label>
+                        <select id="endTime" class="form-control" asp-for="EndTime" required>
                             <option value="" selected disabled>Select End Time</option>
                         </select>
                         <span asp-validation-for="EndTime" class="text-danger"></span>
@@ -53,30 +50,18 @@
                     <!-- Hidden RoomId -->
                     <input type="hidden" asp-for="RoomId" id="RoomId" />
 
-                    <div class="form-group">
-                        <input type="submit" value="Create Booking" class="btn btn-primary" />
+                    <!-- Footer Buttons -->
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary btn-block" style="color: black;">
+                            Create Booking
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="color: black;">
+                            Cancel
+                        </button>
                     </div>
+
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-
-<style>
-    .modal-dialog {
-        max-width: 500px;
-    }
-
-    .form-group {
-        margin-bottom: 15px;
-    }
-
-    .form-control {
-        margin-top: 5px;
-    }
-
-    .btn-primary {
-        width: 100%;
-    }
-</style>

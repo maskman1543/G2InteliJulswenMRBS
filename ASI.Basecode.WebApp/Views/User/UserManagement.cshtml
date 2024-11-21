@@ -31,8 +31,7 @@
         </button>
     </div>
 
-    <!-- Placeholder for the modal content -->
-    <div id="modalContainer"></div>
+    <div id="userModalContainer"></div>
 
     <!-- User List Table -->
     <div class="list-table">
@@ -164,7 +163,7 @@
         // Load the Modals
         $("#loadCreateUserModal").click(function () {
             $.get('@Url.Action("CreateUserModal", "User")', function (data) {
-                $("#modalContainer").html(data);
+                $("#userModalContainer").html(data);
                 $("#createUserModal").modal("show");
             });
         });
@@ -172,7 +171,7 @@
         $(document).on("click", ".loadEditUserModal", function () {
             var id = $(this).data("id"); // Primary key ID
             $.get('@Url.Action("EditUserModal", "User")', { id: id }, function (data) {
-                $("#modalContainer").html(data);
+                $("#userModalContainer").html(data);
                 $("#editUserModal").modal("show");
             });
         });
@@ -180,7 +179,7 @@
         $(document).on("click", ".loadDeleteUserModal", function () {
             var id = $(this).data("id"); // Get the user ID from the button
             $.get('@Url.Action("DeleteUserModal", "User")', { id: id }, function (data) {
-                $("#modalContainer").html(data); // Load the modal content
+                $("#userModalContainer").html(data); // Load the modal content
                 $('#deleteUserModal').modal('show'); // Show the modal
             });
         });

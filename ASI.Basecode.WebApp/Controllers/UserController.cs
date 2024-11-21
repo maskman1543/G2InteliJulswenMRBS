@@ -142,8 +142,8 @@ namespace ASI.Basecode.WebApp.Controllers
             try
             {
                 _userService.AddUser(model);
-                TempData["SuccessMessage"] = "User Added successfully.";
-                return Json(new { success = true, message = "User created successfully!" });
+                TempData["SuccessMessage"] = "User created successfully.";
+                return Json(new { success = true});
             }
             catch (InvalidDataException ex)
             {
@@ -163,9 +163,9 @@ namespace ASI.Basecode.WebApp.Controllers
 
                 // Call your service to update the user
                 _userService.UpdateUser(model);
-                TempData["SuccessMessage"] = "User Updated successfully.";
+                TempData["SuccessMessage"] = "User updated successfully.";
                 // Return success response
-                return Json(new { success = true, message = "User updated successfully!" });
+                return Json(new { success = true});
                
             }
             catch (InvalidDataException ex)
