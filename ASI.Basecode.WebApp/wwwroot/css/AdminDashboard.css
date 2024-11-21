@@ -46,6 +46,10 @@
     flex-wrap: wrap;
 }
 
+.title {
+    text-align: center;
+}
+
 /* Media queries for responsiveness */
 @media (max-width: 1200px) {
     .col-lg-3 {
