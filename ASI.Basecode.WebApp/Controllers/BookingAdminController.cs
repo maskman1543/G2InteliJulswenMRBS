@@ -43,7 +43,7 @@ namespace ASI.Basecode.WebApp.Controllers
         public IActionResult ViewBooking(int pg = 1)
         {
             HttpContext.Session.SetString("IsViewBookingActive", "true");
-            var data = _bookingService.RetrieveAllBookings();
+            
             List<BookingViewModel> rooms = _bookingService.RetrieveAllBookings().ToList();
 
 
