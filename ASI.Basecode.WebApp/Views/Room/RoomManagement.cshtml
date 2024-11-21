@@ -72,16 +72,35 @@
                 <div class="no-item text-center">No rooms found.</div>
             }
         </div>
+        <!-- Placeholder for the modal content -->
+        <div id="roomModalContainer"></div>
         <div class="pagination">
             @if(pager.TotalPages > 0)
             {
                 <ul class="pagination justify-content-end">
-                      @for(var pge = pager.StartPage; pge <= pager.EndPage; pge++)
-                      {
-                          <li class="page-item @(pge == pager.CurrentPage ? "active" : "")" >
-                              <a class="page-link" asp-controller="Room" asp-action="RoomManagement" asp-route-pg="@pge">@pge</a>
-                          </li>
-                      }
+                    @if(pager.CurrentPage > 1){
+                        <li class="page-item">
+                            <a class="page-link" asp-controller="Room" asp-action="RoomManagement" asp-route-pg="1">First</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" asp-controller="Room" asp-action="RoomManagement" asp-route-pg="@(pager.CurrentPage - 1)">Previouse</a>
+                        </li>
+                    }
+                    @for(var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+                    {
+                        <li class="page-item @(pge == pager.CurrentPage ? "active" : "")" >
+                            <a class="page-link" asp-controller="Room" asp-action="RoomManagement" asp-route-pg="@pge">@pge</a>
+                        </li>
+                    }
+                    @if (pager.CurrentPage < pager.TotalPages)
+                    {
+                        <li class="page-Item">
+                            <a class="page-link" asp-controller="Room" asp-action="RoomManagement" asp-route-pg="@(pager.CurrentPage + 1)">Next</a>
+                        </li>
+                        <li>
+                            <a class="page-link" asp-controller="Room" asp-action="RoomMangement" asp-route-pg="@(pager.TotalPages)">Last</a>
+                        </li>
+                    }
                 </ul>
             }
         </div>
