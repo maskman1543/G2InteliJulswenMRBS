@@ -1,6 +1,7 @@
 ﻿using ASI.Basecode.Services.Interfaces;
 using ASI.Basecode.Services.ServiceModels;
 using ASI.Basecode.Services.Services;
+using ASI.Basecode.WebApp.Models;
 using ASI.Basecode.WebApp.Mvc;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Security.Claims;
 
 namespace ASI.Basecode.WebApp.Controllers
@@ -38,11 +40,30 @@ namespace ASI.Basecode.WebApp.Controllers
 
         #region Get Methods
         [HttpGet]
-        public IActionResult ViewBooking()
+        public IActionResult ViewBooking(int pg = 1)
         {
             HttpContext.Session.SetString("IsViewBookingActive", "true");
             var data = _bookingService.RetrieveActiveBookings(UserId);
-            return View(data);
+
+            List<BookingViewModel> rooms = _bookingService.RetrieveAllBookings().ToList();
+
+
+            const int pageSize = 5;
+            if (pg < 1)
+            {
+                pg = 1;
+            }
+            int recsCount = rooms.Count;
+
+            var pager = new Pager(recsCount, pg, pageSize);
+            int recsSkip = (pg - 1) * pageSize;
+
+            var data1 = rooms.Skip(recsSkip).Take(pager.PageSize).ToList();
+
+            this.ViewBag.Pager = pager;
+
+
+            return View(data1);
         }
 
         [HttpGet]

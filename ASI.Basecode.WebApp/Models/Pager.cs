@@ -19,7 +19,7 @@ namespace ASI.Basecode.WebApp.Models
         }
             
 
-        public Pager(int totalItems, int page, int pageSize = 3)
+        public Pager(int totalItems, int page, int pageSize = 10)
         {
             // Calculate Total Pages using Ceiling for division
             TotalPages = (int)Math.Ceiling((decimal)totalItems / pageSize);
