@@ -136,32 +136,45 @@ namespace ASI.Basecode.Services.Services
         }
         public void UpdateBooking(BookingViewModel model, string userId)
         {
-
             var booking = _bookingRepository.RetrieveAll().FirstOrDefault(x => x.BookingId == model.BookingId);
+            
+            bool isRoomAvailable = IsRoomAvailable(model.RoomId, model.StartDate, model.StartTime, model.EndTime); // Check if the room is available for the requested time
 
-            if (booking != null)
+            if (!isRoomAvailable)
             {
-                // Check if RoomId exists in the Room table if RoomId is being changed
-                var room = _bookingRepository.RetrieveAll()
-                            .Where(b => b.RoomId == model.RoomId)
-                            .Select(b => b.Room)
-                            .FirstOrDefault();
-
-                if (room == null)
-                {
-                    throw new InvalidOperationException($"Room with ID {model.RoomId} does not exist.");
-                }
-
-
-                _mapper.Map(model, booking);
-                booking.Status = "Booked";
-                booking.UpdatedTime = DateTime.Now;
-                booking.UpdatedBy = userId;
-                booking.Username = userId;
-
-
-                _bookingRepository.UpdateBooking(booking);
+                throw new InvalidDataException(Resources.Messages.Errors.RoomAlreadyBooked);
             }
+            else
+            {
+                if (booking != null)
+                {
+                    // Check if RoomId exists in the Room table if RoomId is being changed
+                    var room = _bookingRepository.RetrieveAll()
+                                .Where(b => b.RoomId == model.RoomId)
+                                .Select(b => b.Room)
+                                .FirstOrDefault();
+
+                    if (room == null)
+                    {
+                        throw new InvalidOperationException($"Room with ID {model.RoomId} does not exist.");
+                    }
+
+
+                    _mapper.Map(model, booking);
+                    booking.Status = "Booked";
+                    booking.UpdatedTime = DateTime.Now;
+                    booking.UpdatedBy = userId;
+                    booking.Username = userId;
+
+
+                    _bookingRepository.UpdateBooking(booking);
+                }
+                else
+                {
+                    throw new InvalidDataException(Resources.Messages.Errors.ServerError);
+                }
+            }
+            
         }
 
 

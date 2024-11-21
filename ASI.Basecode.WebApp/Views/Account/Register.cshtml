@@ -45,11 +45,13 @@
                                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
                             </div>
                             <div class="text-center pt-1 mb-5 pb-1 d-flex flex-column align-items-center">
-                                <button class="btn btn-primary btn-block login-btn gradient-custom-2 mb-3" type="submit">
+                                <button class="btn btn-primary btn-block login-btn gradient-custom-2 mb-3" type="submit" style="color: black">
                                     Register
                                 </button>
-                                <a asp-controller="Account" asp-action="Login">
-                                    &#8592 Back
+                                <a asp-controller="Account" asp-action="Login"
+                                   class="btn btn-secondary"
+                                   style="color: black; background-color: #acb6bf; border-color: #acb6bf; padding: 10px 20px; margin: 5px 10px; width: auto;">
+                                   Back
                                 </a>
                             </div>
                         </form>

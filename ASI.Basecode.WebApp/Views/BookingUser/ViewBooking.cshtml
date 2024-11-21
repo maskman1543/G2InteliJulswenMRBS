@@ -193,15 +193,7 @@
             });
         });
 
-        // Display success/error messages from TempData if available
-        var successMessage = '@TempData["SuccessMessage"]';
-        if (successMessage) {
-            toastr.success(successMessage);
-        }
-        var errorMessage = '@TempData["ErrorMessage"]';
-        if (errorMessage) {
-            toastr.error(errorMessage);
-        }
+        
 
         function setupBookingForm() {
             const startDateField = document.getElementById('startDate');
@@ -259,10 +251,10 @@
 
             // If Start Time and End Time are the same or End Time is not greater than Start Time
             if (startTime === endTime) {
-                alert('Start time and End time cannot be the same.');
+                toastr.error('Start time and End time cannot be the same.');
                 resetDropdownsToPlaceholder(startTimeDropdown, endTimeDropdown);
             } else if (endTimeInMinutes <= startTimeInMinutes) {
-                alert('End time must be greater than start time.');
+                toastr.error('End time must be greater than start time.');
                 resetDropdownsToPlaceholder(startTimeDropdown, endTimeDropdown);
             }
         }
@@ -279,6 +271,15 @@
             return hours * 60 + minutes;
         }
 
+        // Display success/error messages from TempData if available
+        var successMessage = '@TempData["SuccessMessage"]';
+        if (successMessage) {
+            toastr.success(successMessage);
+        }
+        var errorMessage = '@TempData["ErrorMessage"]';
+        if (errorMessage) {
+            toastr.error(errorMessage);
+        }
        
     </script>
 }

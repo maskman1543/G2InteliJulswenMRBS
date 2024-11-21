@@ -169,7 +169,7 @@
             const endTimeInMinutes = convertToMinutes(endTime);
 
             if (endTimeInMinutes <= startTimeInMinutes) {
-                alert('End time must be greater than start time.');
+                toastr.error('End time must be greater than start time.');
                 resetDropdownsToPlaceholder(startTimeDropdown, endTimeDropdown);
             }
         }
