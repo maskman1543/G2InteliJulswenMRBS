@@ -86,7 +86,7 @@
                             <a class="page-link" asp-controller="Room" asp-action="RoomManagement" asp-route-pg="1">First</a>
                         </li>
                         <li class="page-item">
-                            <a class="page-link" asp-controller="Room" asp-action="RoomManagement" asp-route-pg="@(pager.CurrentPage - 1)">Previouse</a>
+                            <a class="page-link" asp-controller="Room" asp-action="RoomManagement" asp-route-pg="@(pager.CurrentPage - 1)">Previous</a>
                         </li>
                     }
                     @for(var pge = pager.StartPage; pge <= pager.EndPage; pge++)

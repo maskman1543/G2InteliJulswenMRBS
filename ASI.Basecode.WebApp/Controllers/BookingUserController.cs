@@ -48,7 +48,7 @@ namespace ASI.Basecode.WebApp.Controllers
             var userBookings = _bookingService.RetrieveActiveBookings(UserId).ToList();
 
             // Set pagination parameters
-            const int pageSize = 5;
+            const int pageSize = 4;
             if (pg < 1)
             {
                 pg = 1;
