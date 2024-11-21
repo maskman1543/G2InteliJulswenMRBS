@@ -411,3 +411,17 @@ body {
     font-size: 16px; /* Set a fixed font size */
     transition: none; /* Remove any transition that might affect size */
 }
+
+.loadCreateBookingModal {
+    background-color: #FFDBB5;
+    color: black;
+    font-weight: bold;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+    .loadCreateBookingModal:hover {
+        background-color: #FFBF85; /* Slightly darker orange for hover */
+    }

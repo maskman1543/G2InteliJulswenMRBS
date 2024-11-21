@@ -106,7 +106,8 @@ namespace ASI.Basecode.WebApp.Controllers
             try
             {
                 _bookingService.AddBooking(model, UserId);
-                return Json(new { success = true, message = "Booking created successfully!" });
+                TempData["SuccessMessage"] = "Booking created successfully.";
+                return Json(new { success = true});
             }
             catch (InvalidDataException ex)
             {
@@ -127,9 +128,9 @@ namespace ASI.Basecode.WebApp.Controllers
                 model.Status = "Booked";
                 // Call your service to update the booking
                 _bookingService.UpdateBooking(model, UserId);
-
+                TempData["SuccessMessage"] = "Booking updated successfully.";
                 // Return success response
-                return Json(new { success = true, message = "Booking updated successfully!" });
+                return Json(new { success = true});
 
             }
             catch (InvalidDataException ex)
