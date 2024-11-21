@@ -71,3 +71,20 @@
 .modal-dialog {
     max-width: 30%; /* Adjust modal size to be the same as 'User/Create' */
 }
+
+/* Remove blue color on button press */
+.btn-primary:active, 
+.btn-primary:focus, 
+.btn-primary:focus-visible {
+    background-color: #FFDBB5 !important; /* Same as normal button color */
+    border-color: #FFDBB5 !important;   /* Match border color */
+    box-shadow: none; /* Remove focus outline */
+}
+
+.btn-secondary:active, 
+.btn-secondary:focus, 
+.btn-secondary:focus-visible {
+    background-color: #acb6bf !important; /* Same as normal button color */
+    border-color: #acb6bf !important;   /* Match border color */
+    box-shadow: none; /* Remove focus outline */
+}
