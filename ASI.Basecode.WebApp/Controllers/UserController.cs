@@ -55,10 +55,28 @@ namespace ASI.Basecode.WebApp.Controllers
 
 
         [HttpGet]
-        public IActionResult UserManagement()
+        public IActionResult UserManagement(int pg = 1)
         {
+            List<UserViewModel> users = _userService.RetrieveActiveNonAdminUsers().ToList();
             var data = _userService.RetrieveActiveNonAdminUsers();
-            return View(data);
+
+            const int pageSize = 3;
+            if (pg < 1)
+            {
+                pg = 1;
+            }
+            int recsCount = users.Count;
+
+            var pager = new Pager(recsCount, pg, pageSize);
+            int recsSkip = (pg - 1) * pageSize;
+
+            var data1 = users.Skip(recsSkip).Take(pager.PageSize).ToList();
+
+            this.ViewBag.Pager = pager;
+
+
+            return View(data1);
+            
         }
 
         [HttpGet]
