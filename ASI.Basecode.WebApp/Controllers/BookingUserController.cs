@@ -43,27 +43,28 @@ namespace ASI.Basecode.WebApp.Controllers
         public IActionResult ViewBooking(int pg = 1)
         {
             HttpContext.Session.SetString("IsViewBookingActive", "true");
-            var data = _bookingService.RetrieveActiveBookings(UserId);
 
-            List<BookingViewModel> rooms = _bookingService.RetrieveAllBookings().ToList();
+            // Retrieve user-specific bookings
+            var userBookings = _bookingService.RetrieveActiveBookings(UserId).ToList();
 
-
+            // Set pagination parameters
             const int pageSize = 5;
             if (pg < 1)
             {
                 pg = 1;
             }
-            int recsCount = rooms.Count;
 
-            var pager = new Pager(recsCount, pg, pageSize);
-            int recsSkip = (pg - 1) * pageSize;
+            int totalRecords = userBookings.Count;
+            int recordsToSkip = (pg - 1) * pageSize;
 
-            var data1 = rooms.Skip(recsSkip).Take(pager.PageSize).ToList();
+            // Apply pagination
+            var paginatedBookings = userBookings.Skip(recordsToSkip).Take(pageSize).ToList();
 
+            // Create Pager
+            var pager = new Pager(totalRecords, pg, pageSize);
             this.ViewBag.Pager = pager;
 
-
-            return View(data1);
+            return View(paginatedBookings);
         }
 
         [HttpGet]

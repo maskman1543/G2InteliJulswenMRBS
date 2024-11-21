@@ -25,13 +25,11 @@ namespace ASI.Basecode.Data.Repositories
 
         public bool UserExists(string userId)
         {
-            return this.GetDbSet<User>().Any(x => x.UserId == userId);
+            return this.GetDbSet<User>().Any(x => x.UserId == userId && x.IsDeleted == false);
         }
-
-        public bool IsUserDeleted(string userId)
+        public User GetActiveUserByUserId(string userId)
         {
-            var user = this.GetDbSet<User>().FirstOrDefault(x => x.UserId == userId);
-            return user != null && user.IsDeleted;
+            return this.GetDbSet<User>().FirstOrDefault(u => u.UserId == userId && u.IsDeleted == false);
         }
 
         public void AddUser(User user)

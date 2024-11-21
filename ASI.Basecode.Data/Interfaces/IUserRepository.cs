@@ -11,12 +11,14 @@ namespace ASI.Basecode.Data.Interfaces
     {
         IQueryable<User> GetUsers();
         bool UserExists(string userId);
+        User GetActiveUserByUserId(string userId);
         void AddUser(User user);
         IEnumerable<User> RetrieveAll();
         void UpdateUser(User user);
         void DeleteUser(User user);
         bool AdminExists();
-        bool IsUserDeleted(string userId);
+
+        
 
         //for searching added by camus  
         IEnumerable<User> SearchUser(string term);

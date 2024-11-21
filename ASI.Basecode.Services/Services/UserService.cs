@@ -71,6 +71,12 @@ namespace ASI.Basecode.Services.Services
             }
         }
 
+        public bool ActiveUser(string userId)
+        {
+            var activeUser = _repository.GetActiveUserByUserId(userId);
+            return activeUser != null;
+        }
+
         public UserViewModel RetrieveUser(int Id)
         {
             var user = _repository.RetrieveAll().Where(x => x.Id.Equals(Id)).Select(s => new UserViewModel
@@ -150,15 +156,6 @@ namespace ASI.Basecode.Services.Services
             return _repository.AdminExists();
         }
 
-        public bool IsUserDeleted(string userId)
-        {
-            if (string.IsNullOrEmpty(userId))
-            {
-                throw new ArgumentException("User ID cannot be null or empty.", nameof(userId));
-            }
-
-            return _repository.IsUserDeleted(userId);
-        }
 
         public List<UserViewModel> GetUsersBySearchTerm(string term)
         {

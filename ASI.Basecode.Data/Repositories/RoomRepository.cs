@@ -19,12 +19,12 @@ namespace ASI.Basecode.Data.Repositories
         }
         public bool RoomNameExists(string roomName)
         {
-            return this.GetDbSet<Room>().Any(x => x.RoomName == roomName);
+            return this.GetDbSet<Room>().Any(x => x.RoomName == roomName && x.IsDeleted == false);
         }
 
         public bool LocationExists(string location)
         {
-            return this.GetDbSet<Room>().Any(x => x.Location == location);
+            return this.GetDbSet<Room>().Any(x => x.Location == location && x.IsDeleted == false);
         }
 
         public IEnumerable<Room> RetrieveAll()

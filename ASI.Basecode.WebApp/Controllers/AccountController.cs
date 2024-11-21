@@ -110,7 +110,7 @@ namespace ASI.Basecode.WebApp.Controllers
             if (loginResult == LoginResult.Success)
             {
                 // Check if the user is deleted
-                if (user.IsDeleted)
+                if (!_userService.ActiveUser(user.UserId))
                 {
                     TempData["ErrorMessage"] = "This account has been deleted.";
                     ViewBag.AdminExists = _userService.AdminExists(); // Re-check admin existence on failed login
