@@ -1,6 +1,8 @@
-﻿ using ASI.Basecode.Services.Interfaces;
+﻿using ASI.Basecode.Data.Models;
+using ASI.Basecode.Services.Interfaces;
 using ASI.Basecode.Services.ServiceModels;
 using ASI.Basecode.Services.Services;
+using ASI.Basecode.WebApp.Models;
 using ASI.Basecode.WebApp.Mvc;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -10,6 +12,7 @@ using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ASI.Basecode.WebApp.Controllers
 {
@@ -36,10 +39,27 @@ namespace ASI.Basecode.WebApp.Controllers
 
          #region Get Methods
         [HttpGet]
-        public IActionResult RoomManagement()
+        public IActionResult RoomManagement(int pg = 1)
         {
+            List<RoomViewModel> rooms = _roomService.RetrieveActiveRooms().ToList();
             var data = _roomService.RetrieveActiveRooms();
-            return View(data);
+
+            const int pageSize = 3;
+            if(pg < 1)
+            {
+                pg = 1;
+            }
+            int recsCount = rooms.Count;
+
+            var pager = new Pager(recsCount, pg, pageSize);
+            int recsSkip = (pg - 1) * pageSize;
+
+            var data1 = rooms.Skip(recsSkip).Take(pager.PageSize).ToList();
+
+            this.ViewBag.Pager = pager;
+
+
+            return View(data1);
         }
         [HttpGet]
         public IActionResult Create()
