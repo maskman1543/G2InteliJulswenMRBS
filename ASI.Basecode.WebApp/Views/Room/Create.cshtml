@@ -1,54 +1,52 @@
 ﻿@model ASI.Basecode.Services.ServiceModels.RoomViewModel
+
 @{
     ViewData["Title"] = "Create Room";
 }
 
+<link rel="stylesheet" href="~/css/editcreatemodal.css" />
 <div class="modal fade" id="createRoomModal" tabindex="-1" aria-labelledby="createRoomModalLabel" aria-hidden="true">
-    
-    <link rel="stylesheet" href="~/css/modal.css" />
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="createRoomModalLabel">Create Room</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form asp-action="Create" id="createRoomForm">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <form method="post" asp-action="Create" id="createRoomForm">
 
-                    <div class="form-group">
-                        <label asp-for="RoomName" class="control-label"></label>
-                        <input asp-for="RoomName" class="form-control" required />
+                    <div class="form-outline mb-4">
+                        <label class="form-label fw-bold" for="roomName">Room Name</label>
+                        <input type="text" id="roomName" class="form-control" asp-for="RoomName" placeholder="Enter room name" required />
                         <span asp-validation-for="RoomName" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="Capacity" class="control-label"></label>
-                        <input asp-for="Capacity" class="form-control" required />
+                    <div class="form-outline mb-4">
+                        <label class="form-label fw-bold" for="capacity">Capacity</label>
+                        <input type="number" id="capacity" class="form-control" asp-for="Capacity" placeholder="Enter capacity" required />
                         <span asp-validation-for="Capacity" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Location" class="control-label"></label>
-                        <input asp-for="Location" class="form-control" required />
+
+                    <div class="form-outline mb-4">
+                        <label class="form-label fw-bold" for="location">Location</label>
+                        <input type="text" id="location" class="form-control" asp-for="Location" placeholder="Enter location" required />
                         <span asp-validation-for="Location" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="Equipment" class="control-label"></label>
-                        <input asp-for="Equipment" class="form-control" required />
+
+                    <div class="form-outline mb-4">
+                        <label class="form-label fw-bold" for="equipment">Equipment</label>
+                        <input type="text" id="equipment" class="form-control" asp-for="Equipment" placeholder="Enter equipment details" required />
                         <span asp-validation-for="Equipment" class="text-danger"></span>
                     </div>
-                    
-                    <div class="form-group">
-                        <input type="submit" value="Create" class="btn btn-primary" />
+
+                    <div class="modal-footer">
+                        <button class="btn btn-primary btn-block" type="submit" style="color: black;">
+                            Create
+                        </button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="color: black;">Cancel</button>
                     </div>
+
                 </form>
             </div>
         </div>
     </div>
 </div>
-
-<style>
-    .btn-primary{
-        
-    }
-</style>

@@ -1,49 +1,48 @@
 ﻿@model ASI.Basecode.Services.ServiceModels.RoomViewModel
+
 @{
     ViewData["Title"] = "Edit Room";
 }
 
-<link rel="stylesheet" href="~/css/modal.css" />
+<link rel="stylesheet" href="~/css/editcreatemodal.css" />
 <div class="modal fade" id="editRoomModal" tabindex="-1" role="dialog" aria-labelledby="editRoomModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editRoomModalLabel">Edit Room</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
             </div>
             <div class="modal-body">
-                <form id="editRoomForm" asp-action="Edit" method="post">
+                <form id="editRoomForm" asp-action="Edit" asp-route-id="@Model.Id" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" asp-for="Id" />
 
-                    <div class="form-group">
-                        <label asp-for="RoomName" class="control-label"></label>
-                        <input asp-for="RoomName" class="form-control" />
+                    <div class="form-outline mb-4">
+                        <label asp-for="RoomName" class="form-label fw-bold"></label>
+                        <input asp-for="RoomName" class="form-control" required />
                         <span asp-validation-for="RoomName" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="Capacity" class="control-label"></label>
-                        <input asp-for="Capacity" class="form-control" />
+                    <div class="form-outline mb-4">
+                        <label asp-for="Capacity" class="form-label fw-bold"></label>
+                        <input asp-for="Capacity" class="form-control" required />
                         <span asp-validation-for="Capacity" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="Location" class="control-label"></label>
-                        <input asp-for="Location" class="form-control" />
+                    <div class="form-outline mb-4">
+                        <label asp-for="Location" class="form-label fw-bold"></label>
+                        <input asp-for="Location" class="form-control" required />
                         <span asp-validation-for="Location" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group">
-                        <label asp-for="Equipment" class="control-label"></label>
-                        <input asp-for="Equipment" class="form-control" />
+                    <div class="form-outline mb-4">
+                        <label asp-for="Equipment" class="form-label fw-bold"></label>
+                        <input asp-for="Equipment" class="form-control" required />
                         <span asp-validation-for="Equipment" class="text-danger"></span>
                     </div>
 
-                    <div class="form-group text-right">
-                        <input type="submit" value="Save" class="btn btn-primary" />
+                    <div class="modal-footer">
+                        <input type="submit" value="Save" class="btn btn-primary" style="color: black;" />
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="color: black;">Cancel</button>
                     </div>
                 </form>
             </div>
