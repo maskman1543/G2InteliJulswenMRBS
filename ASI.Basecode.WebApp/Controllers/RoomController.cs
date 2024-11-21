@@ -1,4 +1,5 @@
-﻿ using ASI.Basecode.Services.Interfaces;
+﻿using ASI.Basecode.Data.Models;
+using ASI.Basecode.Services.Interfaces;
 using ASI.Basecode.Services.ServiceModels;
 using ASI.Basecode.Services.Services;
 using ASI.Basecode.WebApp.Models;
@@ -40,6 +41,7 @@ namespace ASI.Basecode.WebApp.Controllers
         [HttpGet]
         public IActionResult RoomManagement(int pg = 1)
         {
+            List<RoomViewModel> rooms = _roomService.RetrieveActiveRooms().ToList();
             var data = _roomService.RetrieveActiveRooms();
 
             const int pageSize = 3;
@@ -47,17 +49,17 @@ namespace ASI.Basecode.WebApp.Controllers
             {
                 pg = 1;
             }
-            int recsCount = _roomService.RetrieveActiveRooms().Count();
+            int recsCount = rooms.Count;
 
             var pager = new Pager(recsCount, pg, pageSize);
             int recsSkip = (pg - 1) * pageSize;
 
-            var data1 = _roomService.RetrieveActiveRooms().Skip(recsSkip).Take(pager.PageSize).ToList();
+            var data1 = rooms.Skip(recsSkip).Take(pager.PageSize).ToList();
 
             this.ViewBag.Pager = pager;
 
 
-            return View(data);
+            return View(data1);
         }
         [HttpGet]
         public IActionResult Create()
