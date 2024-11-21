@@ -2,6 +2,14 @@
 
 @{
     ViewData["Title"] = "User Dashboard";
+    Pager pager = new Pager();
+
+    int pageNo = 0;
+    if (ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+        pageNo = pager.CurrentPage;
+    }
 }
 
 <div class="d-flex align-items-center mb-3">
@@ -42,7 +50,41 @@
                 <td colspan="4" class="text-center">No rooms available.</td>
             </tr>
         }
+        
     </tbody>
+    <div class="pagination">
+        @if (pager.TotalPages > 0)
+        {
+            <ul class="pagination justify-content-end">
+                @if (pager.CurrentPage > 1)
+                {
+                    <li class="page-item">
+                        <a class="page-link" asp-controller="Home" asp-action="UserDashboard" asp-route-pg="1">First</a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" asp-controller="Home" asp-action="UserDashboard" asp-route-pg="@(pager.CurrentPage - 1)">Previouse</a>
+                    </li>
+                }
+
+                @for (var pge = pager.StartPage; pge <= pager.EndPage; pge++)
+                {
+                    <li class="page-item @(pge == pager.CurrentPage ? "active" : "")">
+                        <a class="page-link" asp-controller="Home" asp-action="UserDashboard" asp-route-pg="@pge">@pge</a>
+                    </li>
+                }
+                @if (pager.CurrentPage < pager.TotalPages)
+                {
+                    <li class="page-Item">
+                        <a class="page-link" asp-controller="Home" asp-action="UserDashboard" asp-route-pg="@(pager.CurrentPage + 1)">Next</a>
+                    </li>
+                    <li>
+                        <a class="page-link" asp-controller="Home" asp-action="UserDashboard" asp-route-pg="@(pager.TotalPages)">Last</a>
+                    </li>
+                }
+            </ul>
+
+        }
+    </div>
 </table>
 
 @section Scripts {
