@@ -1,16 +1,11 @@
 .card {
     background: #FFDBB5; /* Light color for the card background */
-    /* Optional: Add border radius or shadow */
     border-radius: 0.5rem;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    box-shadow: 0 5px 50px rgba(0,0,0,0.8); 
+    transition: box-shadow 0.3s ease; 
 }
 
 .gradient-custom-2 {
-    /* fallback for old browsers */
-    background: #859F3D; /* Red */
-    /* Chrome 10-25, Safari 5.1-6 */
-    background: -webkit-linear-gradient(to right, #E2CD79, #E2CD79); /* Red, Black */
-    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
     background: linear-gradient(to right, #E2CD79, #E2CD79); /* Red, Black */
 }
 
@@ -33,4 +28,12 @@
         border-top-right-radius: .3rem;
         border-bottom-right-radius: .3rem;
     }
+}
+
+/* Ensure the image is responsive and fills the space properly */
+.col-lg-6 img {
+    width: 100%;
+    height: auto;
+    object-fit: cover; /* Ensure image does not get distorted */
+    border-radius: 0.5rem;
 }
