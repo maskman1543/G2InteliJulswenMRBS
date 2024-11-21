@@ -404,3 +404,10 @@ body {
     font-size: 16px; /* Set a fixed font size */
     transition: none; /* Remove any transition that might affect size */
 }
+
+#loadCreateRoomModal {
+    width: auto; /* Make sure the width is not dynamic */
+    padding: 10px 20px; /* Set consistent padding */
+    font-size: 16px; /* Set a fixed font size */
+    transition: none; /* Remove any transition that might affect size */
+}

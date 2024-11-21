@@ -4,11 +4,18 @@
     border-radius: 10px; /* Apply border-radius to all sides */
 }
 
+/* Modal Header */
+.modal-header {
+    border-top-left-radius: 10px; /* Optional: Add rounded corners to the header */
+    border-top-right-radius: 10px; /* Optional: Add rounded corners to the header */
+}
+
 /* Modal Body */
 .modal-body {
     background-color: white; /* Set the body color to white */
     padding: 2rem; /* Add padding to the body */
-
+    border-bottom-left-radius: 10px; /* Optional: Add rounded corners to the body */
+    border-bottom-right-radius: 10px; /* Optional: Add rounded corners to the body */
 }
 
 /* Modal Footer */
@@ -17,6 +24,8 @@
     justify-content: center;
     padding: 1rem;
     background-color: white; /* Set the footer color to white */
+    border-bottom-left-radius: 10px; /* Optional: Add rounded corners to the footer */
+    border-bottom-right-radius: 10px; /* Optional: Add rounded corners to the footer */
 }
 
     /* Buttons in the Footer (same width for both) */
