@@ -12,7 +12,7 @@
                 <h5 class="modal-title fw-bold" id="deleteBookingModalLabel">Confirmation</h5>
             </div>
             <div class="modal-body">
-                <h7>Are you sure you want to delete this booking?</h7>
+                <h7>Are you sure you want to cancel this booking?</h7>
 
                 <form id="deleteBookingForm" method="post" action="@Url.Action("DeleteBooking", "BookingUser")">
                     <input type="hidden" asp-for="BookingId" />
@@ -20,7 +20,7 @@
 
                     <!-- Modal Footer -->
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-danger1" style="color: black;">Delete</button>
+                        <button type="submit" class="btn btn-danger1" style="color: black;">Confirm</button>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="color: black;">Cancel</button>
                     </div>
                 </form>
