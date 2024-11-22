@@ -132,6 +132,7 @@ namespace ASI.Basecode.Services.Services
             return rooms.Select(r => new RoomViewModel
             {
                 Id = r.Id,
+                Location = r.Location,
                 RoomName = r.RoomName,
                 Capacity = r.Capacity,
                 Equipment = r.Equipment,

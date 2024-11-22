@@ -109,52 +109,61 @@
 @section scripts {
     <script>
         $(document).ready(function () {
-            // Debounce to reduce the number of AJAX calls while typing
-            let debounceTimeout;
-            $("#searchUserInput").on("input", function () {
-                clearTimeout(debounceTimeout);
+            // Handle search input event with debounce
+            $('#searchUserInput').on('input', function () {
+                const searchTerm = $(this).val(); // Get the search term
+                const currentPage = '@ViewBag.Pager.CurrentPage'; // Get the current page number
 
-                debounceTimeout = setTimeout(function () {
-                    var searchTerm = $("#searchUserInput").val().trim();
+                // If the search term is empty, reload the page with no search term
+                if (searchTerm === '') {
+                    window.location.href = `/User/UserManagement?pg=${currentPage}`; // Reload the page with the current page and no search term
+                    return; // Exit the function to avoid further AJAX call
+                }
 
-                    // Send the search term to the server via AJAX
-                    $.ajax({
-                        url: '/User/SearchUser',
-                        type: 'GET',
-                        data: { term: searchTerm },
-                        success: function (data) {
-                            var tableBody = $(".table-body");
-                            tableBody.empty(); // Clear the current rows
+                // Perform the AJAX request when search term is not empty
+                $.ajax({
+                    url: '/User/SearchUser', // Your search endpoint
+                    type: 'GET',
+                    data: { term: searchTerm }, // Send the search term to the server
+                    success: function (data) {
+                        const tbody = $('.table-body'); // Select the table body to update
+                        tbody.empty(); // Clear the current table content
 
-                            if (data.length > 0) {
-                                // Populate rows with filtered users
-                                $.each(data, function (index, user) {
-                                    var row = `
-                                                <div class="table-row">
-                                                    <span>${user.userId}</span>
-                                                    <span>${user.name}</span>
-                                                    <span>${user.roles}</span>
-                                                    <div class="actions">
-                                                        <button type="button" class="btn btn-warning loadEditUserModal" data-id="${user.id}">
-                                                            <i class="fas fa-pencil"></i> Edit
-                                                        </button>
-                                                        <button type="button" class="btn btn-danger loadDeleteUserModal" data-id="${user.id}">
-                                                            <i class="fa-solid fa-trash"></i> Delete
-                                                        </button>
-                                                    </div>
-                                                </div>`;
-                                    tableBody.append(row);
-                                });
-                            } else {
-                                // Show "No users found" message
-                                tableBody.append('<div class="no-item text-center">No users found.</div>');
-                            }
-                        },
-                        error: function () {
-                            toastr.error("An error occurred while searching for users."); // Replace alert with toastr for a better user experience
+                        // Check if there are results
+                        if (data && data.length > 0) {
+                            // Loop through each user and append it to the table
+                            data.forEach(function (item) {
+                                const row = `
+                                    <div class="table-row">
+                                        <span>${item.userId}</span>
+                                        <span>${item.name}</span>
+                                        <span>${item.roles}</span>
+                                                <div class="actions">
+                                    <!-- Edit Button -->
+                                            <button type="button" class="btn btn-warning loadEditUserModal" data-id="${item.id}">
+                                        <i class="fas fa-pencil"></i> Edit
+                                    </button>
+
+                                    <!-- Delete Button -->
+                                            <button type="button" class="btn btn-danger loadDeleteUserModal" data-id="${item.id}">
+                                        <i class="fa-solid fa-trash"></i> Delete
+                                    </button>
+                                </div>
+                                    </div>
+                                `;
+                                tbody.append(row);
+                            });
+                        } else {
+                            tbody.append('<div class="no-item">No users found.</div>');
                         }
-                    });
-                }, 300); // Delay of 300ms after the user stops typing
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Search error:', error);
+                        const tbody = $('.table-body');
+                        tbody.empty();
+                        tbody.append('<div class="no-item">Error occurred while searching</div>');
+                    }
+                });
             });
         });
 
