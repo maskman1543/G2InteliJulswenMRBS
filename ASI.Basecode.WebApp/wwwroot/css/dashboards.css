@@ -163,6 +163,92 @@
     border-radius: 50%;
 }
 
+/* BASTA MAKITAN-RA NAKO NG TABLE HEADER */
+.table-header-2,
+.table-row-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 15px 0;
+    align-items: center;
+    border-bottom: 1px solid #BFAF5E;
+}
+
+.table-header-2 span,
+.table-row-2 span {
+    text-align: center;
+    margin-top:-10px;
+    font-weight: bold;
+}
+
+.table-body-2 {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.table-row-2 {
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #faf6dd;
+    margin-top: 5px;
+
+}
+
+.table-header-3,
+.table-row-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 10px;
+    padding: 15px 0;
+    align-items: center;
+    border-bottom: 1px solid #BFAF5E;
+    margin-top: -20px;
+}
+
+.table-header-3 span,
+.table-row-3 span {
+    text-align: center;
+    margin-top: 0px;
+    font-weight: bold;
+}
+
+.table-row-3 span {
+    height: 30px;
+}
+
+.table-body-3 {
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.actions-2 {
+    display: flex;
+    flex-direction: row; /* Stack the buttons vertically */
+    gap: 10px; /* Space between buttons */
+    justify-content: center;
+    align-items: center; /* Align buttons in the center horizontally */
+    padding: 40px;
+    padding-bottom: 20px;
+}
+
+/* .table-header-2 div,
+.table-row-2 div {
+    padding: 10px;
+    border-right: 1px solid #BFAF5E;
+    text-align: center;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    word-wrap: break-word;
+}
+
+    .table-header-2 div:last-child,
+    .table-row-2 div:last-child {
+        border-right: none;
+    } */
+
+
+    
 /* Style for the container holding the buttons */
 .actions {
     display: flex;

@@ -37,7 +37,7 @@
 
     <!-- Room List Table -->
     <div class="list-table">
-        <div class="table-header">
+        <div class="table-header-2">
             <span>Room Name</span>
             <span>Capacity</span>
             <span>Equipments</span>
@@ -45,12 +45,12 @@
             <span>Actions</span>
         </div>
 
-        <div class="table-body">
+        <div class="table-body-2">
             @if (Model != null && Model.Any())
             {
                 foreach (var item in Model)
                 {
-                    <div class="table-row">
+                    <div class="table-row-2">
                         <span>@item.RoomName</span>
                         <span>@item.Capacity</span>
                         <span>@item.Equipment</span>
