@@ -97,8 +97,8 @@
 .table-header,
 .table-row {
     display: grid;
-    grid-template-columns: 1.5fr 1.5fr 1fr 1fr 1fr 2fr 1fr;
-    gap: 0;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    gap: 10px;
     padding: 15px 0;
     align-items: center;
     border-bottom: 1px solid #BFAF5E;
@@ -219,6 +219,13 @@
 .table-body-3 {
     font-weight: bold;
     margin-bottom: 10px;
+}
+
+.table-row-3 {
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #faf6dd;
+    margin-top: 5px;
 }
 
 .actions-2 {
@@ -415,7 +422,7 @@ body {
         }
 
 .table-row {
-    background-color: #F9F4D6;
+    background-color: #FAF6DD;
     border-radius: 10px;
     margin-bottom: 10px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
