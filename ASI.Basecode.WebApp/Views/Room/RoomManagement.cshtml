@@ -112,24 +112,14 @@
     
     <script>
         $(document).ready(function () {
-            // Debounce function to delay execution until the user stops typing
-            function debounce(func, wait) {
-                let timeout;
-                return function () {
-                    const context = this, args = arguments;
-                    clearTimeout(timeout);
-                    timeout = setTimeout(() => func.apply(context, args), wait);
-                };
-            }
-
-            // Handle search input event with debounce
-            $('#searchRoomInput').on('input', debounce(function () {
+            // Handle search input event without debounce
+            $('#searchRoomInput').on('input', function () {
                 const searchTerm = $(this).val(); // Get the search term
                 const currentPage = '@ViewBag.Pager.CurrentPage'; // Get the current page number
 
                 // If the search term is empty, reload the page with no search term
                 if (searchTerm === '') {
-                    window.location.href = `/Room/RoomManagement?pg=${currentPage}&term=`; // Reload the page with the current page and no search term
+                    window.location.href = `/Room/RoomManagement?pg=${currentPage}`; // Reload the page with the current page and no search term
                     return; // Exit the function to avoid further AJAX call
                 }
 
@@ -176,7 +166,7 @@
                         tbody.append('<div class="no-item">Error occurred while searching</div>');
                     }
                 });
-            }, 300)); // Delay of 300ms after the user stops typing
+            });
         });
 
 
