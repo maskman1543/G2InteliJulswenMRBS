@@ -28,24 +28,26 @@
 
     <!-- Room List Table -->
     <div class="list-table">
-        <div class="table-header-3">
+        <div class="table-header-2">
             <span>Room Name</span>
             <span>Capacity</span>
             <span>Equipments</span>
+            <span>Location</span>
             <span>Actions</span>
         </div>
 
-        <div class="table-body-3">
+        <div class="table-body-2">
             @if (Model != null && Model.Any())
             {
                 foreach (var item in Model)
                 {
-                    <div class="table-row-3">
+                    <div class="table-row-2">
                         <span>@item.RoomName</span>
                         <span>@item.Capacity</span>
                         <span>@item.Equipment</span>
-
-                        <div class="actions-2">
+                        <span>@item.Location</span>
+                       
+                        <div class="actions">
                             <!-- Book Button -->
                             <button type="button"
                                     class="btn btn-primary loadCreateBookingModal"
