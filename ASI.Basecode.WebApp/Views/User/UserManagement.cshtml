@@ -126,7 +126,7 @@
                     type: 'GET',
                     data: { term: searchTerm }, // Send the search term to the server
                     success: function (data) {
-                        const tbody = $('.table-body'); // Select the table body to update
+                        const tbody = $('.table-body-3'); // Select the table body to update
                         tbody.empty(); // Clear the current table content
 
                         // Check if there are results
@@ -134,7 +134,7 @@
                             // Loop through each user and append it to the table
                             data.forEach(function (item) {
                                 const row = `
-                                    <div class="table-row">
+                                    <div class="table-row-3">
                                         <span>${item.userId}</span>
                                         <span>${item.name}</span>
                                         <span>${item.roles}</span>

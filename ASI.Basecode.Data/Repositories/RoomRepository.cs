@@ -49,7 +49,7 @@ namespace ASI.Basecode.Data.Repositories
         {
             return this.GetDbSet<Room>()
                        .Where(r => !r.IsDeleted &&
-                                   (r.RoomName.Contains(term) || r.Equipment.Contains(term)))
+                                   (r.Location.Contains(term) || r.RoomName.Contains(term) || r.Equipment.Contains(term)))
                        .ToList();
         }
     }

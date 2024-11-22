@@ -47,7 +47,7 @@ namespace ASI.Basecode.WebApp.Controllers
             List<BookingViewModel> rooms = _bookingService.RetrieveAllBookings().ToList();
 
 
-            const int pageSize = 10;
+            const int pageSize = 5;
             if (pg < 1)
             {
                 pg = 1;

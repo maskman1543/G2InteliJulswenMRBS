@@ -70,11 +70,11 @@ namespace ASI.Basecode.Resources.Views {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Create new.
+        ///   Looks up a localized string similar to Create Admin.
         /// </summary>
-        public static string CreateNew {
+        public static string CreateAdmin {
             get {
-                return ResourceManager.GetString("CreateNew", resourceCulture);
+                return ResourceManager.GetString("CreateAdmin", resourceCulture);
             }
         }
         
